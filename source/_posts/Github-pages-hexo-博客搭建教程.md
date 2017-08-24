@@ -5,10 +5,8 @@ tags:
  - 杂类
 categories:
  - 杂类
+banner: http://ov4crdzpr.bkt.clouddn.com/17-8-24/87900151.jpg
 ---
-![](http://ov4crdzpr.bkt.clouddn.com/17-8-24/87900151.jpg)
-
-这里分享下本Blog的搭建方法。
 
 ### Github pages的规则 ###
 首先得知道Github pages的规则：每个Github账号（比如Username）下面只能建立一个Pages，且命名必须符合这样的规则："username/username.github.io"
@@ -25,9 +23,11 @@ categories:
 
 4， 执行命令：
 
- `git add .
+```bash
+ git add .
  git commit -m "Initial commit"
- git push -u origin master`
+ git push -u origin master
+```
 
 然后访问username.github.io，大功告成！
 
@@ -43,56 +43,78 @@ categories:
 
 3，进入clone的项目目录，注意此时是在master分支，而master分支平常放生成的博客页面，所以我们现在创建一个hexo分支，用来管理hexo相关文件。
 
-`git checkout -b hexo`
+```
+git checkout -b hexo
+```
 
 4， 安装hexo，以及相关扩展依赖（建议把npm安装源改为国内的，淘宝就有提供，这样能提高安装速度）
 
-`npm  install -g hexo`
+```
+npm  install -g hexo
+```
 
-`hexo init    // 初始化`
+```
+hexo init    // 初始化
+```
 
 注意：hexo init要求当前目录是一个空目录，我这里解决办法是在执行hexo init 前把当前文件夹的文件都移到外面去（包括.git仓库目录），初始化完成后马上把文件移回来（一般只会有README.MD文件和.git目录）
 
 
-`npm install    // 安装依赖`
+```
+npm install    // 安装依赖
+```
 
 （此阶段若遇到 symlink error问题，则加参数：-no-bin-links）
 
-`npm install hexo-deployer-git --save    // 安装deployer扩展`
+```
+npm install hexo-deployer-git --save    // 安装deployer扩展
+```
 
 5，  修改_config.yml文件的deploy选项(如果你准备装第6步的博客主题，则可以放到第6步一起操作)：
 
-`deploy:
+```
+deploy:
 type: git
 repo: (对应你博客仓库的SSH地址)
-branch: master`
+branch: master
+```
 
 此外其他相关配置信息都改成你自己的，比如author这些
 
 6， 选一个博客主题，我这里用的：icarus
 
-`git clone https://github.com/ppoffice/hexo-theme-icarus.git themes/icarus`
+```
+git clone https://github.com/ppoffice/hexo-theme-icarus.git themes/icarus
+```
 
 进入 themes/icarus 目录，把该主题提供的实例的配置文件 编辑下然后作为自己的配置文件
 
-`cp _config.yml.example _config.yml`
+```
+cp _config.yml.example _config.yml
+```
 
 然后回到项目根目录，编辑主配置_config.yml 添加theme配置
 
-`theme: icarus`
+```
+theme: icarus
+```
 
 **注：第5步如果没操作，则在这里一起操作**
 
 7， 提交到仓库
 
-`git add .
+```
+git add .
 git commit -m 'hexo init'
-git push -u origin hexo`
+git push -u origin hexo
+```
 
 
 8，发布一篇博文
 
-`hexo new "your blog title"`
+```
+hexo new "your blog title"
+```
 
 （此步若遇到local hexo not found：rm -rf node_modules/ && npm install解决）
 然后会在source/_posts下建立一个your-blog-title.md的文件，
@@ -100,7 +122,9 @@ git push -u origin hexo`
 写好后执行一次commit
 然后执行生成博客Html文件和发布命令
 
-`hexo generate -d`
+```
+hexo generate -d
+```
 
 如果顺利的话，博客内容会发布到master分支
 
