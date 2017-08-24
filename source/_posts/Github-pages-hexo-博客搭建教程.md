@@ -17,13 +17,22 @@ banner: http://ov4crdzpr.bkt.clouddn.com/17-8-24/87900151.jpg
 
 1， 在Github建立一个新的Repository：命名为：username.github.io
 
-2， 本地git clone https://github.com/username/username.github.io
+2， 本地clone仓库：
 
-3， cd username.github.io 然后 echo "Hello World" > index.html
+```
+git clone https://github.com/username/username.github.io
+```
+
+3， 进入文件夹，新建index.html
+
+```
+cd username.github.io 
+echo "Hello World" > index.html
+```
 
 4， 执行命令：
 
-```bash
+ ```bash
  git add .
  git commit -m "Initial commit"
  git push -u origin master
