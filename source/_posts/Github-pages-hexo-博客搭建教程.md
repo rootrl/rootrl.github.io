@@ -2,7 +2,8 @@
 title: Github pages + hexo 博客搭建教程
 date: 2017-08-24 07:33:12
 tags:
- - 杂类
+ - hexo
+ - github pages
 categories:
  - 杂类
 banner: http://ov4crdzpr.bkt.clouddn.com/17-8-24/87900151.jpg
