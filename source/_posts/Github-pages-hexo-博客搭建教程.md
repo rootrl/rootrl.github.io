@@ -5,7 +5,8 @@ tags:
  - hexo
  - github pages
 categories:
- - 杂类
+ - 团队管理
+ - 知识管理
 banner: http://ov4crdzpr.bkt.clouddn.com/17-8-24/87900151.jpg
 ---
 
