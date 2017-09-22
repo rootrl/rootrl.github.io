@@ -12,21 +12,21 @@ customize:
         enabled: true
         width: 40
         height: 40
-        url: https://raw.githubusercontent.com/rootrl/rootrl.github.io/hexo/source/images/logo.jpg
+        url: images/logo.png
     profile:
         enabled: true # Whether to show profile bar
-        avatar: https://raw.githubusercontent.com/rootrl/rootrl.github.io/hexo/source/images/logo.jpg
+        avatar: css/images/avatar.png
         gravatar: # Gravatar email address, if you enable Gravatar, your avatar config will be overriden
-        author: Rootrl
-        author_title: Web Developer
-        location: Hefei, China
-        follow: https://github.com/rootrl/
+        author: PPOffice
+        author_title: Web Developer & Designer
+        location: Harbin, China
+        follow: https://github.com/ppoffice/
     highlight: monokai
     sidebar: right # sidebar position, options: left, right or leave it empty
     thumbnail: true # enable posts thumbnail, options: true, false
     favicon: # path to favicon
     social_links:
-        github: http://github.com/rootrl
+        github: http://github.com/ppoffice/hexo-theme-icarus
         twitter: /
         facebook: /
         dribbble: /
@@ -50,9 +50,9 @@ search:
 
 # Comment
 comment:
-    disqus: # enter disqus shortname here
+    disqus: hexo-theme-icarus # enter disqus shortname here
     duoshuo: # enter duoshuo shortname here
-    youyan: 2141907 # enter youyan uid here
+    youyan: # enter youyan uid here
     facebook: # enter true to enable
     isso: # enter the domain name of your own comment isso server eg. comments.example.com
     changyan: # please fill in `appid` and `conf` to enable
