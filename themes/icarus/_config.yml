@@ -50,7 +50,7 @@ search:
 
 # Comment
 comment:
-    disqus: "rootrl.disqus.com" # enter disqus shortname here
+    disqus: "rootrl" # enter disqus shortname here
     duoshuo: # enter duoshuo shortname here
     youyan:  # enter youyan uid here
     facebook: # enter true to enable
