@@ -16,7 +16,7 @@ Webpack是一个模块打包器 (module bundler)，能够将任何资源如 Java
 
 而Webpack就是为了解决这些问题而生的。
 
-Webpack最新版本为v3，我这里就用的webapck3。如果之前用的是v1，可以阅读官方的https://webpack.js.org/guides/migrating/，而v2和v3差别不大。
+Webpack最新版本为v3，我这里就用的webapck3。如果之前用的是v1，可以阅读官方的[v1迁移到v2][1]，而v2和v3差别不大。
 
 ## 安装
 #### 依赖
@@ -247,7 +247,7 @@ module.exports = {
 webpack提供许多供开发时使用的功能，下面简单介绍下：
 
 #### 代码映射（Source map）
-Webpack在打包后如果发生错误，很难定位到，Source map就是解决这个问题的，它可以把编译后的代码映射回原始源码，便于我们定位错误。Webpack提供了十种风格的代码映射，具体见：https://webpack.js.org/configuration/devtool/#devtool，这里我们以inline-source-map为例。
+Webpack在打包后如果发生错误，很难定位到，Source map就是解决这个问题的，它可以把编译后的代码映射回原始源码，便于我们定位错误。Webpack提供了十种风格的代码映射，具体见：[官方手册devtool][2]，这里我们以inline-source-map为例。
 
 启用Source map很简单，就是module.exports中新增devtool属性，然后指定映射风格。如下：
 ```
@@ -567,3 +567,7 @@ module.exports = {
 打包后新建一个html文件，包含一个id为clickMe的button，然后运行html，点击按钮。就会看到效果。
 
 好了，webpack的总结就到这里了，这个只是大致入门了解，更多的还需要过一遍官方文档，然后结合实际项目才能使用好webpack。
+
+
+  [1]: https://webpack.js.org/guides/migrating/
+  [2]: https://webpack.js.org/configuration/devtool/#devtool
