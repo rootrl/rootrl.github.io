@@ -12,7 +12,7 @@ banner: https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/
 ## Webpack简介
 Webpack是一个模块打包器 (module bundler)，能够将任何资源如 JavaScript 文件、CSS 文件、图片等打包成一个或少数文件。
 
-如果没有模块打包工具，我们就得在HTML中加载无数\<script\>标签了，这样的缺点显而易见，我们得关心文件的加载顺序和依赖关系，多个script标签也意外着多余的网络请求等等。
+如果没有模块打包工具，我们就得在HTML中加载无数script标签了，这样的缺点显而易见，我们得关心文件的加载顺序和依赖关系，多个script标签也意外着多余的网络请求等等。
 
 而Webpack就是为了解决这些问题而生的。
 
