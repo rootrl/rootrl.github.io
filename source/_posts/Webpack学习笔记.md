@@ -3,7 +3,7 @@ title: Webpack学习笔记
 date: 2017-10-10 08:36:04
 tags:
  - webpack
-categorys:
+categories:
  - 前端
  - 工具
 banner: https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/webpack-logo.jpg
