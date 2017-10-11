@@ -36,6 +36,8 @@ IE盒子模型的盒子宽度 = 左右marin + width
 我个人是很反感float的，一般会用diaply:inline-block特性来实现布局，完全可以替代float。或是后来flex等等。
 深入浮动详见：[CSS float浮动的深入研究、详解及拓展(一)][1] 系列
 
+## 布局
+布局实现方式有很多种，基于定位、浮动等等，但是我这里推荐display:inline-block代替float布局，移动端直接flex
 
   [1]: http://www.zhangxinxu.com/wordpress/2010/01/css-float%E6%B5%AE%E5%8A%A8%E7%9A%84%E6%B7%B1%E5%85%A5%E7%A0%94%E7%A9%B6%E3%80%81%E8%AF%A6%E8%A7%A3%E5%8F%8A%E6%8B%93%E5%B1%95%E4%B8%80/
 
