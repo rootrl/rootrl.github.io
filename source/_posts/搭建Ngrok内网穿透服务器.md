@@ -8,7 +8,7 @@ tags:
 categories:
  - 其他
 
-banner: https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/ngrok.png
+banner: https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/ngrok.jpg
 ---
 
 ## 简介
