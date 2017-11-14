@@ -65,7 +65,7 @@ cp server.key assets/server/tls/snakeoil.key
 
 如果是国内服务器修改以下配置
 ```
-vim /usr/local/ngrok/src/ngrok/log/logger.go
+vim src/ngrok/log/logger.go
 log "github.com/keepeye/log4go"
 ```
 
