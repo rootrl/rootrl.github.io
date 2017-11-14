@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Github pages + hexo 博客搭建教程 | Rootrl&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Github pages的规则首先得知道Github pages的规则：每个Github账号（比如Username）下面只能建立一个Pages，且命名必须符合这样的规则：”username/username.github.io” 创建成功后，username.github.io就是你的域名（当然你可以通过别名解析绑定自己的域名） 实战： 1， 在Github建立一个新的Repository：命名为">
+<meta name="keywords" content="hexo,github pages">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Github pages + hexo 博客搭建教程">
+<meta property="og:url" content="https://rootrl.github.com/2017/08/24/Github-pages-hexo-博客搭建教程/index.html">
+<meta property="og:site_name" content="Rootrl&#39;s blog">
+<meta property="og:description" content="Github pages的规则首先得知道Github pages的规则：每个Github账号（比如Username）下面只能建立一个Pages，且命名必须符合这样的规则：”username/username.github.io” 创建成功后，username.github.io就是你的域名（当然你可以通过别名解析绑定自己的域名） 实战： 1， 在Github建立一个新的Repository：命名为">
+<meta property="og:image" content="http://ov4crdzpr.bkt.clouddn.com/17-8-24/87900151.jpg">
+<meta property="og:updated_time" content="2017-11-14T00:46:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Github pages + hexo 博客搭建教程">
+<meta name="twitter:description" content="Github pages的规则首先得知道Github pages的规则：每个Github账号（比如Username）下面只能建立一个Pages，且命名必须符合这样的规则：”username/username.github.io” 创建成功后，username.github.io就是你的域名（当然你可以通过别名解析绑定自己的域名） 实战： 1， 在Github建立一个新的Repository：命名为">
+<meta name="twitter:image" content="http://ov4crdzpr.bkt.clouddn.com/17-8-24/87900151.jpg">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Rootrl&#39;s blog</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/hexo/source/images/logo.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Entradas',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/hexo/source/images/logo.jpg" />
+            <h2 id="name">Rootrl</h2>
+            <h3 id="title">Web Developer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Hefei, China</span>
+            <a id="follow" target="_blank" href="https://github.com/rootrl/">SEGUIR</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                13
+                <span>Entradas</span>
+            </div>
+            <div class="article-info-block">
+                18
+                <span>Etiquetas</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/rootrl" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Github-pages-hexo-博客搭建教程" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<img src="http://ov4crdzpr.bkt.clouddn.com/17-8-24/87900151.jpg" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Github pages + hexo 博客搭建教程
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/08/24/Github-pages-hexo-博客搭建教程/">
+            <time datetime="2017-08-23T23:33:12.000Z" itemprop="datePublished">2017-08-24</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/团队管理/">团队管理</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/团队管理/知识管理/">知识管理</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/github-pages/">github pages</a>, <a class="tag-link" href="/tags/hexo/">hexo</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h3 id="Github-pages的规则"><a href="#Github-pages的规则" class="headerlink" title="Github pages的规则"></a>Github pages的规则</h3><p>首先得知道Github pages的规则：每个Github账号（比如Username）下面只能建立一个Pages，且命名必须符合这样的规则：”username/username.github.io”</p>
+<p>创建成功后，username.github.io就是你的域名（当然你可以通过别名解析绑定自己的域名）</p>
+<p>实战：</p>
+<p>1， 在Github建立一个新的Repository：命名为：username.github.io</p>
+<p>2， 本地clone仓库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/username/username.github.io</span><br></pre></td></tr></table></figure>
+<p>3， 进入文件夹，新建index.html</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd username.github.io </span><br><span class="line">echo &quot;Hello World&quot; &gt; index.html</span><br></pre></td></tr></table></figure>
+<p>4， 执行命令：</p>
+ <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"Initial commit"</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+<p>然后访问username.github.io，大功告成！</p>
+<h3 id="使用Hexo管理你的博客"><a href="#使用Hexo管理你的博客" class="headerlink" title="使用Hexo管理你的博客"></a>使用Hexo管理你的博客</h3><p>平时可以这样发布自己的博客，但是比较麻烦，我们可以通过相应的工具来管理Pages。比如Jekyll、Hexo等，这些工具原理就是把Markdown自动转化为Html便于我们书写博客，接下来详细介绍从零开始用Hexo+Github Pages搭建博客。</p>
+<p>1， 创建repository(如果做了上述实践部分就先删除此repository，从头来)<br>在github建立一个新的repository：命名为：username.github.io, 并且勾选创建readme.md已初始化仓库这项。<br><strong>注: 替换username为你的账号名</strong></p>
+<p>2，在本地git clone 你的博客项目地址</p>
+<p>3，进入clone的项目目录，注意此时是在master分支，而master分支平常放生成的博客页面，所以我们现在创建一个hexo分支，用来管理hexo相关文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b hexo</span><br></pre></td></tr></table></figure>
+<p>4， 安装hexo，以及相关扩展依赖（建议把npm安装源改为国内的，淘宝就有提供，这样能提高安装速度）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm  install -g hexo</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init    // 初始化</span><br></pre></td></tr></table></figure>
+<p>注意：hexo init要求当前目录是一个空目录，我这里解决办法是在执行hexo init 前把当前文件夹的文件都移到外面去（包括.git仓库目录），初始化完成后马上把文件移回来（一般只会有README.MD文件和.git目录）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install    // 安装依赖</span><br></pre></td></tr></table></figure>
+<p>（此阶段若遇到 symlink error问题，则加参数：-no-bin-links）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save    // 安装deployer扩展</span><br></pre></td></tr></table></figure>
+<p>5，  修改_config.yml文件的deploy选项(如果你准备装第6步的博客主题，则可以放到第6步一起操作)：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type: git</span><br><span class="line">repo: (对应你博客仓库的SSH地址)</span><br><span class="line">branch: master</span><br></pre></td></tr></table></figure>
+<p>此外其他相关配置信息都改成你自己的，比如author这些</p>
+<p>6， 选一个博客主题，我这里用的：icarus</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/ppoffice/hexo-theme-icarus.git themes/icarus</span><br></pre></td></tr></table></figure>
+<p>进入 themes/icarus 目录，把该主题提供的实例的配置文件 编辑下然后作为自己的配置文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp _config.yml.example _config.yml</span><br></pre></td></tr></table></figure>
+<p>然后回到项目根目录，编辑主配置_config.yml 添加theme配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: icarus</span><br></pre></td></tr></table></figure>
+<p><strong>注：第5步如果没操作，则在这里一起操作</strong></p>
+<p>7， 提交到仓库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &apos;hexo init&apos;</span><br><span class="line">git push -u origin hexo</span><br></pre></td></tr></table></figure>
+<p>8，发布一篇博文</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;your blog title&quot;</span><br></pre></td></tr></table></figure>
+<p>（此步若遇到local hexo not found：rm -rf node_modules/ &amp;&amp; npm install解决）<br>然后会在source/_posts下建立一个your-blog-title.md的文件，<br>你可以编辑此文件书写你想写的博客内容（Markdown格式）<br>写好后执行一次commit<br>然后执行生成博客Html文件和发布命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate -d</span><br></pre></td></tr></table></figure>
+<p>如果顺利的话，博客内容会发布到master分支</p>
+<p>9， 此时可以输入username.github.io来访问你的博客</p>
+<p>至此你的博客已经成功搭建！</p>
+<p>###平常博客写作和管理流程###</p>
+<p>1， 都在hexo分支上工作，用hexo new title建立新的md文件，然后书写，然后”git add . “，”git commit -m ‘’ “ ，”git push”提交。好了之后执行hexo generate -d 发布博客</p>
+<p>2， 假如换了电脑后，先clone下你github上的博客仓库，然后 npm install -g hexo，npm install 和npm install hexo-deployer-git –save(和安装命令差不多，但是不要使用hexo init命令，因为仓库中已存在)，然后走正常博客书写发布流程即可。</p>
+<p>^_^完结</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://rootrl.github.com/2017/08/24/Github-pages-hexo-博客搭建教程/" data-id="cj9yx7nxt0008uivhpjy97iwq" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://rootrl.github.com/2017/08/24/Github-pages-hexo-博客搭建教程/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/08/24/Github-pages-hexo-博客搭建教程/">Comentarios</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/08/25/Vagrant集群配置，模拟多机分布式环境/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más nuevo</strong>
+            <div class="article-nav-title">
+                
+                    Vagrant集群配置，模拟多机分布式环境
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/08/24/开篇/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más viejo</strong>
+            <div class="article-nav-title">开篇</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Recientes</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/10/30/搭建Ngrok内网穿透服务器/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/ngrok.jpg)" alt="搭建Ngrok内网穿透服务器" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/其他/">其他</a></p>
+                            <p class="item-title"><a href="/2017/10/30/搭建Ngrok内网穿透服务器/" class="title">搭建Ngrok内网穿透服务器</a></p>
+                            <p class="item-date"><time datetime="2017-10-30T00:50:52.000Z" itemprop="datePublished">2017-10-30</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/10/25/Docker实践-运行Nginx和PHP环境/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/docker-logo.jpg)" alt="Docker实践 - 运行Nginx和PHP环境" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/虚拟机-容器/">虚拟机/容器</a></p>
+                            <p class="item-title"><a href="/2017/10/25/Docker实践-运行Nginx和PHP环境/" class="title">Docker实践 - 运行Nginx和PHP环境</a></p>
+                            <p class="item-date"><time datetime="2017-10-24T19:49:10.000Z" itemprop="datePublished">2017-10-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/10/13/Flex-Layout/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/flex.png)" alt="Flex Layout" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/前端/">前端</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/前端/CSS/">CSS</a></p>
+                            <p class="item-title"><a href="/2017/10/13/Flex-Layout/" class="title">Flex Layout</a></p>
+                            <p class="item-date"><time datetime="2017-10-13T02:11:37.000Z" itemprop="datePublished">2017-10-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/10/11/Vultr-Centos安装shadowsocks服务端并开启BBR加速/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://github.com/rootrl/rootrl.github.io/blob/master/images/shadowsocks.jpg?raw=true)" alt="Vultr Centos安装shadowsocks服务端并开启BBR加速" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/杂类/">杂类</a></p>
+                            <p class="item-title"><a href="/2017/10/11/Vultr-Centos安装shadowsocks服务端并开启BBR加速/" class="title">Vultr Centos安装shadowsocks服务端并开启BBR加速</a></p>
+                            <p class="item-date"><time datetime="2017-10-11T00:35:35.000Z" itemprop="datePublished">2017-10-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/10/11/Css常见/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/css.jpg)" alt="Css常见" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/前端/">前端</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/前端/CSS/">CSS</a></p>
+                            <p class="item-title"><a href="/2017/10/11/Css常见/" class="title">Css常见</a></p>
+                            <p class="item-date"><time datetime="2017-10-10T19:16:48.000Z" itemprop="datePublished">2017-10-11</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Categorias</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Archivos</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Etiquetas</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">Links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2017 Rootrl<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://rootrl.github.com/2017/08/24/Github-pages-hexo-博客搭建教程/';
+        
+        this.page.identifier = 'Github-pages-hexo-博客搭建教程';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'rootrl' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

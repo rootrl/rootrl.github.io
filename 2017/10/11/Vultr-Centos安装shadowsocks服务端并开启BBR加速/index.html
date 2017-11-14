@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Vultr Centos安装shadowsocks服务端并开启BBR加速 | Rootrl&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="缘起平时都会用到google用来学习，facebook也玩玩，所以你懂得。现在是非常时期，许多VPN商都倒了。只能自己搭建。我用的主机是Vultr的，配置如下：CPU:1 vCore，RAM:1024 MB，Storage:25 GB SSD，每月5刀，刚开始用的是东京节点，但是容易掉包。后来切换到新加坡节点。Vultr现在支持支付宝了，很方便。大家如果购买请使用我的推广链接，https://ww">
+<meta name="keywords" content="shadowsocks">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vultr Centos安装shadowsocks服务端并开启BBR加速">
+<meta property="og:url" content="https://rootrl.github.com/2017/10/11/Vultr-Centos安装shadowsocks服务端并开启BBR加速/index.html">
+<meta property="og:site_name" content="Rootrl&#39;s blog">
+<meta property="og:description" content="缘起平时都会用到google用来学习，facebook也玩玩，所以你懂得。现在是非常时期，许多VPN商都倒了。只能自己搭建。我用的主机是Vultr的，配置如下：CPU:1 vCore，RAM:1024 MB，Storage:25 GB SSD，每月5刀，刚开始用的是东京节点，但是容易掉包。后来切换到新加坡节点。Vultr现在支持支付宝了，很方便。大家如果购买请使用我的推广链接，https://ww">
+<meta property="og:image" content="https://github.com/rootrl/rootrl.github.io/blob/master/images/shadowsocks.jpg?raw=true">
+<meta property="og:updated_time" content="2017-11-14T00:46:52.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vultr Centos安装shadowsocks服务端并开启BBR加速">
+<meta name="twitter:description" content="缘起平时都会用到google用来学习，facebook也玩玩，所以你懂得。现在是非常时期，许多VPN商都倒了。只能自己搭建。我用的主机是Vultr的，配置如下：CPU:1 vCore，RAM:1024 MB，Storage:25 GB SSD，每月5刀，刚开始用的是东京节点，但是容易掉包。后来切换到新加坡节点。Vultr现在支持支付宝了，很方便。大家如果购买请使用我的推广链接，https://ww">
+<meta name="twitter:image" content="https://github.com/rootrl/rootrl.github.io/blob/master/images/shadowsocks.jpg?raw=true">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Rootrl&#39;s blog</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/hexo/source/images/logo.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Entradas',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/hexo/source/images/logo.jpg" />
+            <h2 id="name">Rootrl</h2>
+            <h3 id="title">Web Developer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Hefei, China</span>
+            <a id="follow" target="_blank" href="https://github.com/rootrl/">SEGUIR</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                13
+                <span>Entradas</span>
+            </div>
+            <div class="article-info-block">
+                18
+                <span>Etiquetas</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/rootrl" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Vultr-Centos安装shadowsocks服务端并开启BBR加速" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<img src="https://github.com/rootrl/rootrl.github.io/blob/master/images/shadowsocks.jpg?raw=true" class="article-banner" />
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Vultr Centos安装shadowsocks服务端并开启BBR加速
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/10/11/Vultr-Centos安装shadowsocks服务端并开启BBR加速/">
+            <time datetime="2017-10-11T00:35:35.000Z" itemprop="datePublished">2017-10-11</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/杂类/">杂类</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/shadowsocks/">shadowsocks</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>平时都会用到google用来学习，facebook也玩玩，所以你懂得。现在是非常时期，许多VPN商都倒了。只能自己搭建。我用的主机是Vultr的，配置如下：CPU:1 vCore，RAM:1024 MB，Storage:25 GB SSD，每月5刀，刚开始用的是东京节点，但是容易掉包。后来切换到新加坡节点。<br>Vultr现在支持支付宝了，很方便。大家如果购买请使用我的推广链接，<a href="https://www.vultr.com/?ref=7159825" target="_blank" rel="external">https://www.vultr.com/?ref=7159825</a></p>
+<h2 id="Shadowsocks"><a href="#Shadowsocks" class="headerlink" title="Shadowsocks"></a>Shadowsocks</h2><p>Shadowsocks(ss) 是由 Clowwindy 开发的一款软件，其作用本来是加密传输资料。当然，也正因为它加密传输资料的特性，使得 GFW 没法将由它传输的资料和其他普通资料区分开来，也就不能干扰我们访问那些「不存在」的网站了。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>我的服务器是Centos7内核如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@rootrl var]# uname -a</span><br><span class="line">Linux rootrl 3.10.0-514.26.2.el7.x86_64 #1 SMP Tue Jul 4 15:04:05 UTC 2017 x86_64 x86_64 x86_64 GNU/Linux</span><br></pre></td></tr></table></figure></p>
+<p>我这里使用Go版本shadowsocks，其他版本还有Python，nodejs，libev等，刚开始以为用python版本，但是好像很久没更新了<br>项目地址：<a href="https://github.com/shadowsocks/shadowsocks-go" target="_blank" rel="external">https://github.com/shadowsocks/shadowsocks-go</a></p>
+<p>如果没有Go环境，先安装go<br>去<a href="https://golang.org/dl" target="_blank" rel="external">https://golang.org/dl</a> 下载Archive包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 下载包：</span><br><span class="line">wget https://storage.googleapis.com/golang/go1.9.1.linux-amd64.tar.gz</span><br><span class="line"></span><br><span class="line"># 解压到/usr/local/go</span><br><span class="line">tar -C /usr/local -xzf go1.9.1.linux-amd64.tar.gz</span><br><span class="line"></span><br><span class="line"># 导入到系统环境变量</span><br><span class="line">export PATH=$PATH:/usr/local/go/bin</span><br></pre></td></tr></table></figure>
+<p>安装Shadowsocks，我这里使用一键安装脚本（<a href="https://github.com/iMeiji/shadowsocks_install" target="_blank" rel="external">https://github.com/iMeiji/shadowsocks_install</a>）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://raw.githubusercontent.com/iMeiji/shadowsocks_install/master/shadowsocks-go.sh</span><br><span class="line">chmod +x shadowsocks-go.sh</span><br><span class="line">./shadowsocks-go.sh 2&gt;&amp;1 | tee shadowsocks-go.log</span><br></pre></td></tr></table></figure></p>
+<p>卸载方法：<br>使用 root 用户登录，运行以下命令：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">./shadowsocks-go.sh uninstall</span><br></pre></td></tr></table></figure></p>
+<p>使用命令：</p>
+<ul>
+<li>启动：/etc/init.d/shadowsocks start</li>
+<li>停止：/etc/init.d/shadowsocks stop</li>
+<li>重启：/etc/init.d/shadowsocks restart</li>
+<li>状态：/etc/init.d/shadowsocks status</li>
+</ul>
+<h2 id="防火墙"><a href="#防火墙" class="headerlink" title="防火墙"></a>防火墙</h2><p>检查防火墙是否允许你设定的端口进行通信</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -L -n | grep 8989</span><br></pre></td></tr></table></figure>
+<p>如果没有信息的话，就是防火墙不允许该端口进行通信。<br>需设置：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables -I INPUT -p tcp --dport 8989 -j ACCEPT</span><br></pre></td></tr></table></figure></p>
+<h2 id="加速"><a href="#加速" class="headerlink" title="加速"></a>加速</h2><h4 id="开启TCP-Fast-Open"><a href="#开启TCP-Fast-Open" class="headerlink" title="开启TCP Fast Open"></a>开启TCP Fast Open</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/rc.local</span><br><span class="line"></span><br><span class="line"># 在最后一行增加以下内容</span><br><span class="line">echo 3 &gt; /proc/sys/net/ipv4/tcp_fastopen</span><br><span class="line"></span><br><span class="line"># 然后</span><br><span class="line">vim /etc/sysctl.conf</span><br><span class="line"></span><br><span class="line"># 在最后一行增加：</span><br><span class="line">net.ipv4.tcp_fastopen = 3</span><br><span class="line"></span><br><span class="line"># 编辑配置文件</span><br><span class="line">vim /etc/shadowsocks/config.json</span><br><span class="line"># 添加一项</span><br><span class="line">&quot;fast_open&quot;:true</span><br><span class="line"></span><br><span class="line"># 最后重启</span><br><span class="line">/etc/init.d/shadowsocks restart</span><br></pre></td></tr></table></figure>
+<h4 id="软件加速"><a href="#软件加速" class="headerlink" title="软件加速"></a>软件加速</h4><p>加速有锐速加速和Google BBR加速。我这里使用的是BBR加速</p>
+<p>我这里参考的：<a href="https://teddysun.com/489.html" target="_blank" rel="external">https://teddysun.com/489.html</a></p>
+<p>安装一键脚本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">wget --no-check-certificate https://github.com/teddysun/across/raw/master/bbr.sh</span><br><span class="line">chmod +x bbr.sh</span><br><span class="line">./bbr.sh</span><br></pre></td></tr></table></figure></p>
+<p>安装按成后会提示重启，重启完成后：<br>查看内核：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">uname -r</span><br></pre></td></tr></table></figure>
+<p>包含4.13就说明内核替换成功</p>
+<p>检查是否开启BBR<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">sysctl net.ipv4.tcp_available_congestion_control</span><br><span class="line"># 返回值一般为：net.ipv4.tcp_available_congestion_control = bbr cubic reno</span><br><span class="line"></span><br><span class="line">sysctl net.ipv4.tcp_congestion_control</span><br><span class="line"># 返回值一般为：net.ipv4.tcp_congestion_control = bbr</span><br><span class="line"></span><br><span class="line">sysctl net.core.default_qdisc</span><br><span class="line"># 返回值一般为：net.core.default_qdisc = fq</span><br><span class="line"></span><br><span class="line">lsmod | grep bbr</span><br><span class="line"># 返回值有tcp_bbr则说明已经启动</span><br></pre></td></tr></table></figure></p>
+<h2 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h2><p>到<a href="https://github.com/shadowsocks" target="_blank" rel="external">https://github.com/shadowsocks</a> 下载你需要的客户端</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://rootrl.github.com/2017/10/11/Vultr-Centos安装shadowsocks服务端并开启BBR加速/" data-id="cj9yx7ny0000muivh0e824d8x" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://rootrl.github.com/2017/10/11/Vultr-Centos安装shadowsocks服务端并开启BBR加速/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/10/11/Vultr-Centos安装shadowsocks服务端并开启BBR加速/">Comentarios</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+        <a href="/2017/10/13/Flex-Layout/" id="article-nav-newer" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más nuevo</strong>
+            <div class="article-nav-title">
+                
+                    Flex Layout
+                
+            </div>
+        </a>
+    
+    
+        <a href="/2017/10/11/Css常见/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Más viejo</strong>
+            <div class="article-nav-title">Css常见</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Recientes</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/10/30/搭建Ngrok内网穿透服务器/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/ngrok.jpg)" alt="搭建Ngrok内网穿透服务器" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/其他/">其他</a></p>
+                            <p class="item-title"><a href="/2017/10/30/搭建Ngrok内网穿透服务器/" class="title">搭建Ngrok内网穿透服务器</a></p>
+                            <p class="item-date"><time datetime="2017-10-30T00:50:52.000Z" itemprop="datePublished">2017-10-30</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/10/25/Docker实践-运行Nginx和PHP环境/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/docker-logo.jpg)" alt="Docker实践 - 运行Nginx和PHP环境" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/虚拟机-容器/">虚拟机/容器</a></p>
+                            <p class="item-title"><a href="/2017/10/25/Docker实践-运行Nginx和PHP环境/" class="title">Docker实践 - 运行Nginx和PHP环境</a></p>
+                            <p class="item-date"><time datetime="2017-10-24T19:49:10.000Z" itemprop="datePublished">2017-10-25</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/10/13/Flex-Layout/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/flex.png)" alt="Flex Layout" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/前端/">前端</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/前端/CSS/">CSS</a></p>
+                            <p class="item-title"><a href="/2017/10/13/Flex-Layout/" class="title">Flex Layout</a></p>
+                            <p class="item-date"><time datetime="2017-10-13T02:11:37.000Z" itemprop="datePublished">2017-10-13</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/10/11/Vultr-Centos安装shadowsocks服务端并开启BBR加速/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://github.com/rootrl/rootrl.github.io/blob/master/images/shadowsocks.jpg?raw=true)" alt="Vultr Centos安装shadowsocks服务端并开启BBR加速" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/杂类/">杂类</a></p>
+                            <p class="item-title"><a href="/2017/10/11/Vultr-Centos安装shadowsocks服务端并开启BBR加速/" class="title">Vultr Centos安装shadowsocks服务端并开启BBR加速</a></p>
+                            <p class="item-date"><time datetime="2017-10-11T00:35:35.000Z" itemprop="datePublished">2017-10-11</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2017/10/11/Css常见/" class="thumbnail">
+    
+    
+        <span style="background-image:url(https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/css.jpg)" alt="Css常见" class="thumbnail-image"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/前端/">前端</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/前端/CSS/">CSS</a></p>
+                            <p class="item-title"><a href="/2017/10/11/Css常见/" class="title">Css常见</a></p>
+                            <p class="item-date"><time datetime="2017-10-10T19:16:48.000Z" itemprop="datePublished">2017-10-11</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Categorias</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Archivos</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">Etiquetas</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">Links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2017 Rootrl<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://rootrl.github.com/2017/10/11/Vultr-Centos安装shadowsocks服务端并开启BBR加速/';
+        
+        this.page.identifier = 'Vultr-Centos安装shadowsocks服务端并开启BBR加速';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'rootrl' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>
