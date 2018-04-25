@@ -3,14 +3,19 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Rootrl&#39;s blog</title>
+    <title>Javascript原型链、作用域、闭包学习笔记 | Rootrl&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Rootrl&#39;s blog">
-<meta property="og:url" content="https://rootrl.github.com/index.html">
+    <meta name="description" content="数据类型 值类型 boolean udefined string number 引用类型 Object null function array  类型判断值类型 typeof引用类型 instanceof 123456789101112var fn = function()&amp;#123;&amp;#125;console.log(fn instanceof Object) // functionvar fo">
+<meta name="keywords" content="Javascript">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Javascript原型链、作用域、闭包学习笔记">
+<meta property="og:url" content="https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/index.html">
 <meta property="og:site_name" content="Rootrl&#39;s blog">
+<meta property="og:description" content="数据类型 值类型 boolean udefined string number 引用类型 Object null function array  类型判断值类型 typeof引用类型 instanceof 123456789101112var fn = function()&amp;#123;&amp;#125;console.log(fn instanceof Object) // functionvar fo">
+<meta property="og:updated_time" content="2018-04-25T14:23:07.560Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Rootrl&#39;s blog">
+<meta name="twitter:title" content="Javascript原型链、作用域、闭包学习笔记">
+<meta name="twitter:description" content="数据类型 值类型 boolean udefined string number 引用类型 Object null function array  类型判断值类型 typeof引用类型 instanceof 123456789101112var fn = function()&amp;#123;&amp;#125;console.log(fn instanceof Object) // functionvar fo">
     
 
     
@@ -191,16 +196,15 @@
 </aside>
 
             
-            <section id="main">
-    <article id="post-Javascript原型链、作用域、闭包学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-Javascript原型链、作用域、闭包学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
             <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/04/25/Javascript原型链、作用域、闭包学习笔记/">Javascript原型链、作用域、闭包学习笔记</a>
+        <h1 class="article-title" itemprop="name">
+            Javascript原型链、作用域、闭包学习笔记
         </h1>
     
 
@@ -386,311 +390,31 @@
         </footer>
     </div>
     
-</article>
-
-
-
-    <article id="post-Ansible-in-action" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
         
-        
-            <header class="article-header">
-                
+<nav id="article-nav">
     
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/04/20/Ansible-in-action/">Ansible in action</a>
-        </h1>
     
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/04/20/Ansible-in-action/">
-            <time datetime="2018-04-20T12:21:00.000Z" itemprop="datePublished">2018-04-20</time>
+        <a href="/2018/04/20/Ansible-in-action/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Ansible in action</div>
         </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/DevOps/">DevOps</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/ansible/">ansible</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h3 id="Environment"><a href="#Environment" class="headerlink" title="Environment"></a>Environment</h3><p>os: centos7<br>ansible version: 2.5</p>
-<h3 id="install-ansible"><a href="#install-ansible" class="headerlink" title="install ansible:"></a>install ansible:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo yum install ansible</span><br></pre></td></tr></table></figure>
-<h3 id="inventory-file"><a href="#inventory-file" class="headerlink" title="inventory file:"></a>inventory file:</h3><p>/etc/ansible/hosts<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[webserver]</span><br><span class="line">192.168.8.215</span><br><span class="line"></span><br><span class="line">[dbserver]</span><br><span class="line">192.168.8.214</span><br></pre></td></tr></table></figure></p>
-<p>Or whereever your inventory file is and use -i to specific it.</p>
-<h3 id="Set-login-without-password："><a href="#Set-login-without-password：" class="headerlink" title="Set login without password："></a>Set login without password：</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh-copy-id user@your-server-ip</span><br></pre></td></tr></table></figure>
-<p>Test ping ur host<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m ping</span><br></pre></td></tr></table></figure></p>
-<p>set user and root:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansbile all -m ping -u bruce --sudo</span><br></pre></td></tr></table></figure></p>
-<p>using shell module:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m shell -a &apos;echo $(hostname -i)&apos;</span><br></pre></td></tr></table></figure></p>
-<h3 id="Playbook"><a href="#Playbook" class="headerlink" title="Playbook:"></a>Playbook:</h3><p>playbook.yml content with:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">---</span><br><span class="line">- hosts: all</span><br><span class="line">  remote_user: rootrl</span><br><span class="line">  tasks:</span><br><span class="line">   - name: test connection</span><br><span class="line">     ping:</span><br><span class="line">   - name: test a script</span><br><span class="line">     script: ./script.sh</span><br></pre></td></tr></table></figure></p>
-<p>script.sh:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line"></span><br><span class="line">cat &lt;&lt;TPL &gt; hay.txt</span><br><span class="line">hello</span><br><span class="line">        this is text</span><br><span class="line">TPL</span><br></pre></td></tr></table></figure></p>
-<p>before run:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># check syntax</span><br><span class="line">ansible-playbook playbook.yml --syntax-check</span><br><span class="line"></span><br><span class="line"># check host list</span><br><span class="line">ansible-playbook playbook.yml --list-hosts</span><br></pre></td></tr></table></figure></p>
-<p>run:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible-playbook playbook.yml</span><br></pre></td></tr></table></figure></p>
-<p>run cat to proof stuff be changed:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m shell -a &quot;cat /home/rootrl/hay.txt&quot;</span><br></pre></td></tr></table></figure></p>
-<h3 id="Demo"><a href="#Demo" class="headerlink" title="Demo:"></a>Demo:</h3><p><a href="https://github.com/rootrl/Init-new-instance-with-ansible.git" target="_blank" rel="external">https://github.com/rootrl/Init-new-instance-with-ansible.git</a></p>
-<p>git clone and run:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible-playbook -i hosts main.yml</span><br></pre></td></tr></table></figure>
-<h3 id="Result"><a href="#Result" class="headerlink" title="Result:"></a>Result:</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br></pre></td><td class="code"><pre><span class="line">[rootrl@jdu4e00u53f7 Init-new-instance-with-ansible]$ ansible-playbook -i hosts main.yml</span><br><span class="line"></span><br><span class="line">PLAY [webserver] *************************************************************************************************************************************</span><br><span class="line"></span><br><span class="line">TASK [Gathering Facts] *******************************************************************************************************************************</span><br><span class="line">ok: [45.77.44.159]</span><br><span class="line"></span><br><span class="line">TASK [test ping] *************************************************************************************************************************************</span><br><span class="line">ok: [45.77.44.159]</span><br><span class="line"></span><br><span class="line">TASK [install docker] ********************************************************************************************************************************</span><br><span class="line"></span><br><span class="line">changed: [45.77.44.159]</span><br><span class="line"></span><br><span class="line">TASK [test docker] ***********************************************************************************************************************************</span><br><span class="line">changed: [45.77.44.159]</span><br><span class="line"></span><br><span class="line">TASK [debug] *****************************************************************************************************************************************</span><br><span class="line">ok: [45.77.44.159] =&gt; &#123;</span><br><span class="line">    &quot;msg&quot;: [</span><br><span class="line">        &quot;&quot;,</span><br><span class="line">        &quot;Hello from Docker!&quot;,</span><br><span class="line">        &quot;This message shows that your installation appears to be working correctly.&quot;,</span><br><span class="line">        &quot;&quot;,</span><br><span class="line">        &quot;To generate this message, Docker took the following steps:&quot;,</span><br><span class="line">        &quot; 1. The Docker client contacted the Docker daemon.&quot;,</span><br><span class="line">        &quot; 2. The Docker daemon pulled the \&quot;hello-world\&quot; image from the Docker Hub.&quot;,</span><br><span class="line">        &quot;    (amd64)&quot;,</span><br><span class="line">        &quot; 3. The Docker daemon created a new container from that image which runs the&quot;,</span><br><span class="line">        &quot;    executable that produces the output you are currently reading.&quot;,</span><br><span class="line">        &quot; 4. The Docker daemon streamed that output to the Docker client, which sent it&quot;,</span><br><span class="line">        &quot;    to your terminal.&quot;,</span><br><span class="line">        &quot;&quot;,</span><br><span class="line">        &quot;To try something more ambitious, you can run an Ubuntu container with:&quot;,</span><br><span class="line">        &quot; $ docker run -it ubuntu bash&quot;,</span><br><span class="line">        &quot;&quot;,</span><br><span class="line">        &quot;Share images, automate workflows, and more with a free Docker ID:&quot;,</span><br><span class="line">        &quot; https://hub.docker.com/&quot;,</span><br><span class="line">        &quot;&quot;,</span><br><span class="line">        &quot;For more examples and ideas, visit:&quot;,</span><br><span class="line">        &quot; https://docs.docker.com/engine/userguide/&quot;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">TASK [install shadowsock] ****************************************************************************************************************************</span><br><span class="line">changed: [45.77.44.159]</span><br><span class="line"></span><br><span class="line">PLAY RECAP *******************************************************************************************************************************************</span><br><span class="line">45.77.44.159               : ok=6    changed=3    unreachable=0    failed=0</span><br></pre></td></tr></table></figure>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://rootrl.github.com/2018/04/20/Ansible-in-action/" data-id="cjgf6w7000000muvhlmy7ep62" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
     
-        <a href="https://rootrl.github.com/2018/04/20/Ansible-in-action/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/04/20/Ansible-in-action/">Comments</a>
-    
+</nav>
 
-        </footer>
-    </div>
+
     
 </article>
 
 
-
-    <article id="post-Docker实践-超简单配置ftp服务" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2017/11/18/Docker实践-超简单配置ftp服务/" itemprop="url">
-            <img src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/docker-logo.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
     
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/11/18/Docker实践-超简单配置ftp服务/">Docker实践 - 超简单配置ftp服务</a>
-        </h1>
     
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/11/18/Docker实践-超简单配置ftp服务/">
-            <time datetime="2017-11-18T01:08:58.000Z" itemprop="datePublished">2017-11-18</time>
-        </a>
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/虚拟机-容器/">虚拟机/容器</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/docker/">docker</a>, <a class="tag-link" href="/tags/ftp/">ftp</a>, <a class="tag-link" href="/tags/nginx/">nginx</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>前几天双十一的时候在京东上买了一台云虚拟机，很便宜，2g内存的才121元一年。买的时候产品那边同事就打招呼叫我帮他配个ftp服务平时上传浏览原型图用。</p>
-<p>今天闲来无事就捣鼓这些环境，Nginx这边我一开始就是用Docker跑的，但是刚开始没想到也可以把ftp服务扔到容器里。</p>
-<p>刚开始我只是在Centos下正规的配置vsftpd服务，但是后来有个问题一直难以解决，就是ftp登陆上传的时候，新建的文件所在用户组和other都没有权限，配置了umask也无济于事，selinux也关闭了，想到我ftp用户目录和docker里跑的nginx都是一个目录，这种复杂的环境，想想就头疼，啥方法都用尽了，就是解决不了。</p>
-<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>后来突然想到，我ftp不也可以直接扔docker吗？只用映射个21端口，然后在宿主机配个volume卷。然后去docker hub搜ftp镜像，没想到真的有一大堆，选来选去选了bogem/ftp，只因为这个配置简单，该有的也有。</p>
-<p>地址：<a href="https://hub.docker.com/r/bogem/ftp/" target="_blank" rel="external">https://hub.docker.com/r/bogem/ftp/</a></p>
-<p>就像说明说的，启动服务特简单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -v &lt;host folder&gt;:/home/vsftpd \</span><br><span class="line">                -p 20:20 -p 21:21 -p 47400-47470:47400-47470 \</span><br><span class="line">                -e FTP_USER=&lt;username&gt; \</span><br><span class="line">                -e FTP_PASS=&lt;password&gt; \</span><br><span class="line">                -e PASV_ADDRESS=&lt;ip address of your server&gt; \</span><br><span class="line">                --name ftp \</span><br><span class="line">                --restart=always bogem/ftp</span><br></pre></td></tr></table></figure></p>
-<p>用的时候相应参数改下就可以了。</p>
-<p>我nginx这边服务也特简单，因为只用跑静态服务（当然要配个php-fpm服务也超级简单）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name ftp-server -v &#123;跟ftp一个目录&#125;:/usr/share/nginx/html:ro -p 81:80 nginx</span><br></pre></td></tr></table></figure></p>
-<p>这样整个服务就都启动啦，ftp可以正常上传，然后通过81端口可以访问静态页面。是不是超级简单。。以后啥服务都基本可以扔在docker跑了。</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://rootrl.github.com/2017/11/18/Docker实践-超简单配置ftp服务/" data-id="cjgf6w70c0008muvhdasiy6yn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://rootrl.github.com/2017/11/18/Docker实践-超简单配置ftp服务/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/11/18/Docker实践-超简单配置ftp服务/">Comments</a>
+</section>
     
 
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <nav id="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
 </section>
             
                 
@@ -863,11 +587,13 @@
     <script>
     var disqus_config = function () {
         
-        this.page.identifier = '';
+            this.page.url = 'https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/';
+        
+        this.page.identifier = 'Javascript原型链、作用域、闭包学习笔记';
     };
     (function() { 
         var d = document, s = d.createElement('script');  
-        s.src = '//' + 'rootrl' + '.disqus.com/count.js';
+        s.src = '//' + 'rootrl' + '.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
