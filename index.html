@@ -74,7 +74,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -93,10 +93,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Posts',
+            POSTS: 'Entradas',
             PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -127,7 +127,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
     </div>
 
                 </td>
@@ -147,16 +147,16 @@
             <h2 id="name">Rootrl</h2>
             <h3 id="title">Web Developer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Hefei, China</span>
-            <a id="follow" target="_blank" href="https://github.com/rootrl/">FOLLOW</a>
+            <a id="follow" target="_blank" href="https://github.com/rootrl/">SEGUIR</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
                 16
-                <span>posts</span>
+                <span>Entradas</span>
             </div>
             <div class="article-info-block">
                 22
-                <span>tags</span>
+                <span>Etiquetas</span>
             </div>
         </div>
         
@@ -236,7 +236,7 @@
         
             
             <h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ul>
-<li>值类型 boolean udefined string number</li>
+<li>值类型 boolean undefined string number</li>
 <li>引用类型 Object null function array</li>
 </ul>
 <h4 id="类型判断"><a href="#类型判断" class="headerlink" title="类型判断"></a>类型判断</h4><p>值类型 typeof<br>引用类型 instanceof</p>
@@ -248,17 +248,17 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var Fn = function()&#123;&#125;</span><br><span class="line">Fn.prototype.name = &quot;hello&quot;</span><br><span class="line">Fn.prototype.foo = function()&#123;&#125;</span><br><span class="line">var fn = new Fn()</span><br></pre></td></tr></table></figure>
 <p>Fn是一个函数，fn是通过Fn new出来的，这样fn对象就可以访问Fn.prototype中的属性<br>（问：不new就访问不了？是，但是为什么要new？是不是相当于类和类的实例）</p>
 <p>__proto__是隐式属性，这个属性引用了创建这个对象的函数的prototype, 即：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fn.__proto__ === Fn.prototype</span><br></pre></td></tr></table></figure></p>
-<p><strong>每个函数都有一个prototype原型，每个对象都有一个\</strong>proto__隐式原型<br>(javascript 不希望开发者用到这个<strong>proto</strong>)</p>
+<p>每个函数都有一个prototype原型，每个对象都有一个__proto__隐式原型<br>(javascript 不希望开发者用到这个<strong>proto</strong>)</p>
 <p>每个对象都有一个__proto__属性，指向创建该对象的函数的prototype</p>
-<p><strong>Object.prototype 的\</strong>proto__指向null__</p>
+<p><strong>Object.prototype 的__proto__指向null</strong></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var o = new Foo();</span><br></pre></td></tr></table></figure>
 <p>JavaScript 实际上执行的是：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var o = new Object();</span><br><span class="line">o.__proto__ = Foo.prototype;</span><br><span class="line">Foo.call(o);</span><br><span class="line"></span><br><span class="line">function Foo()&#123;&#125;</span><br><span class="line">var fn = new Foo</span><br><span class="line">console.log(fn instanceof Foo) // true</span><br></pre></td></tr></table></figure>
 <h3 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h3><p>Instanceof 查找规则<br>Instanceof运算符的第一个变量是一个对象，暂时称为A；第二个变量一般是一个函数，暂时称为B。</p>
-<p><strong>Instanceof的判断规则是：沿着A的\</strong>proto__这条线来找，同时沿着B的prototype这条线来找，如果两条线能找到同一个引用，即同一个对象，那么就返回true。如果找到终点还未重合，则返回false__</p>
+<p><strong>Instanceof的判断规则是：沿着A的__proto__这条线来找，同时沿着B的prototype这条线来找，如果两条线能找到同一个引用，即同一个对象，那么就返回true。如果找到终点还未重合，则返回false</strong></p>
 <p>Instanceof 表达的是一种继承关系，或者原型链的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">function Fn()&#123;&#125;</span><br><span class="line"></span><br><span class="line">var fn = new Fn()</span><br><span class="line"></span><br><span class="line">fn.a = 10</span><br><span class="line"></span><br><span class="line">Fn.prototype.a = 100</span><br><span class="line">Fn.prototype.b = 200</span><br><span class="line"></span><br><span class="line">console.log(fn.a)</span><br><span class="line">console.log(fn.b)</span><br></pre></td></tr></table></figure></p>
 <p>fn是通过Fn new过来的，a是fn的基本属性，b从Fn.prototype得来，因为fn.__proto__指向是Foo.prototype</p>
-<h3 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h3><p><strong>访问一个对象属性时，先从基本属性上查找，如果没有再沿着\</strong>proto__这条链往上找，这就是原型链__</p>
+<h3 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h3><p><strong>访问一个对象属性时，先从基本属性上查找，如果没有再沿着__proto__这条链往上找，这就是原型链</strong></p>
 <p>判断一个属性是基本属性还是从原型链上查找的，用hasOwnProperty</p>
 <p>对象的方法都可以通过prototype扩展</p>
 <h3 id="上下文环境"><a href="#上下文环境" class="headerlink" title="上下文环境"></a>上下文环境</h3><p>Javascript准备工作：</p>
@@ -312,7 +312,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/" data-id="cjgf6w70l000imuvh6k44n66f" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/" data-id="cjgf6w70l000imuvh6k44n66f" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -380,7 +380,7 @@
 
             
     
-        <a href="https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/">Comments</a>
+        <a href="https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/">Comentarios</a>
     
 
         </footer>
@@ -445,7 +445,7 @@
 <p>script.sh:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#!/usr/bin/env bash</span><br><span class="line"></span><br><span class="line">cat &lt;&lt;TPL &gt; hay.txt</span><br><span class="line">hello</span><br><span class="line">        this is text</span><br><span class="line">TPL</span><br></pre></td></tr></table></figure></p>
 <p>before run:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># check syntax</span><br><span class="line">ansible-playbook playbook.yml --syntax-check</span><br><span class="line"></span><br><span class="line"># check host list</span><br><span class="line">ansible-playbook playbook.yml --list-hosts</span><br></pre></td></tr></table></figure></p>
 <p>run:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible-playbook playbook.yml</span><br></pre></td></tr></table></figure></p>
-<p>run cat to proof stuff be changed:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m shell -a &quot;cat /home/rootrl/hay.txt&quot;</span><br></pre></td></tr></table></figure></p>
+<p>run cat to proof stuff has changed:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible all -m shell -a &quot;cat /home/rootrl/hay.txt&quot;</span><br></pre></td></tr></table></figure></p>
 <h3 id="Demo"><a href="#Demo" class="headerlink" title="Demo:"></a>Demo:</h3><p><a href="https://github.com/rootrl/Init-new-instance-with-ansible.git" target="_blank" rel="external">https://github.com/rootrl/Init-new-instance-with-ansible.git</a></p>
 <p>git clone and run:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ansible-playbook -i hosts main.yml</span><br></pre></td></tr></table></figure>
@@ -460,7 +460,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2018/04/20/Ansible-in-action/" data-id="cjgf6w7000000muvhlmy7ep62" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://rootrl.github.com/2018/04/20/Ansible-in-action/" data-id="cjgf6w7000000muvhlmy7ep62" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -528,7 +528,7 @@
 
             
     
-        <a href="https://rootrl.github.com/2018/04/20/Ansible-in-action/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/04/20/Ansible-in-action/">Comments</a>
+        <a href="https://rootrl.github.com/2018/04/20/Ansible-in-action/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/04/20/Ansible-in-action/">Comentarios</a>
     
 
         </footer>
@@ -610,7 +610,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2017/11/18/Docker实践-超简单配置ftp服务/" data-id="cjgf6w70c0008muvhdasiy6yn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://rootrl.github.com/2017/11/18/Docker实践-超简单配置ftp服务/" data-id="cjgf6w70c0008muvhdasiy6yn" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -678,7 +678,7 @@
 
             
     
-        <a href="https://rootrl.github.com/2017/11/18/Docker实践-超简单配置ftp服务/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/11/18/Docker实践-超简单配置ftp服务/">Comments</a>
+        <a href="https://rootrl.github.com/2017/11/18/Docker实践-超简单配置ftp服务/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/11/18/Docker实践-超简单配置ftp服务/">Comentarios</a>
     
 
         </footer>
@@ -689,7 +689,7 @@
 
 
     <nav id="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Siguiente  &raquo;</a>
     </nav>
 </section>
             
@@ -698,7 +698,7 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">recent</h3>
+        <h3 class="widget-title">Recientes</h3>
         <div class="widget">
             <ul id="recent-post" class="">
                 
@@ -804,7 +804,7 @@
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">categories</h3>
+        <h3 class="widget-title">Categorias</h3>
         <div class="widget">
             <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">4</span></li></ul>
         </div>
@@ -813,7 +813,7 @@
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">archives</h3>
+        <h3 class="widget-title">Archivos</h3>
         <div class="widget">
             <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
         </div>
@@ -822,7 +822,7 @@
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">tags</h3>
+        <h3 class="widget-title">Etiquetas</h3>
         <div class="widget">
             <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li></ul>
         </div>
@@ -831,7 +831,7 @@
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">links</h3>
+        <h3 class="widget-title">Links</h3>
         <div class="widget">
             <ul>
                 
