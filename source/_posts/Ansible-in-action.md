@@ -83,7 +83,7 @@ run:
 ```
 ansible-playbook playbook.yml
 ```
-run cat to proof stuff be changed:
+run cat to proof stuff has changed:
 ```
 ansible all -m shell -a "cat /home/rootrl/hay.txt"
 ```

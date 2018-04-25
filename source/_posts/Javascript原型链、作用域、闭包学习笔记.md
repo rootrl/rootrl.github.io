@@ -9,7 +9,7 @@ categories:
 ---
 
 ### 数据类型
-* 值类型 boolean udefined string number
+* 值类型 boolean undefined string number
 * 引用类型 Object null function array
 
 #### 类型判断
@@ -70,12 +70,12 @@ Fn是一个函数，fn是通过Fn new出来的，这样fn对象就可以访问Fn
 fn.__proto__ === Fn.prototype
 ```
 
-__每个函数都有一个prototype原型，每个对象都有一个\__proto\__隐式原型
+每个函数都有一个prototype原型，每个对象都有一个\__proto\__隐式原型
 (javascript 不希望开发者用到这个__proto__)
 
 每个对象都有一个\__proto\__属性，指向创建该对象的函数的prototype
 
-__Object.prototype 的\__proto\__指向null__
+**Object.prototype 的\__proto\__指向null**
 
 
 ```
@@ -97,7 +97,7 @@ console.log(fn instanceof Foo) // true
 Instanceof 查找规则
 Instanceof运算符的第一个变量是一个对象，暂时称为A；第二个变量一般是一个函数，暂时称为B。
 
-__Instanceof的判断规则是：沿着A的\__proto\__这条线来找，同时沿着B的prototype这条线来找，如果两条线能找到同一个引用，即同一个对象，那么就返回true。如果找到终点还未重合，则返回false__
+**Instanceof的判断规则是：沿着A的\__proto\__这条线来找，同时沿着B的prototype这条线来找，如果两条线能找到同一个引用，即同一个对象，那么就返回true。如果找到终点还未重合，则返回false**
 
 Instanceof 表达的是一种继承关系，或者原型链的结构
 ```
@@ -117,7 +117,7 @@ console.log(fn.b)
 fn是通过Fn new过来的，a是fn的基本属性，b从Fn.prototype得来，因为fn.\__proto\__指向是Foo.prototype
 
 ### 原型链
-__访问一个对象属性时，先从基本属性上查找，如果没有再沿着\__proto\__这条链往上找，这就是原型链__
+**访问一个对象属性时，先从基本属性上查找，如果没有再沿着\__proto\__这条链往上找，这就是原型链**
 
 判断一个属性是基本属性还是从原型链上查找的，用hasOwnProperty
 
