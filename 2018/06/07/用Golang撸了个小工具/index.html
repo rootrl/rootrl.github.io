@@ -3,14 +3,19 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Tag: nginx | Rootrl&#39;s blog</title>
+    <title>用Golang撸了个小工具 | Rootrl&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Rootrl&#39;s blog">
-<meta property="og:url" content="https://rootrl.github.com/tags/nginx/index.html">
+    <meta name="description" content="缘起我们公司开发环境很特殊，一台本地服务器，然后分配多个ssh账户给开发者。平时上传代码只能ftp/sftp连接上传（以前用过samba共享，但被关了。。）。所以我们平时是在Phpstorm上用sftp远程打开服务器上的项目，然后设置自动上传。这样一般工作没问题。但是有个坑：Phpstorm无法捕获类似git checkout这些更改文件的变化。。所以也就无法让本地代码跟服务器保持一致了。所以也就">
+<meta name="keywords" content="Golang">
+<meta property="og:type" content="article">
+<meta property="og:title" content="用Golang撸了个小工具">
+<meta property="og:url" content="https://rootrl.github.com/2018/06/07/用Golang撸了个小工具/index.html">
 <meta property="og:site_name" content="Rootrl&#39;s blog">
+<meta property="og:description" content="缘起我们公司开发环境很特殊，一台本地服务器，然后分配多个ssh账户给开发者。平时上传代码只能ftp/sftp连接上传（以前用过samba共享，但被关了。。）。所以我们平时是在Phpstorm上用sftp远程打开服务器上的项目，然后设置自动上传。这样一般工作没问题。但是有个坑：Phpstorm无法捕获类似git checkout这些更改文件的变化。。所以也就无法让本地代码跟服务器保持一致了。所以也就">
+<meta property="og:updated_time" content="2018-06-07T12:39:59.687Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Rootrl&#39;s blog">
+<meta name="twitter:title" content="用Golang撸了个小工具">
+<meta name="twitter:description" content="缘起我们公司开发环境很特殊，一台本地服务器，然后分配多个ssh账户给开发者。平时上传代码只能ftp/sftp连接上传（以前用过samba共享，但被关了。。）。所以我们平时是在Phpstorm上用sftp远程打开服务器上的项目，然后设置自动上传。这样一般工作没问题。但是有个坑：Phpstorm无法捕获类似git checkout这些更改文件的变化。。所以也就无法让本地代码跟服务器保持一致了。所以也就">
     
 
     
@@ -191,50 +196,170 @@
 </aside>
 
             
-            <section id="main">
-<div class="timeline timeline-wrap">
-    <div class="timeline-row timeline-row-major">
-        <span class="node"><i class="fa fa-tag"></i></span>
-        <h1 class="title">#nginx</h1>
-    </div>
-    
-        <div class="timeline-row">
-            <span class="node"></span>
-            <div class="content">
+            <section id="main"><article id="post-用Golang撸了个小工具" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="timeline-article-title" href="/2017/11/18/Docker实践-超简单配置ftp服务/">Docker实践 - 超简单配置ftp服务</a>
+        <h1 class="article-title" itemprop="name">
+            用Golang撸了个小工具
         </h1>
     
 
-                <div class="article-meta">
-                    
+                
+                    <div class="article-meta">
+                        
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2017/11/18/Docker实践-超简单配置ftp服务/">
-            <time datetime="2017-11-18T01:08:58.000Z" itemprop="datePublished">2017-11-18</time>
+        <a href="/2018/06/07/用Golang撸了个小工具/">
+            <time datetime="2018-06-07T12:38:02.000Z" itemprop="datePublished">2018-06-07</time>
         </a>
     </div>
 
 
-                    
+                        
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/虚拟机-容器/">虚拟机/容器</a>
+        <a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/Golang/">Golang</a>
     </div>
 
-                    
+                        
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/docker/">docker</a>, <a class="tag-link" href="/tags/ftp/">ftp</a>, <a class="tag-link" href="/tags/nginx/">nginx</a>
+        <a class="tag-link" href="/tags/Golang/">Golang</a>
     </div>
 
-                </div>
-            </div>
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>我们公司开发环境很特殊，一台本地服务器，然后分配多个ssh账户给开发者。平时上传代码只能ftp/sftp连接上传（以前用过samba共享，但被关了。。）。所以我们平时是在Phpstorm上用sftp远程打开服务器上的项目，然后设置自动上传。这样一般工作没问题。但是有个坑：Phpstorm无法捕获类似git checkout这些更改文件的变化。。所以也就无法让本地代码跟服务器保持一致了。所以也就诞生了想写个这个同步机制的念头，这种场景Golang很适合。于是就开始撸起来。。</p>
+<p>项目地址：<a href="https://github.com/rootrl/Mancy" target="_blank" rel="external">https://github.com/rootrl/Mancy</a></p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>大致思路是监测一个文件夹的变化（本地代码库），如果有变化就通过sftp上传到服务器上。</p>
+<p>监测文件变化用的是golang的fsnotify package，它提供的监测变化类型如下：</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> (</span><br><span class="line">    FSN_CREATE = <span class="number">1</span></span><br><span class="line">    FSN_MODIFY = <span class="number">2</span></span><br><span class="line">    FSN_DELETE = <span class="number">4</span></span><br><span class="line">    FSN_RENAME = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">    FSN_ALL = FSN_MODIFY | FSN_DELETE | FSN_RENAME | FSN_CREATE</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>但是fsnotify有个坑就是只能监测一层文件夹的变化，多层文件夹需要自己遍历挂载事件。后续新建文件夹，重命名这种也要手动加事件。</p>
+<p>其中每个事件都对应一个处理通道，我的想法是让文件处理者和事件解耦，因为后面不一定是sftp来处理上传，也可能是rsync，也可能其他处理方式。所以后续处理者只用监听对应事件通道，处理者这里我用了golang的select实现了一个超时机制，有事件就处理，无事件有个几秒的等待时间。</p>
+<p>fsnotify这块代码见： <a href="https://github.com/rootrl/Mancy/blob/master/file_watcher.go" target="_blank" rel="external">https://github.com/rootrl/Mancy/blob/master/file_watcher.go</a><br>sftp hanlder见： <a href="https://github.com/rootrl/Mancy/blob/master/file_sftp_handler.go" target="_blank" rel="external">https://github.com/rootrl/Mancy/blob/master/file_sftp_handler.go</a></p>
+<p>sftp用的是github.com/pkg/sftp这个库，用起来还是挺顺手，但都是写底层的api，所以我单独封装了个sftp_util: <a href="https://github.com/rootrl/Mancy/blob/master/sftp_util.go" target="_blank" rel="external">https://github.com/rootrl/Mancy/blob/master/sftp_util.go</a> 有一些常见的上传文件/文件夹，删除文件/文件夹等操作</p>
+<p>以上基本能实现主要功能了，然后我还定义了个配置文件结构，通过对应Json字符可以把字段自动映射到这个结构上，供后续使用。这也是golang json包的方便之处。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>写这个项目主要是用来练手golang的，刚开始阶段，代码可能写得有点垃圾。。比如sftpClent客户端这些目前是用全局变量实现的，能用，但是不够优雅。。后续慢慢改进。。（可能永远不会。。）</p>
+<p>总之，Golang还是挺不错的！</p>
+
+        
         </div>
-    
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
 </div>
+
+    <a data-url="https://rootrl.github.com/2018/06/07/用Golang撸了个小工具/" data-id="cji4j675d0014pqvhr0ky1f00" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://rootrl.github.com/2018/06/07/用Golang撸了个小工具/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/06/07/用Golang撸了个小工具/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2018/04/25/Javascript原型链、作用域、闭包学习笔记/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">Javascript原型链、作用域、闭包学习笔记</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
 </section>
             
                 
@@ -407,11 +532,13 @@
     <script>
     var disqus_config = function () {
         
-        this.page.identifier = '';
+            this.page.url = 'https://rootrl.github.com/2018/06/07/用Golang撸了个小工具/';
+        
+        this.page.identifier = '用Golang撸了个小工具';
     };
     (function() { 
         var d = document, s = d.createElement('script');  
-        s.src = '//' + 'rootrl' + '.disqus.com/count.js';
+        s.src = '//' + 'rootrl' + '.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();

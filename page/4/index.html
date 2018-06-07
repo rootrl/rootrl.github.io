@@ -74,7 +74,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -93,10 +93,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -127,7 +127,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -147,16 +147,16 @@
             <h2 id="name">Rootrl</h2>
             <h3 id="title">Web Developer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Hefei, China</span>
-            <a id="follow" target="_blank" href="https://github.com/rootrl/">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/rootrl/">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                16
-                <span>Entradas</span>
+                17
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                22
-                <span>Etiquetas</span>
+                23
+                <span>tags</span>
             </div>
         </div>
         
@@ -192,6 +192,226 @@
 
             
             <section id="main">
+    <article id="post-Webpack学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2017/10/10/Webpack学习笔记/" itemprop="url">
+            <img src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/webpack-logo.jpg" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/10/10/Webpack学习笔记/">Webpack学习笔记</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/10/10/Webpack学习笔记/">
+            <time datetime="2017-10-10T00:36:04.000Z" itemprop="datePublished">2017-10-10</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/前端/">前端</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/前端/工具/">工具</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/webpack/">webpack</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="Webpack简介"><a href="#Webpack简介" class="headerlink" title="Webpack简介"></a>Webpack简介</h2><p>Webpack是一个模块打包器 (module bundler)，能够将任何资源如 JavaScript 文件、CSS 文件、图片等打包成一个或少数文件。</p>
+<p>如果没有模块打包工具，我们就得在HTML中加载无数script标签了，这样的缺点显而易见，我们得关心文件的加载顺序和依赖关系，多个script标签也意外着多余的网络请求等等。</p>
+<p>而Webpack就是为了解决这些问题而生的。</p>
+<p>Webpack最新版本为v3，我这里就用的webapck3。如果之前用的是v1，可以阅读官方的<a href="https://webpack.js.org/guides/migrating/" target="_blank" rel="external">v1迁移到v2</a>，而v2和v3差别不大。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><h4 id="依赖"><a href="#依赖" class="headerlink" title="依赖"></a>依赖</h4><p>安装Webpack前得先安装好Nodejs和npm</p>
+<h4 id="安装方式"><a href="#安装方式" class="headerlink" title="安装方式"></a>安装方式</h4><p>Webpack安装分为全局安装和本地安装<br>全局安装虽然使用很方便，但它不会包括在项目的依赖模块列表中。<br>更规范化的操作是使用本地安装CLI包，然后用相对路径或是npm脚本中运行它。</p>
+<h4 id="本地安装"><a href="#本地安装" class="headerlink" title="本地安装"></a>本地安装</h4><p>先用npm init 一路回车来创建一个项目，得到package.json</p>
+<p>然后<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack --save-dev --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure></p>
+<p>安装webpack，我这里使用了淘宝镜像</p>
+<p>为方便后面实例，再安装个lodash：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install lodash --save --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure></p>
+<h2 id="使用Webpack"><a href="#使用Webpack" class="headerlink" title="使用Webpack"></a>使用Webpack</h2><h4 id="npm-scripts中使用"><a href="#npm-scripts中使用" class="headerlink" title="npm scripts中使用"></a>npm scripts中使用</h4><p>首先创建src目录和index.js文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir src &amp;&amp; cd src</span><br><span class="line">vim index.js</span><br></pre></td></tr></table></figure></p>
+<p>index.js内容很简单，简单输入数组中各个数的平方，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">var _ = require(&apos;lodash&apos;);</span><br><span class="line"></span><br><span class="line">console.log(_.map([1,2,3,4,5,6], function(n) &#123;</span><br><span class="line">		return n*n;</span><br><span class="line">	&#125;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+<p>备注，关于这里的lodash模块引用：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">// 这里引用lodash有两种方式，分别如下：</span><br><span class="line">var _ = require(&apos;lodash&apos;)</span><br><span class="line">import _ from &apos;lodash&apos;</span><br><span class="line"></span><br><span class="line">// 这里两种方式在webpack中都能工作</span><br><span class="line">// 只是第一种是常见在nodejs开发中，是commonJs规范的一部分</span><br><span class="line">// 第二种属于ES6中新的模块化加载规范</span><br></pre></td></tr></table></figure></p>
+<p>然后回到项目根目录，编辑package.json文件的scripts部分，新增build命令，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;build&quot;: &quot;webpack src/index.js dist/bundle.js&quot;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure></p>
+<p>就会生成dist/bundle.js，使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">node dist/bundle.js</span><br></pre></td></tr></table></figure></p>
+<p>就会运行该文件，也可以使用html将其跑在浏览器端。</p>
+<h4 id="使用Webpack配置文件"><a href="#使用Webpack配置文件" class="headerlink" title="使用Webpack配置文件"></a>使用Webpack配置文件</h4><p>上面的的实例我们是使用webpack命令行，但是如果使用更多的功能，我们就得使用webpack的配置文件</p>
+<p>一般的，我们会在项目根目录下创建一个配置文件：webpack.config.js，Webapck会默认寻找该文件，使用–config [filename]可以指定一个配置文件。</p>
+<p>我们来使用配置文件做上一个命令行中的事，新建webpack.config.js，内容如下:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    entry: &apos;./src/index.js&apos;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname, &apos;dist&apos;),</span><br><span class="line">        filename: &apos;bundle.js&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>package.json中的build只用写webpack：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;build&quot;: &quot;webpack&quot;,</span><br></pre></td></tr></table></figure></p>
+<p>然后：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure></p>
+<p>依然会像命令行一样成功打包。</p>
+<h4 id="更专业一点"><a href="#更专业一点" class="headerlink" title="更专业一点"></a>更专业一点</h4><p>打包前我们需要先删除dist目录，这里使用del-cli工具，可以不用顾虑操作系统差别。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install del-cli --save-dev --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure></p>
+<p>接着更新package.json中npm脚本如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;prebuild&quot;: &quot;del-cli dist -f&quot;,    // 删除目录</span><br><span class="line">    &quot;build&quot;: &quot;webpack&quot;,</span><br><span class="line">    &quot;execute&quot;: &quot;node dist/bundle.js&quot;,    // 运行打包出来的文件</span><br><span class="line">    &quot;start&quot;: &quot;npm run build -s &amp;&amp; npm run execute -s&quot;    // 打包</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure></p>
+<p> 这样我们使用起来就很方便了。</p>
+<h2 id="Webpack加载器-Loaders"><a href="#Webpack加载器-Loaders" class="headerlink" title="Webpack加载器 Loaders"></a>Webpack加载器 Loaders</h2><p>加载器可以提前帮我们转换或操作特定类型的文件，比如通过Babel加载器把ES6转为ES5，打包Css文件图片等等都会用到loader。</p>
+<p>这里我们以用Babel把ES6转为ES5为例，首先把刚才的index.js改为ES6写法。<br>vim index.js:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import _ from &apos;lodash&apos;;</span><br><span class="line"></span><br><span class="line">console.log(_.map([1,2,3,4,5,6], n =&gt; n*n));</span><br></pre></td></tr></table></figure></p>
+<p>安装依赖的包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm i -D babel-core babel-loader babel-preset-es2015 --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure></p>
+<p>然后新建.babelrc文件，内容如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;presets&quot;: [&quot;es2015&quot;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>编辑webapck.config.js文件如下（新增module）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    entry: &apos;./src/index.js&apos;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname, &apos;dist&apos;),</span><br><span class="line">        filename: &apos;bundle.js&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    module: &#123;</span><br><span class="line">	  rules: [</span><br><span class="line">	    &#123; test: /\.js$/, exclude: /node_modules/, loader: &quot;babel-loader&quot; &#125;</span><br><span class="line">	  ]</span><br><span class="line">	&#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>然后执行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure></p>
+<p>loader的作用很大，常见还有style-loader，file-loader等等。这个大家可以在实践中发掘。</p>
+<h2 id="插件"><a href="#插件" class="headerlink" title="插件"></a>插件</h2><h4 id="Loader和Plugins的不同"><a href="#Loader和Plugins的不同" class="headerlink" title="Loader和Plugins的不同"></a>Loader和Plugins的不同</h4><p>Loader主要在加载两字，是用于预处理文件的。而插件一般是用来增强Webpack功能的</p>
+<h4 id="使用插件"><a href="#使用插件" class="headerlink" title="使用插件"></a>使用插件</h4><p>这里只用CleanWebpackPlugin插件举一个简单例子，CleanWebpackPlugin用来删除目录的（和我们上面的del-cli功能差不多）<br>安装包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install clean-webpack-plugin --save-dev --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure></p>
+<p>编辑webapck.config.js文件如下（新增plugins）：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const CleanWebpackPlugin = require(&apos;clean-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    entry: &apos;./src/index.js&apos;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname, &apos;dist&apos;),</span><br><span class="line">        filename: &apos;bundle.js&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    module: &#123;</span><br><span class="line">	  rules: [</span><br><span class="line">	    &#123; test: /\.js$/, exclude: /node_modules/, loader: &quot;babel-loader&quot; &#125;</span><br><span class="line">	  ]</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	plugins: [</span><br><span class="line">	    new CleanWebpackPlugin([&apos;dist&apos;])</span><br><span class="line">	]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>然后使用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run build</span><br></pre></td></tr></table></figure></p>
+<p>这里只是简单讲下plugins用法，Webpack还有许多有用的插件</p>
+<h2 id="多文件打包"><a href="#多文件打包" class="headerlink" title="多文件打包"></a>多文件打包</h2><p>上述例子只是只有一个输入文件index.js，一个输出文件bundle.js，假如我们有多个文件分别打包怎么办呢？<br>写法如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    entry: &#123;</span><br><span class="line">	    index: &apos;./src/index.js&apos;,</span><br><span class="line">	    app: &apos;./src/app.js&apos;</span><br><span class="line">	&#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname, &apos;dist&apos;),</span><br><span class="line">        filename: &apos;[name].bundle.js&apos;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>这样就可以通过入口文件动态生成bundle文件。</p>
+<h2 id="开发环境"><a href="#开发环境" class="headerlink" title="开发环境"></a>开发环境</h2><p>webpack提供许多供开发时使用的功能，下面简单介绍下：</p>
+<h4 id="代码映射（Source-map）"><a href="#代码映射（Source-map）" class="headerlink" title="代码映射（Source map）"></a>代码映射（Source map）</h4><p>Webpack在打包后如果发生错误，很难定位到，Source map就是解决这个问题的，它可以把编译后的代码映射回原始源码，便于我们定位错误。Webpack提供了十种风格的代码映射，具体见：<a href="https://webpack.js.org/configuration/devtool/#devtool" target="_blank" rel="external">官方手册devtool</a>，这里我们以inline-source-map为例。</p>
+<p>启用Source map很简单，就是module.exports中新增devtool属性，然后指定映射风格。如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const CleanWebpackPlugin = require(&apos;clean-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    devtool: &apos;inline-source-map&apos;,</span><br><span class="line">    entry: &apos;./src/index.js&apos;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname, &apos;dist&apos;),</span><br><span class="line">        filename: &apos;bundle.js&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    module: &#123;</span><br><span class="line">	  rules: [</span><br><span class="line">	    &#123; test: /\.js$/, exclude: /node_modules/, loader: &quot;babel-loader&quot; &#125;</span><br><span class="line">	  ]</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	plugins: [</span><br><span class="line">	    new CleanWebpackPlugin([&apos;dist&apos;])</span><br><span class="line">	]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>这样我们在打包时便能很清楚的在控制台上看到相应错误。</p>
+<h4 id="Webpack-dev-server插件"><a href="#Webpack-dev-server插件" class="headerlink" title="Webpack-dev-server插件"></a>Webpack-dev-server插件</h4><p>Webpack-dev-server提供了一个简单的服务器环境，并提供实时加载代码功能。<br>先安装包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install webpack-dev-server --save-dev --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure></p>
+<p>启用只需配置文件中设置devServer，如下：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const CleanWebpackPlugin = require(&apos;clean-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    devtool: &apos;inline-source-map&apos;,</span><br><span class="line">    devServer: &#123;</span><br><span class="line">    	contentBase: path.resolve(__dirname, &apos;dist&apos;) </span><br><span class="line">    &#125;,</span><br><span class="line">    entry: &apos;./src/index.js&apos;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname, &apos;dist&apos;),</span><br><span class="line">        filename: &apos;bundle.js&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    module: &#123;</span><br><span class="line">	  rules: [</span><br><span class="line">	    &#123; test: /\.js$/, exclude: /node_modules/, loader: &quot;babel-loader&quot; &#125;</span><br><span class="line">	  ]</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	plugins: [</span><br><span class="line">	    new CleanWebpackPlugin([&apos;dist&apos;])</span><br><span class="line">	]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>新增npm scripts，增加一条run-server命令，编辑package.json:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;start:dev&quot;: &quot;webpack-dev-server --open&quot;</span><br></pre></td></tr></table></figure></p>
+<p>然后运行：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm run start:dev</span><br></pre></td></tr></table></figure></p>
+<p>浏览器就会自动加载应用的页面默认在：localhost:8080显示，当然也可以通过在devServer设置类似port: 9000指定端口，更多设置请查看官方文档手册。</p>
+<h2 id="生产环境"><a href="#生产环境" class="headerlink" title="生产环境"></a>生产环境</h2><p>命令行执行webpack -p 时就会构建生产环境应用，它会完成以下步骤：</p>
+<ul>
+<li>使用 UglifyJsPlugin (webpack.optimize.UglifyJsPlugin) 压缩 JS 文件 (此插件和 uglifyjs-webpack-plugin 相同)</li>
+<li>运行 LoaderOptionsPlugin 插件，这个插件是用来迁移的，见 document</li>
+<li>设置 NodeJS 的环境变量，触发某些 package 包以不同方式编译</li>
+</ul>
+<h4 id="在配置文件中使用process-env-NODE-ENV环境变量"><a href="#在配置文件中使用process-env-NODE-ENV环境变量" class="headerlink" title="在配置文件中使用process.env.NODE_ENV环境变量"></a>在配置文件中使用process.env.NODE_ENV环境变量</h4><p>Webpack -p 相当于 webpack –optimize-minimize –define process.env.NODE_ENV=”‘production’”，但是在Webpack配置文件无法读取process.env.NODE_ENV环境变量</p>
+<p>这里我们可以使用cross-env包：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev cross-env --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure></p>
+<p>设置package.json的build为生产版本<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;build&quot;: &quot;cross-env NODE_ENV=production webpack -p&quot;,</span><br></pre></td></tr></table></figure></p>
+<p>现在可以在配置文件中使用process.env.NODE_ENV了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const CleanWebpackPlugin = require(&apos;clean-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    devtool: &apos;inline-source-map&apos;,</span><br><span class="line">    devServer: &#123;</span><br><span class="line">    	contentBase: path.resolve(__dirname, &apos;dist&apos;) </span><br><span class="line">    &#125;,</span><br><span class="line">    entry: &apos;./src/index.js&apos;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname, &apos;dist&apos;),</span><br><span class="line">        filename: process.env.NODE_ENV === &apos;production&apos; ? &apos;[name].[chunkhash].js&apos; : &apos;[name].bundle.js&apos;    // 根据环境为文件命名</span><br><span class="line">    &#125;,</span><br><span class="line">    module: &#123;</span><br><span class="line">	  rules: [</span><br><span class="line">	    &#123; test: /\.js$/, exclude: /node_modules/, loader: &quot;babel-loader&quot; &#125;</span><br><span class="line">	  ]</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	plugins: [</span><br><span class="line">	    new CleanWebpackPlugin([&apos;dist&apos;])</span><br><span class="line">	]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<h4 id="多配置文件配置"><a href="#多配置文件配置" class="headerlink" title="多配置文件配置"></a>多配置文件配置</h4><p>在常规开发中，我们一般会为开发环境和生产环境设置不同的配置文件。这里我们先一个基本文件，包含所有环境都包含的配置，然后使用webapck-merge将它和特定环境的配置文件合并并导出。</p>
+<p>首先安装webpack-merge：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save-dev webpack-merge --registry=https://registry.npm.taobao.org</span><br></pre></td></tr></table></figure></p>
+<p>webpack.common.js：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const CleanWebpackPlugin = require(&apos;clean-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    entry: &apos;./src/index.js&apos;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname, &apos;dist&apos;)</span><br><span class="line">    &#125;,</span><br><span class="line">    module: &#123;</span><br><span class="line">	  rules: [</span><br><span class="line">	    &#123; test: /\.js$/, exclude: /node_modules/, loader: &quot;babel-loader&quot; &#125;</span><br><span class="line">	  ]</span><br><span class="line">	&#125;,</span><br><span class="line"></span><br><span class="line">	plugins: [</span><br><span class="line">	    new CleanWebpackPlugin([&apos;dist&apos;])</span><br><span class="line">	]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>webpack.dev.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const webpack = require(&apos;webpack&apos;);</span><br><span class="line">const Merge = require(&apos;webpack-merge&apos;);</span><br><span class="line">const CommonConfig = require(&apos;./webpack.common.js&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = Merge(CommonConfig, &#123;</span><br><span class="line">    devtool: &apos;inline-source-map&apos;,</span><br><span class="line">    devServer: &#123;</span><br><span class="line">    	contentBase: path.resolve(__dirname, &apos;dist&apos;) </span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: &apos;[name].bundle.js&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [</span><br><span class="line">	    new webpack.DefinePlugin(&#123;</span><br><span class="line">	      &apos;process.env.NODE_ENV&apos;: JSON.stringify(&apos;development&apos;)</span><br><span class="line">	    &#125;),</span><br><span class="line">	    new webpack.NamedModulesPlugin()</span><br><span class="line">	 ]</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>webpack.prod.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">const webpack = require(&apos;webpack&apos;);</span><br><span class="line">const Merge = require(&apos;webpack-merge&apos;);</span><br><span class="line">const CommonConfig = require(&apos;./webpack.common.js&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = Merge(CommonConfig, &#123;</span><br><span class="line">    devtool: &apos;cheap-module-source-map&apos;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        filename: &apos;[name].[chunkhash].js&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    plugins: [</span><br><span class="line">	    new webpack.DefinePlugin(&#123;</span><br><span class="line">	      &apos;process.env.NODE_ENV&apos;: JSON.stringify(&apos;production&apos;)</span><br><span class="line">	    &#125;),</span><br><span class="line">	    new webpack.optimize.UglifyJsPlugin()</span><br><span class="line">	]</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>然后在package.json中新增build:dev和build:prod scripts：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&quot;build:dev&quot;: &quot;webpack-dev-server --open --config webpack.dev.js&quot;,</span><br><span class="line">&quot;build:prod&quot;: &quot;webpack --progress --config webpack.prod.js&quot;</span><br></pre></td></tr></table></figure></p>
+<p>现在只需执行npm run build:dev或npm run build:prod便可以得到开发版或者生产版了</p>
+<h2 id="代码分离"><a href="#代码分离" class="headerlink" title="代码分离"></a>代码分离</h2><p>举个例子，比如我们有两个js文件，都引入了lodash，在打包时这两个入口文件都会引入lodash，这很大程度上造成了冗余，在同一个页面我们只需引入一个lodash就可以了。</p>
+<p>我们可以使用CommonChunkPlugin插件来将相同部分提取出来放到一个单独模块中。</p>
+<p>为达到演示效果，新增一个src/test.js：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">const _ = require(&apos;lodash&apos;);</span><br><span class="line"></span><br><span class="line">var str = _.join([&apos;a&apos;, &apos;b&apos;, &apos;c&apos;]);</span><br><span class="line"></span><br><span class="line">console.log(str);</span><br></pre></td></tr></table></figure></p>
+<p>编辑webpack.config.js：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br></pre></td><td class="code"><pre><span class="line">const webpack = require(&apos;webpack&apos;);</span><br><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const CleanWebpackPlugin = require(&apos;clean-webpack-plugin&apos;);</span><br><span class="line">const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    devtool: &apos;inline-source-map&apos;,</span><br><span class="line">    devServer: &#123;</span><br><span class="line">        contentBase: path.resolve(__dirname, &apos;dist&apos;) </span><br><span class="line">    &#125;,</span><br><span class="line">    entry: &#123;</span><br><span class="line">        index: &apos;./src/index.js&apos;,</span><br><span class="line">        test: &apos;./src/test.js&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname, &apos;dist&apos;),</span><br><span class="line">        filename: &apos;[name].bundle.js&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    module: &#123;</span><br><span class="line">        rules: [</span><br><span class="line">            &#123; test: /\.js$/, exclude: /node_modules/, loader: &quot;babel-loader&quot; &#125;</span><br><span class="line">          ]</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        plugins: [</span><br><span class="line">            new HtmlWebpackPlugin(&#123;</span><br><span class="line">               title: &apos;webpack demo&apos;,</span><br><span class="line">               filename: &apos;index.html&apos;</span><br><span class="line">            &#125;),</span><br><span class="line">            new CleanWebpackPlugin([&apos;dist&apos;]),</span><br><span class="line">            new webpack.optimize.CommonsChunkPlugin(&#123;</span><br><span class="line">                name: &apos;common&apos; // 抽取出的模块的模块名</span><br><span class="line">            &#125;),</span><br><span class="line">        ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>这样就会打包出公共的common.bundle.js和各自的index.bundle.js和test.bundle.js文件。</p>
+<h4 id="懒加载（Lazy-loading）"><a href="#懒加载（Lazy-loading）" class="headerlink" title="懒加载（Lazy loading）"></a>懒加载（Lazy loading）</h4><p>我们可以使用import()来实现懒加载，在需要的时候才加载相应的模块，减少应用初始化时加载暂不需要的模块的压力，提高程序运行速度。</p>
+<p>编辑src/hello.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">console.log(&quot;The hello.js module has loaded!&quot;);</span><br><span class="line"></span><br><span class="line">export default function hello() &#123;</span><br><span class="line">	console.log(&apos;hello&apos;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>编辑src/say.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const btn = document.getElementById(&quot;.clickMe&quot;);</span><br><span class="line">btn.onclick = function() &#123;</span><br><span class="line">	import(/* webpackChunkName: &quot;hello&quot; */ &apos;./hello&apos;).then(function(module) &#123;</span><br><span class="line">		var hello = module.default;</span><br><span class="line">		hello();</span><br><span class="line">	&#125;);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>编辑webpack.config.js<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">const path = require(&apos;path&apos;);</span><br><span class="line">const CleanWebpackPlugin = require(&apos;clean-webpack-plugin&apos;);</span><br><span class="line">const HtmlWebpackPlugin = require(&apos;html-webpack-plugin&apos;);</span><br><span class="line"></span><br><span class="line">module.exports = &#123;</span><br><span class="line">    devtool: &apos;inline-source-map&apos;,</span><br><span class="line">    devServer: &#123;</span><br><span class="line">        contentBase: path.resolve(__dirname, &apos;dist&apos;) </span><br><span class="line">    &#125;,</span><br><span class="line">    entry: &#123;</span><br><span class="line">        say: &apos;./src/say.js&apos;,</span><br><span class="line">        hello: &apos;./src/hello.js&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    output: &#123;</span><br><span class="line">        path: path.resolve(__dirname, &apos;dist&apos;),</span><br><span class="line">        filename: &apos;[name].bundle.js&apos;,</span><br><span class="line">        chunkFilename: &apos;[name].bundle.js&apos;</span><br><span class="line">    &#125;,</span><br><span class="line">    module: &#123;</span><br><span class="line">          rules: [</span><br><span class="line">          ]</span><br><span class="line">        &#125;,</span><br><span class="line"></span><br><span class="line">        plugins: [</span><br><span class="line">            new HtmlWebpackPlugin(&#123;</span><br><span class="line">               title: &apos;webpack demo&apos;,</span><br><span class="line">               filename: &apos;index.html&apos;</span><br><span class="line">            &#125;),</span><br><span class="line">            new CleanWebpackPlugin([&apos;dist&apos;])</span><br><span class="line">        ]</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure></p>
+<p>打包后新建一个html文件，包含一个id为clickMe的button，然后运行html，点击按钮。就会看到效果。</p>
+<p>好了，webpack的总结就到这里了，这个只是大致入门了解，更多的还需要过一遍官方文档，然后结合实际项目才能使用好webpack。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://rootrl.github.com/2017/10/10/Webpack学习笔记/" data-id="cji4j675a000xpqvhjnfjfyg0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://rootrl.github.com/2017/10/10/Webpack学习笔记/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/10/10/Webpack学习笔记/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Npm常见" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -293,7 +513,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2017/09/29/Npm常见/" data-id="cjgf6w70n000jmuvhmbbwrdle" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="https://rootrl.github.com/2017/09/29/Npm常见/" data-id="cji4j674z000cpqvhkh99nvjo" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -361,7 +581,7 @@
 
             
     
-        <a href="https://rootrl.github.com/2017/09/29/Npm常见/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/09/29/Npm常见/">Comentarios</a>
+        <a href="https://rootrl.github.com/2017/09/29/Npm常见/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/09/29/Npm常见/">Comments</a>
     
 
         </footer>
@@ -480,7 +700,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2017/09/26/Vue学习笔记-基础篇/" data-id="cjgf6w70t000tmuvhjhetqucu" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="https://rootrl.github.com/2017/09/26/Vue学习笔记-基础篇/" data-id="cji4j6758000upqvhg3zu5oqr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -548,180 +768,7 @@
 
             
     
-        <a href="https://rootrl.github.com/2017/09/26/Vue学习笔记-基础篇/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/09/26/Vue学习笔记-基础篇/">Comentarios</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-PHP-OPcodes实战：PHP类名和方法同名引起的问题" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/" itemprop="url">
-            <img src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/opcode_result.png" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/">PHP OPcodes实战：PHP类名和方法同名引起的问题</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/">
-            <time datetime="2017-09-24T20:28:43.000Z" itemprop="datePublished">2017-09-25</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/PHP/">PHP</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Opcodes/">Opcodes</a>, <a class="tag-link" href="/tags/PHP/">PHP</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>我刚开始是想用Php Opcodes来解决问题的，但是并没有派上用场，不过过程很详细的记录了，当是一个Opcodes使用教程吧。</p>
-<h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">abstract class Base</span><br><span class="line">&#123;</span><br><span class="line">    abstract public function child();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Child extends Base</span><br><span class="line">&#123;</span><br><span class="line">    public function child()</span><br><span class="line">    &#123;</span><br><span class="line">        echo &quot;child&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$class = new Child();</span><br></pre></td></tr></table></figure>
-<p>这里结果直接显示 child（注意是直接打印出”child”字符，我这里并没有调用child这个方法，Why?）</p>
-<p>我试着写两个抽象方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">abstract class Base</span><br><span class="line">&#123;</span><br><span class="line">    abstract public function foo();</span><br><span class="line">    abstract public function bar();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Child extends Base</span><br><span class="line">&#123;</span><br><span class="line">    public function foo()</span><br><span class="line">    &#123;</span><br><span class="line">        echo &quot;\n foo \n&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function bar()</span><br><span class="line">    &#123;</span><br><span class="line">        echo &quot;\n bar \n&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$class = new Child();</span><br></pre></td></tr></table></figure></p>
-<p>结果正常，什么也没显示。那为什么有一个抽象方法的时候会直接显示呢？</p>
-<p>考虑到我这里换代码了，于是删除一个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">abstract class Base</span><br><span class="line">&#123;</span><br><span class="line">    abstract public function foo();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Child extends Base</span><br><span class="line">&#123;</span><br><span class="line">    public function foo()</span><br><span class="line">    &#123;</span><br><span class="line">        echo &quot;\n foo \n&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$class = new Child();</span><br></pre></td></tr></table></figure></p>
-<p>结果也正常，那再回头看第一个，方法。结构没什么不同，不过方法的名称和类的名称好像同名，但是这个原因吗？</p>
-<h2 id="深入"><a href="#深入" class="headerlink" title="深入"></a>深入</h2><p>于是想到php的Opcode可以查看内部执行情况</p>
-<p>具体见鸟哥文章：<a href="http://www.laruence.com/2008/06/18/221.html" target="_blank" rel="external">http://www.laruence.com/2008/06/18/221.html</a></p>
-<p>PHP官方有个叫VLD的扩展可以查看opcode</p>
-<p>安装:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http://pecl.php.net/get/vld-0.14.0.tgz</span><br><span class="line">tar zxvf vld-0.14.0.tgz</span><br><span class="line">cd vld-0.14.0</span><br><span class="line">phpize # 编译php扩展，根据系统信息生成对应的configure文件</span><br><span class="line">./configure -with-php-config=/usr/local/php/bin/php-config --enable-vld #</span><br></pre></td></tr></table></figure></p>
-<p>配置编译vld的php-config路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
-<p>在 php.ini 中激活vld<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extension=vld.so</span><br></pre></td></tr></table></figure></p>
-<p>执行php -m | grep ‘vld’ 看是否安装成功</p>
-<p>使用说明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-dvld.active=1; # 使用vld扩展</span><br><span class="line">-dvld.execute=0 # 不执行该文件 默认为1</span><br><span class="line">-dvld.verbosity=3# 显示信息 0-3 个等级 3最高</span><br><span class="line">php -dvld.active=1 -dvld.execute=0 foo.php # 查看 foo.php 的opcode</span><br></pre></td></tr></table></figure></p>
-<p>回到问题：<br>查看之前那个类的opcode</p>
-<p><img src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/opcode_result.png" alt="此处输入图片的描述"></p>
-<p>读懂cpcode前提<br>这其中，ASSIGN、ECHO、RETURN 这些 opcode TOKEN具体意义可参考官方文档：<a href="http://php.net/manual/en/internals2.opcodes.list.php" target="_blank" rel="external">http://php.net/manual/en/internals2.opcodes.list.php</a></p>
-<p>VLD说明：</p>
-<ul>
-<li>Branch analysis from position 这条信息多在分析数组时使用。</li>
-<li>Return found 是否返回，这个基本上有都有。</li>
-<li>filename 分析的文件名</li>
-<li>function name 函数名，针对每个函数VLD都会生成一段如上的独立的信息，这里显示当前函数的名称</li>
-<li>number of ops 生成的操作数</li>
-<li>compiled vars 编译期间的变量，这些变量是在PHP5后添加的，它是一个缓存优化。这样的变量在PHP源码中以IS_CV标记。</li>
-<li>op list 生成的中间代码的变量列表</li>
-</ul>
-<p>好吧，最后通过opcode没有解决这个这个问题，因为两者的opcode是一样。。</p>
-<p>后来弄懂了，这个问题简单讲就是一个兼容问题，在老的php版本中（5以前），如果类的方法和类同名的话，这个方法相当于一个构造函数。</p>
-<p>php官方手册中也有写：</p>
-<p><img src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/construct.png" alt="此处输入图片的描述"></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://rootrl.github.com/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/" data-id="cjgf6w70r000omuvhfql7cpnl" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://rootrl.github.com/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/">Comentarios</a>
+        <a href="https://rootrl.github.com/2017/09/26/Vue学习笔记-基础篇/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/09/26/Vue学习笔记-基础篇/">Comments</a>
     
 
         </footer>
@@ -732,7 +779,7 @@
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/3/">&laquo; Anterior</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">Siguiente  &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/3/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/5/">Next &raquo;</a>
     </nav>
 </section>
             
@@ -741,9 +788,28 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/06/07/用Golang撸了个小工具/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/Golang/">Golang</a></p>
+                            <p class="item-title"><a href="/2018/06/07/用Golang撸了个小工具/" class="title">用Golang撸了个小工具</a></p>
+                            <p class="item-date"><time datetime="2018-06-07T12:38:02.000Z" itemprop="datePublished">2018-06-07</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -821,25 +887,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2017/10/25/Docker实践-运行Nginx和PHP环境/" class="thumbnail">
-    
-    
-        <span style="background-image:url(https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/docker-logo.jpg)" alt="Docker实践 - 运行Nginx和PHP环境" class="thumbnail-image"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/虚拟机-容器/">虚拟机/容器</a></p>
-                            <p class="item-title"><a href="/2017/10/25/Docker实践-运行Nginx和PHP环境/" class="title">Docker实践 - 运行Nginx和PHP环境</a></p>
-                            <p class="item-date"><time datetime="2017-10-24T19:49:10.000Z" itemprop="datePublished">2017-10-25</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -847,34 +894,34 @@
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Categorias</h3>
+        <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">4</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">2</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">4</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Archivos</h3>
+        <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Etiquetas</h3>
+        <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
