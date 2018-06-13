@@ -3,14 +3,19 @@
 <head>
     <meta charset="utf-8">
     
-    <title>Rootrl&#39;s blog</title>
+    <title>Laravel中的核心概念 | Rootrl&#39;s blog</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
-    <meta property="og:type" content="website">
-<meta property="og:title" content="Rootrl&#39;s blog">
-<meta property="og:url" content="https://rootrl.github.com/index.html">
+    <meta name="description" content="导言Laravel是一款先进的现代化框架，里面有一些概念非常重要。在上手Laravel之前，我认为先弄懂这些概念是很有必要的。你甚至需要重温下PHP OOP知识。我相信很多人对比如getter setter以及invoke、call、_callStatic这些魔术方法甚至this、self、static这些关键字作用都还是很模糊的（我上一个老大喜欢问这种基础问题，然后答不上来--‘）。 DI &amp;a">
+<meta name="keywords" content="PHP,Laravel">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Laravel中的核心概念">
+<meta property="og:url" content="https://rootrl.github.com/2018/06/13/Laravel中的核心概念/index.html">
 <meta property="og:site_name" content="Rootrl&#39;s blog">
+<meta property="og:description" content="导言Laravel是一款先进的现代化框架，里面有一些概念非常重要。在上手Laravel之前，我认为先弄懂这些概念是很有必要的。你甚至需要重温下PHP OOP知识。我相信很多人对比如getter setter以及invoke、call、_callStatic这些魔术方法甚至this、self、static这些关键字作用都还是很模糊的（我上一个老大喜欢问这种基础问题，然后答不上来--‘）。 DI &amp;a">
+<meta property="og:updated_time" content="2018-06-13T10:45:13.548Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Rootrl&#39;s blog">
+<meta name="twitter:title" content="Laravel中的核心概念">
+<meta name="twitter:description" content="导言Laravel是一款先进的现代化框架，里面有一些概念非常重要。在上手Laravel之前，我认为先弄懂这些概念是很有必要的。你甚至需要重温下PHP OOP知识。我相信很多人对比如getter setter以及invoke、call、_callStatic这些魔术方法甚至this、self、static这些关键字作用都还是很模糊的（我上一个老大喜欢问这种基础问题，然后答不上来--‘）。 DI &amp;a">
     
 
     
@@ -191,16 +196,15 @@
 </aside>
 
             
-            <section id="main">
-    <article id="post-Laravel中的核心概念" class="article article-type-post" itemscope itemprop="blogPost">
+            <section id="main"><article id="post-Laravel中的核心概念" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
             <header class="article-header">
                 
     
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/06/13/Laravel中的核心概念/">Laravel中的核心概念</a>
+        <h1 class="article-title" itemprop="name">
+            Laravel中的核心概念
         </h1>
     
 
@@ -395,354 +399,31 @@
         </footer>
     </div>
     
-</article>
-
-
-
-    <article id="post-用Golang撸了个小工具" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
         
-        
-            <header class="article-header">
-                
+<nav id="article-nav">
     
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/06/07/用Golang撸了个小工具/">用Golang撸了个小工具</a>
-        </h1>
     
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/06/07/用Golang撸了个小工具/">
-            <time datetime="2018-06-07T12:38:02.000Z" itemprop="datePublished">2018-06-07</time>
+        <a href="/2018/06/07/用Golang撸了个小工具/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">用Golang撸了个小工具</div>
         </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/Golang/">Golang</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Golang/">Golang</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>我们公司开发环境很特殊，一台本地服务器，然后分配多个ssh账户给开发者。平时上传代码只能ftp/sftp连接上传（以前用过samba共享，但被关了。。）。所以我们平时是在Phpstorm上用sftp远程打开服务器上的项目，然后设置自动上传。这样一般工作没问题。但是有个坑：Phpstorm无法捕获类似git checkout这些更改文件的变化。。所以也就无法让本地代码跟服务器保持一致了。所以也就诞生了想写个这个同步机制的念头，这种场景Golang很适合。于是就开始撸起来。。</p>
-<p>项目地址：<a href="https://github.com/rootrl/Mancy" target="_blank" rel="external">https://github.com/rootrl/Mancy</a></p>
-<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>大致思路是监测一个文件夹的变化（本地代码库），如果有变化就通过sftp上传到服务器上。</p>
-<p>监测文件变化用的是golang的fsnotify package，它提供的监测变化类型如下：</p>
-<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> (</span><br><span class="line">    FSN_CREATE = <span class="number">1</span></span><br><span class="line">    FSN_MODIFY = <span class="number">2</span></span><br><span class="line">    FSN_DELETE = <span class="number">4</span></span><br><span class="line">    FSN_RENAME = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">    FSN_ALL = FSN_MODIFY | FSN_DELETE | FSN_RENAME | FSN_CREATE</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
-<p>但是fsnotify有个坑就是只能监测一层文件夹的变化，多层文件夹需要自己遍历挂载事件。后续新建文件夹，重命名这种也要手动加事件。</p>
-<p>其中每个事件都对应一个处理通道，我的想法是让文件处理者和事件解耦，因为后面不一定是sftp来处理上传，也可能是rsync，也可能其他处理方式。所以后续处理者只用监听对应事件通道，处理者这里我用了golang的select实现了一个超时机制，有事件就处理，无事件有个几秒的等待时间。</p>
-<p>fsnotify这块代码见： <a href="https://github.com/rootrl/Mancy/blob/master/file_watcher.go" target="_blank" rel="external">https://github.com/rootrl/Mancy/blob/master/file_watcher.go</a><br>sftp hanlder见： <a href="https://github.com/rootrl/Mancy/blob/master/file_sftp_handler.go" target="_blank" rel="external">https://github.com/rootrl/Mancy/blob/master/file_sftp_handler.go</a></p>
-<p>sftp用的是github.com/pkg/sftp这个库，用起来还是挺顺手，但都是写底层的api，所以我单独封装了个sftp_util: <a href="https://github.com/rootrl/Mancy/blob/master/sftp_util.go" target="_blank" rel="external">https://github.com/rootrl/Mancy/blob/master/sftp_util.go</a> 有一些常见的上传文件/文件夹，删除文件/文件夹等操作</p>
-<p>以上基本能实现主要功能了，然后我还定义了个配置文件结构，通过对应Json字符可以把字段自动映射到这个结构上，供后续使用。这也是golang json包的方便之处。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>写这个项目主要是用来练手golang的，刚开始阶段，代码可能写得有点垃圾。。比如sftpClent客户端这些目前是用全局变量实现的，能用，但是不够优雅。。后续慢慢改进。。（可能永远不会。。）</p>
-<p>总之，Golang还是挺不错的！</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://rootrl.github.com/2018/06/07/用Golang撸了个小工具/" data-id="cjiczopvm0016ievhrtf2gv6y" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
     
-        <a href="https://rootrl.github.com/2018/06/07/用Golang撸了个小工具/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/06/07/用Golang撸了个小工具/">Comments</a>
-    
+</nav>
 
-        </footer>
-    </div>
+
     
 </article>
 
 
-
-    <article id="post-Javascript原型链、作用域、闭包学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
     
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/04/25/Javascript原型链、作用域、闭包学习笔记/">Javascript原型链、作用域、闭包学习笔记</a>
-        </h1>
     
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/04/25/Javascript原型链、作用域、闭包学习笔记/">
-            <time datetime="2018-04-25T14:21:25.000Z" itemprop="datePublished">2018-04-25</time>
-        </a>
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
     </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/前端/">前端</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/前端/Javascript/">Javascript</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Javascript/">Javascript</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ul>
-<li>值类型 boolean undefined string number</li>
-<li>引用类型 Object null function array</li>
-</ul>
-<h4 id="类型判断"><a href="#类型判断" class="headerlink" title="类型判断"></a>类型判断</h4><p>值类型 typeof<br>引用类型 instanceof</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var fn = function()&#123;&#125;</span><br><span class="line">console.log(fn instanceof Object) // function</span><br><span class="line"></span><br><span class="line">var foo = &quot;hello&quot;</span><br><span class="line">console.log(typeof foo) // string</span><br><span class="line"></span><br><span class="line">console.log(typeof null) // object</span><br><span class="line"></span><br><span class="line">但是：</span><br><span class="line">null instanceof Object === false</span><br><span class="line"></span><br><span class="line">// null 为object是javascript遗留的一个bug</span><br></pre></td></tr></table></figure>
-<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p><strong>Tip：一切引用类型都是对象，对象是属性的集合</strong></p>
-<p>对象是通过函数创建的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var object = &#123;a: 1, b:1&#125; // 语法糖</span><br></pre></td></tr></table></figure></p>
-<p>真实情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var object = new Object();</span><br><span class="line">object.a = 1;</span><br><span class="line">object.b = 1;</span><br><span class="line"></span><br><span class="line">console.log(typof Object) // function</span><br></pre></td></tr></table></figure></p>
-<h3 id="原型-prototype"><a href="#原型-prototype" class="headerlink" title="原型 prototype"></a>原型 prototype</h3><p>函数是一种对象，每个函数都有一个默认的属性：prototype<br>这个prototype的值是一个对象（属性的集合）， 默认只有一个constructor的属性，指向这个函数本身</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var Fn = function()&#123;&#125;</span><br><span class="line">Fn.prototype.name = &quot;hello&quot;</span><br><span class="line">Fn.prototype.foo = function()&#123;&#125;</span><br><span class="line">var fn = new Fn()</span><br></pre></td></tr></table></figure>
-<p>Fn是一个函数，fn是通过Fn new出来的，这样fn对象就可以访问Fn.prototype中的属性<br>（问：不new就访问不了？是，但是为什么要new？是不是相当于类和类的实例）</p>
-<p>__proto__是隐式属性，这个属性引用了创建这个对象的函数的prototype, 即：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fn.__proto__ === Fn.prototype</span><br></pre></td></tr></table></figure></p>
-<p>每个函数都有一个prototype原型，每个对象都有一个__proto__隐式原型<br>(javascript 不希望开发者用到这个<strong>proto</strong>)</p>
-<p>每个对象都有一个__proto__属性，指向创建该对象的函数的prototype</p>
-<p><strong>Object.prototype 的__proto__指向null</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var o = new Foo();</span><br></pre></td></tr></table></figure>
-<p>JavaScript 实际上执行的是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var o = new Object();</span><br><span class="line">o.__proto__ = Foo.prototype;</span><br><span class="line">Foo.call(o);</span><br><span class="line"></span><br><span class="line">function Foo()&#123;&#125;</span><br><span class="line">var fn = new Foo</span><br><span class="line">console.log(fn instanceof Foo) // true</span><br></pre></td></tr></table></figure>
-<h3 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h3><p>Instanceof 查找规则<br>Instanceof运算符的第一个变量是一个对象，暂时称为A；第二个变量一般是一个函数，暂时称为B。</p>
-<p><strong>Instanceof的判断规则是：沿着A的__proto__这条线来找，同时沿着B的prototype这条线来找，如果两条线能找到同一个引用，即同一个对象，那么就返回true。如果找到终点还未重合，则返回false</strong></p>
-<p>Instanceof 表达的是一种继承关系，或者原型链的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">function Fn()&#123;&#125;</span><br><span class="line"></span><br><span class="line">var fn = new Fn()</span><br><span class="line"></span><br><span class="line">fn.a = 10</span><br><span class="line"></span><br><span class="line">Fn.prototype.a = 100</span><br><span class="line">Fn.prototype.b = 200</span><br><span class="line"></span><br><span class="line">console.log(fn.a)</span><br><span class="line">console.log(fn.b)</span><br></pre></td></tr></table></figure></p>
-<p>fn是通过Fn new过来的，a是fn的基本属性，b从Fn.prototype得来，因为fn.__proto__指向是Foo.prototype</p>
-<h3 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h3><p><strong>访问一个对象属性时，先从基本属性上查找，如果没有再沿着__proto__这条链往上找，这就是原型链</strong></p>
-<p>判断一个属性是基本属性还是从原型链上查找的，用hasOwnProperty</p>
-<p>对象的方法都可以通过prototype扩展</p>
-<h3 id="上下文环境"><a href="#上下文环境" class="headerlink" title="上下文环境"></a>上下文环境</h3><p>Javascript准备工作：</p>
-<p>变量、函数表达式  =&gt; 变量的声明，默认赋值为undefined （后期在执行过程中赋值）</p>
-<p>this  =&gt; 赋值 this无论哪个情况都有值，至于值是什么，跟上下文环境有关</p>
-<p>函数声明 =&gt; 赋值</p>
-<p>函数体的执行上下文需要附加<br>参数 =》 赋值<br>arguments =&gt; 赋值<br>自由变量的取值作用域 =&gt; 赋值</p>
-<p>Javascript 在执行一段代码前都会进行一些准备工作来生成执行上下文，这个代码段分三种情况：全局环境，函数体，eval</p>
-<p>代码段就是一段文本形式的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 全局：</span><br><span class="line">&lt;script&gt;</span><br><span class="line">alert(&apos;123&apos;)</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">// eval:</span><br><span class="line">eval(&quot;alert(&apos;123&apos;)&quot;)</span><br><span class="line"></span><br><span class="line">// function :</span><br><span class="line">var fn =new Function(&quot;x&quot;, &quot;console.log(x)&quot;)</span><br></pre></td></tr></table></figure></p>
-<p><strong>函数每被调用一次，都会产生一个新的执行上下文环境</strong><br><strong>函数在定义的时候（不是调用的时候），就已经确定了函数内部自由变量的作用域</strong></p>
-<p><strong>自由变量：</strong><br>在A作用域中使用的变量x，却没有在A作用域中声明（其他作用域中声明的），对于A作用域来说，x就是一个自由变量。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var a = 10</span><br><span class="line"></span><br><span class="line">function fn() &#123;</span><br><span class="line">console.log(a) // 是自由变量 函数创建时就确定了a要取值的作用域</span><br><span class="line">                        // 下级作用域可以获取上级作用域的变量，反之不行</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function bar(f) &#123;</span><br><span class="line">var a = 20</span><br><span class="line">f() // 10 而不是20</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar(fn)</span><br></pre></td></tr></table></figure>
-<p>执行上下文环境通俗定义：在执行代码之前，把将要用到的所有的变量都事先拿出来，有的直接赋值，有的先用undefined占个空</p>
-<p><strong>js在代码执行过程中，会有数不清的函数调用，每个函数调用会产生多个上下文环境，这么多的上下文环境需要管理，销毁而释放内存（上下文环境执行栈）</strong></p>
-<h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><p>this在函数中到底取何值，是在函数真正被调用的时候确定的，函数定义的时候确定不了，因为this的取值是执行上下文环境的一部分，每次调用函数，都会产生一个新的执行上下文环境。</p>
-<p>this取值一共分四种情况：</p>
-<p><strong>构造函数</strong><br>构造函数是用来new对象的函数，第一个字母大写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function Foo() &#123;</span><br><span class="line">this.name = &quot;test&quot;</span><br><span class="line">console.log(this)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var fn = new Foo()</span><br><span class="line">fn.name // test</span><br></pre></td></tr></table></figure></p>
-<p>以上this为即将new出来的对象的</p>
-<p>但是如果直接把Foo作为函数调用,this就是window</p>
-<p><strong>函数作为对象的一个属性</strong><br>如果函数作为对象的一个属性时，并且作为对象的一个属性被调用时，函数的this指向该对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">    x: 10,</span><br><span class="line">    fn: function() &#123;</span><br><span class="line">        console.log(this, this.x)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ojb.fn() // this指向obj对象</span><br></pre></td></tr></table></figure></p>
-<p>如果不是作为obj被调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var fn1 = obj.fn</span><br><span class="line"></span><br><span class="line">fn1()</span><br></pre></td></tr></table></figure></p>
-<p>那么this就是指向window，this.x为undefined</p>
-<p><strong>函数使用call apply调用</strong></p>
-<p>当用call apply调用时，this指向被传入的对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">x: 10</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var fn = function() &#123;</span><br><span class="line">console.log(this)</span><br><span class="line">console.log(this.x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn.call(obj)</span><br></pre></td></tr></table></figure></p>
-<p><strong>全局&amp;调用普通函数</strong><br>console.log(this === window) true</p>
-<p>普通函数在调用时，其中的this也都是window</p>
-<h3 id="执行上下文栈"><a href="#执行上下文栈" class="headerlink" title="执行上下文栈"></a>执行上下文栈</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">执行上下文栈</span><br><span class="line">                        压栈                        出栈（销毁）</span><br><span class="line">全局上下文环境 =》 函数上下文环境 =》 全局上下文环境</span><br><span class="line">                                全局上下文环境</span><br></pre></td></tr></table></figure>
-<p>代码段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var a = 10,</span><br><span class="line">        fn,</span><br><span class="line">        bar = function(x) &#123;</span><br><span class="line">            var b = 5</span><br><span class="line">            fn(x + b) // 进入fn全局上下文环境</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fn = function(y) &#123;</span><br><span class="line">    var c = 5</span><br><span class="line">    console.log(y+c)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar(10)// 进入bar上下文环境</span><br></pre></td></tr></table></figure></p>
-<p>在执行代码之前将创建全局上下文环境</p>
-<h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><p>Js没有块级作用域，就是{}中间的语句 例如if for这些<br>所以要一开始声明变量 避免歧义</p>
-<p><strong>JS除了全局作用域外，只有函数可以创建的作用域</strong></p>
-<p><strong>作用域在函数定义的时候就已经确定，而不是调用的时候。（同一个作用域有不同的上下文执行环境）（this取值是函数调用的时候确定的）</strong></p>
-<p><strong>如果要查找一个作用域下某个变量的值，就需要找到这个作用域下对应的执行上下文环境，再在其中寻找变量的值</strong></p>
-<p>自由变量的取值要到创建这个变量的环境去取，而不是调用（静态作用域）。</p>
-<p><strong>如果在全局没找到，则未定义。如果是函数作用域，则去创建该函数的作用域去找</strong></p>
-<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>两种应用情况：</p>
-<p><strong>1，函数作为返回值</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function fn()&#123;</span><br><span class="line">// 这里当执行完fn的时候，按道理讲应该销毁fn上下文执行环境，但是fn的返回值是一个函数（函数可以创建一个独立的作用域），而这个函数中也引用了max变量，所以max不能被销毁，销毁之后bar函数就找不到max的值了</span><br><span class="line">    var max = 10</span><br><span class="line">    </span><br><span class="line">    return function(x) &#123;</span><br><span class="line">        if (x &gt; max) &#123;</span><br><span class="line">        console.log(x)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var f1 = fn()，</span><br><span class="line">max = 100</span><br><span class="line"></span><br><span class="line">f1(15)  // 15 这里取值15证明fn的上下文环境没有被销毁，否则按照作用域链来说，max可以取到全局作用域中的值100</span><br></pre></td></tr></table></figure>
-<p><strong>2， 函数作为参数</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var max = 10;</span><br><span class="line"></span><br><span class="line">var fn = function (x)&#123;</span><br><span class="line">    if (x &gt; max) &#123;</span><br><span class="line">        console.log(x)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">(function(f)&#123;</span><br><span class="line">    var max = 100</span><br><span class="line">    f(15)</span><br><span class="line">&#125;)(fn)</span><br><span class="line">// max取值为10 （去创建这个函数的作用域取值）</span><br></pre></td></tr></table></figure></p>
-<p><strong>普通函数别调用完之后，其执行上下文环境将被销毁，其中的变量也会被同时销毁。但是在闭包中，其上下文执行环境不会被销毁</strong></p>
-<p>作用域和上下文执行环境：<br>作用域在函数定义的时候就已经确定，一个函数只有一个作用域，但是随着被调用的不同，会有多种上下文环境</p>
-<h3 id="参考学习"><a href="#参考学习" class="headerlink" title="参考学习"></a>参考学习</h3><p>学习自：<a href="http://www.cnblogs.com/wangfupeng1988/p/3977924.html" target="_blank" rel="external">http://www.cnblogs.com/wangfupeng1988/p/3977924.html</a></p>
-<p><strong>注：这个非常不错，墙裂推荐学习</strong></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/" data-id="cjiczopv7000gievh6sy4w15z" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/">Comments</a>
+</section>
     
 
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <nav id="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
-    </nav>
 </section>
             
                 
@@ -915,11 +596,13 @@
     <script>
     var disqus_config = function () {
         
-        this.page.identifier = '';
+            this.page.url = 'https://rootrl.github.com/2018/06/13/Laravel中的核心概念/';
+        
+        this.page.identifier = 'Laravel中的核心概念';
     };
     (function() { 
         var d = document, s = d.createElement('script');  
-        s.src = '//' + 'rootrl' + '.disqus.com/count.js';
+        s.src = '//' + 'rootrl' + '.disqus.com/embed.js';
         s.setAttribute('data-timestamp', +new Date());
         (d.head || d.body).appendChild(s);
     })();
