@@ -3,6 +3,7 @@ title: 使用Docker compose编排Laravel项目
 date: 2018-07-05 14:40:01
 tags:
  - Docker
+ - Laravel
 categories:
  - 虚拟机/容器 
 ---
