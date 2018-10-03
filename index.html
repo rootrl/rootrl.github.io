@@ -235,7 +235,7 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <h2 id="什么是JWT？"><a href="#什么是JWT？" class="headerlink" title="什么是JWT？"></a>什么是JWT？</h2><p>JWT(Json Web Token)是一个开放的数据交换验证标准rfc7519 (<a href="https://tools.ietf.org/html/rfc7519\)，一般用来做轻量级的API鉴权。由于许多API接口设计是遵循无状态的(比如Restful)，所以JWT是Cookie" target="_blank" rel="external">https://tools.ietf.org/html/rfc7519\)，一般用来做轻量级的API鉴权。由于许多API接口设计是遵循无状态的(比如Restful)，所以JWT是Cookie</a> Session这一套机制的替代方案。</p>
+            <h2 id="什么是JWT？"><a href="#什么是JWT？" class="headerlink" title="什么是JWT？"></a>什么是JWT？</h2><p>JWT(Json Web Token) 是一个开放的数据交换验证标准rfc7519 ( <a href="https://tools.ietf.org/html/rfc7519" target="_blank" rel="external">https://tools.ietf.org/html/rfc7519</a> ) ，一般用来做轻量级的API鉴权。由于许多API接口设计是遵循无状态的(比如Restful)，所以JWT是Cookie Session这一套机制的替代方案。</p>
 <h3 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h3><p>JWT由三部分组成头部(header)、载荷(payload)、签名(signature)。头部定义类型和加密方式；载荷部分放不是很重要的数据；签名使用定义的加密方式加密base64后的header和payload和一段你自己的加密key。最后的token由base64(header).base64(payload).base64(signatrue)组成。</p>
 <h3 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h3><p>平时需要鉴权的接口需要传这个token，可以post字段提交，但是一般建议放在header头中 ，因为JWT一般配合https使用，这样就万无一失。</p>
 <h3 id="为什么安全？"><a href="#为什么安全？" class="headerlink" title="为什么安全？"></a>为什么安全？</h3><p>首先token是服务端签发，然后验证时是用同样加密方式把header、payload和key再加密遍 然后看是不是和签名一致 如果不一致就说明token是非法的 这里主要靠的是加密（比如HS256）难以被攻破 至少目前吧 另外不得不说这里的加密对服务器来说是一个开销 这也是JWT的缺点</p>
