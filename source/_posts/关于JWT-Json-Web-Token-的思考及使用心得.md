@@ -9,7 +9,7 @@ categories:
 ---
 ## 什么是JWT？
 
-JWT(Json Web Token)是一个开放的数据交换验证标准rfc7519(https://tools.ietf.org/html/rfc7519)，一般用来做轻量级的API鉴权。由于许多API接口设计是遵循无状态的(比如Restful)，所以JWT是Cookie Session这一套机制的替代方案。
+JWT\(Json Web Token\)是一个开放的数据交换验证标准rfc7519 \(https://tools.ietf.org/html/rfc7519\)，一般用来做轻量级的API鉴权。由于许多API接口设计是遵循无状态的(比如Restful)，所以JWT是Cookie Session这一套机制的替代方案。
 
 ### 组成
 JWT由三部分组成头部(header)、载荷(payload)、签名(signature)。头部定义类型和加密方式；载荷部分放不是很重要的数据；签名使用定义的加密方式加密base64后的header和payload和一段你自己的加密key。最后的token由base64(header).base64(payload).base64(signatrue)组成。
