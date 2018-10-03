@@ -74,7 +74,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -93,10 +93,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Posts',
+            POSTS: 'Entradas',
             PAGES: 'Pages',
-            CATEGORIES: 'Categories',
-            TAGS: 'Tags',
+            CATEGORIES: 'Categorias',
+            TAGS: 'Etiquetas',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -127,7 +127,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
     </div>
 
                 </td>
@@ -147,16 +147,16 @@
             <h2 id="name">Rootrl</h2>
             <h3 id="title">Web Developer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Hefei, China</span>
-            <a id="follow" target="_blank" href="https://github.com/rootrl/">FOLLOW</a>
+            <a id="follow" target="_blank" href="https://github.com/rootrl/">SEGUIR</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                19
-                <span>posts</span>
+                20
+                <span>Entradas</span>
             </div>
             <div class="article-info-block">
-                24
-                <span>tags</span>
+                26
+                <span>Etiquetas</span>
             </div>
         </div>
         
@@ -192,6 +192,179 @@
 
             
             <section id="main">
+    <article id="post-PHP-OPcodes实战：PHP类名和方法同名引起的问题" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/" itemprop="url">
+            <img src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/opcode_result.png" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/">PHP OPcodes实战：PHP类名和方法同名引起的问题</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/">
+            <time datetime="2017-09-24T20:28:43.000Z" itemprop="datePublished">2017-09-25</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/PHP/">PHP</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Opcodes/">Opcodes</a>, <a class="tag-link" href="/tags/PHP/">PHP</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="简述"><a href="#简述" class="headerlink" title="简述"></a>简述</h2><p>我刚开始是想用Php Opcodes来解决问题的，但是并没有派上用场，不过过程很详细的记录了，当是一个Opcodes使用教程吧。</p>
+<h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">abstract class Base</span><br><span class="line">&#123;</span><br><span class="line">    abstract public function child();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Child extends Base</span><br><span class="line">&#123;</span><br><span class="line">    public function child()</span><br><span class="line">    &#123;</span><br><span class="line">        echo &quot;child&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$class = new Child();</span><br></pre></td></tr></table></figure>
+<p>这里结果直接显示 child（注意是直接打印出”child”字符，我这里并没有调用child这个方法，Why?）</p>
+<p>我试着写两个抽象方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">abstract class Base</span><br><span class="line">&#123;</span><br><span class="line">    abstract public function foo();</span><br><span class="line">    abstract public function bar();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Child extends Base</span><br><span class="line">&#123;</span><br><span class="line">    public function foo()</span><br><span class="line">    &#123;</span><br><span class="line">        echo &quot;\n foo \n&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    public function bar()</span><br><span class="line">    &#123;</span><br><span class="line">        echo &quot;\n bar \n&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$class = new Child();</span><br></pre></td></tr></table></figure></p>
+<p>结果正常，什么也没显示。那为什么有一个抽象方法的时候会直接显示呢？</p>
+<p>考虑到我这里换代码了，于是删除一个方法：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line"></span><br><span class="line">abstract class Base</span><br><span class="line">&#123;</span><br><span class="line">    abstract public function foo();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">class Child extends Base</span><br><span class="line">&#123;</span><br><span class="line">    public function foo()</span><br><span class="line">    &#123;</span><br><span class="line">        echo &quot;\n foo \n&quot;;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">$class = new Child();</span><br></pre></td></tr></table></figure></p>
+<p>结果也正常，那再回头看第一个，方法。结构没什么不同，不过方法的名称和类的名称好像同名，但是这个原因吗？</p>
+<h2 id="深入"><a href="#深入" class="headerlink" title="深入"></a>深入</h2><p>于是想到php的Opcode可以查看内部执行情况</p>
+<p>具体见鸟哥文章：<a href="http://www.laruence.com/2008/06/18/221.html" target="_blank" rel="external">http://www.laruence.com/2008/06/18/221.html</a></p>
+<p>PHP官方有个叫VLD的扩展可以查看opcode</p>
+<p>安装:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">wget http://pecl.php.net/get/vld-0.14.0.tgz</span><br><span class="line">tar zxvf vld-0.14.0.tgz</span><br><span class="line">cd vld-0.14.0</span><br><span class="line">phpize # 编译php扩展，根据系统信息生成对应的configure文件</span><br><span class="line">./configure -with-php-config=/usr/local/php/bin/php-config --enable-vld #</span><br></pre></td></tr></table></figure></p>
+<p>配置编译vld的php-config路径<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">make &amp;&amp; make install</span><br></pre></td></tr></table></figure></p>
+<p>在 php.ini 中激活vld<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">extension=vld.so</span><br></pre></td></tr></table></figure></p>
+<p>执行php -m | grep ‘vld’ 看是否安装成功</p>
+<p>使用说明：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">-dvld.active=1; # 使用vld扩展</span><br><span class="line">-dvld.execute=0 # 不执行该文件 默认为1</span><br><span class="line">-dvld.verbosity=3# 显示信息 0-3 个等级 3最高</span><br><span class="line">php -dvld.active=1 -dvld.execute=0 foo.php # 查看 foo.php 的opcode</span><br></pre></td></tr></table></figure></p>
+<p>回到问题：<br>查看之前那个类的opcode</p>
+<p><img src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/opcode_result.png" alt="此处输入图片的描述"></p>
+<p>读懂cpcode前提<br>这其中，ASSIGN、ECHO、RETURN 这些 opcode TOKEN具体意义可参考官方文档：<a href="http://php.net/manual/en/internals2.opcodes.list.php" target="_blank" rel="external">http://php.net/manual/en/internals2.opcodes.list.php</a></p>
+<p>VLD说明：</p>
+<ul>
+<li>Branch analysis from position 这条信息多在分析数组时使用。</li>
+<li>Return found 是否返回，这个基本上有都有。</li>
+<li>filename 分析的文件名</li>
+<li>function name 函数名，针对每个函数VLD都会生成一段如上的独立的信息，这里显示当前函数的名称</li>
+<li>number of ops 生成的操作数</li>
+<li>compiled vars 编译期间的变量，这些变量是在PHP5后添加的，它是一个缓存优化。这样的变量在PHP源码中以IS_CV标记。</li>
+<li>op list 生成的中间代码的变量列表</li>
+</ul>
+<p>好吧，最后通过opcode没有解决这个这个问题，因为两者的opcode是一样。。</p>
+<p>后来弄懂了，这个问题简单讲就是一个兼容问题，在老的php版本中（5以前），如果类的方法和类同名的话，这个方法相当于一个构造函数。</p>
+<p>php官方手册中也有写：</p>
+<p><img src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/construct.png" alt="此处输入图片的描述"></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://rootrl.github.com/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/" data-id="cjmt9x5bz000nxuvhxn0ibddr" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://rootrl.github.com/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/">Comentarios</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Docker实践-入门篇" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -345,7 +518,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2017/09/22/Docker实践-入门篇/" data-id="cjj86r3jb00068avhbrzdfe38" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://rootrl.github.com/2017/09/22/Docker实践-入门篇/" data-id="cjmt9x5bq0008xuvhxslrt83f" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -413,7 +586,7 @@
 
             
     
-        <a href="https://rootrl.github.com/2017/09/22/Docker实践-入门篇/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/09/22/Docker实践-入门篇/">Comments</a>
+        <a href="https://rootrl.github.com/2017/09/22/Docker实践-入门篇/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/09/22/Docker实践-入门篇/">Comentarios</a>
     
 
         </footer>
@@ -498,7 +671,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2017/08/25/Vagrant集群配置，模拟多机分布式环境/" data-id="cjj86r3jo000n8avhlz0oy35o" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://rootrl.github.com/2017/08/25/Vagrant集群配置，模拟多机分布式环境/" data-id="cjmt9x5c1000rxuvhmfsh2ofy" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -566,194 +739,7 @@
 
             
     
-        <a href="https://rootrl.github.com/2017/08/25/Vagrant集群配置，模拟多机分布式环境/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/08/25/Vagrant集群配置，模拟多机分布式环境/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-Github-pages-hexo-博客搭建教程" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2017/08/24/Github-pages-hexo-博客搭建教程/" itemprop="url">
-            <img src="http://ov4crdzpr.bkt.clouddn.com/17-8-24/87900151.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/08/24/Github-pages-hexo-博客搭建教程/">Github pages + hexo 博客搭建教程</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/08/24/Github-pages-hexo-博客搭建教程/">
-            <time datetime="2017-08-23T23:33:12.000Z" itemprop="datePublished">2017-08-24</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/团队管理/">团队管理</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/团队管理/知识管理/">知识管理</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/github-pages/">github pages</a>, <a class="tag-link" href="/tags/hexo/">hexo</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h3 id="Github-pages的规则"><a href="#Github-pages的规则" class="headerlink" title="Github pages的规则"></a>Github pages的规则</h3><p>首先得知道Github pages的规则：每个Github账号（比如Username）下面只能建立一个Pages，且命名必须符合这样的规则：”username/username.github.io”</p>
-<p>创建成功后，username.github.io就是你的域名（当然你可以通过别名解析绑定自己的域名）</p>
-<p>实战：</p>
-<p>1， 在Github建立一个新的Repository：命名为：username.github.io</p>
-<p>2， 本地clone仓库：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/username/username.github.io</span><br></pre></td></tr></table></figure>
-<p>3， 进入文件夹，新建index.html</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd username.github.io </span><br><span class="line">echo &quot;Hello World&quot; &gt; index.html</span><br></pre></td></tr></table></figure>
-<p>4， 执行命令：</p>
- <figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m <span class="string">"Initial commit"</span></span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
-<p>然后访问username.github.io，大功告成！</p>
-<h3 id="使用Hexo管理你的博客"><a href="#使用Hexo管理你的博客" class="headerlink" title="使用Hexo管理你的博客"></a>使用Hexo管理你的博客</h3><p>平时可以这样发布自己的博客，但是比较麻烦，我们可以通过相应的工具来管理Pages。比如Jekyll、Hexo等，这些工具原理就是把Markdown自动转化为Html便于我们书写博客，接下来详细介绍从零开始用Hexo+Github Pages搭建博客。</p>
-<p>1， 创建repository(如果做了上述实践部分就先删除此repository，从头来)<br>在github建立一个新的repository：命名为：username.github.io, 并且勾选创建readme.md已初始化仓库这项。<br><strong>注: 替换username为你的账号名</strong></p>
-<p>2，在本地git clone 你的博客项目地址</p>
-<p>3，进入clone的项目目录，注意此时是在master分支，而master分支平常放生成的博客页面，所以我们现在创建一个hexo分支，用来管理hexo相关文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git checkout -b hexo</span><br></pre></td></tr></table></figure>
-<p>4， 安装hexo，以及相关扩展依赖（建议把npm安装源改为国内的，淘宝就有提供，这样能提高安装速度）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm  install -g hexo</span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo init    // 初始化</span><br></pre></td></tr></table></figure>
-<p>注意：hexo init要求当前目录是一个空目录，我这里解决办法是在执行hexo init 前把当前文件夹的文件都移到外面去（包括.git仓库目录），初始化完成后马上把文件移回来（一般只会有README.MD文件和.git目录）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install    // 安装依赖</span><br></pre></td></tr></table></figure>
-<p>（此阶段若遇到 symlink error问题，则加参数：-no-bin-links）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install hexo-deployer-git --save    // 安装deployer扩展</span><br></pre></td></tr></table></figure>
-<p>5，  修改_config.yml文件的deploy选项(如果你准备装第6步的博客主题，则可以放到第6步一起操作)：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">deploy:</span><br><span class="line">type: git</span><br><span class="line">repo: (对应你博客仓库的SSH地址)</span><br><span class="line">branch: master</span><br></pre></td></tr></table></figure>
-<p>此外其他相关配置信息都改成你自己的，比如author这些</p>
-<p>6， 选一个博客主题，我这里用的：icarus</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/ppoffice/hexo-theme-icarus.git themes/icarus</span><br></pre></td></tr></table></figure>
-<p>进入 themes/icarus 目录，把该主题提供的实例的配置文件 编辑下然后作为自己的配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cp _config.yml.example _config.yml</span><br></pre></td></tr></table></figure>
-<p>然后回到项目根目录，编辑主配置_config.yml 添加theme配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">theme: icarus</span><br></pre></td></tr></table></figure>
-<p><strong>注：第5步如果没操作，则在这里一起操作</strong></p>
-<p>7， 提交到仓库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git add .</span><br><span class="line">git commit -m &apos;hexo init&apos;</span><br><span class="line">git push -u origin hexo</span><br></pre></td></tr></table></figure>
-<p>8，发布一篇博文</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo new &quot;your blog title&quot;</span><br></pre></td></tr></table></figure>
-<p>（此步若遇到local hexo not found：rm -rf node_modules/ &amp;&amp; npm install解决）<br>然后会在source/_posts下建立一个your-blog-title.md的文件，<br>你可以编辑此文件书写你想写的博客内容（Markdown格式）<br>写好后执行一次commit<br>然后执行生成博客Html文件和发布命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hexo generate -d</span><br></pre></td></tr></table></figure>
-<p>如果顺利的话，博客内容会发布到master分支</p>
-<p>9， 此时可以输入username.github.io来访问你的博客</p>
-<p>至此你的博客已经成功搭建！</p>
-<p>###平常博客写作和管理流程###</p>
-<p>1， 都在hexo分支上工作，用hexo new title建立新的md文件，然后书写，然后”git add . “，”git commit -m ‘’ “ ，”git push”提交。好了之后执行hexo generate -d 发布博客</p>
-<p>2， 假如换了电脑后，先clone下你github上的博客仓库，然后 npm install -g hexo，npm install 和npm install hexo-deployer-git –save(和安装命令差不多，但是不要使用hexo init命令，因为仓库中已存在)，然后走正常博客书写发布流程即可。</p>
-<p>^_^完结</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://rootrl.github.com/2017/08/24/Github-pages-hexo-博客搭建教程/" data-id="cjj86r3ji000d8avhfu8jhuuf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://rootrl.github.com/2017/08/24/Github-pages-hexo-博客搭建教程/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/08/24/Github-pages-hexo-博客搭建教程/">Comments</a>
+        <a href="https://rootrl.github.com/2017/08/25/Vagrant集群配置，模拟多机分布式环境/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/08/25/Vagrant集群配置，模拟多机分布式环境/">Comentarios</a>
     
 
         </footer>
@@ -764,7 +750,7 @@
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/5/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/">Next &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/5/">&laquo; Anterior</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/7/">Siguiente  &raquo;</a>
     </nav>
 </section>
             
@@ -773,9 +759,28 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">recent</h3>
+        <h3 class="widget-title">Recientes</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/10/03/关于JWT-Json-Web-Token-的思考及使用心得/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/安全/">安全</a></p>
+                            <p class="item-title"><a href="/2018/10/03/关于JWT-Json-Web-Token-的思考及使用心得/" class="title">关于JWT(Json Web Token)的思考及使用心得</a></p>
+                            <p class="item-date"><time datetime="2018-10-03T14:52:27.000Z" itemprop="datePublished">2018-10-03</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -853,25 +858,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/04/20/Ansible-in-action/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/DevOps/">DevOps</a></p>
-                            <p class="item-title"><a href="/2018/04/20/Ansible-in-action/" class="title">Ansible in action</a></p>
-                            <p class="item-date"><time datetime="2018-04-20T12:21:00.000Z" itemprop="datePublished">2018-04-20</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -879,34 +865,34 @@
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">categories</h3>
+        <h3 class="widget-title">Categorias</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">archives</h3>
+        <h3 class="widget-title">Archivos</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">tags</h3>
+        <h3 class="widget-title">Etiquetas</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Laravel/">Laravel</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Laravel/">Laravel</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/鉴权/">鉴权</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">links</h3>
+        <h3 class="widget-title">Links</h3>
         <div class="widget">
             <ul>
                 
