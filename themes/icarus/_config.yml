@@ -12,7 +12,7 @@ customize:
         enabled: true
         width: 40
         height: 40
-        url: https://raw.githubusercontent.com/rootrl/rootrl.github.io/hexo/source/images/logo.jpg
+        url: https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/rootrl.jpg
     profile:
         enabled: true # Whether to show profile bar
         avatar: https://raw.githubusercontent.com/rootrl/rootrl.github.io/hexo/source/images/logo.jpg
