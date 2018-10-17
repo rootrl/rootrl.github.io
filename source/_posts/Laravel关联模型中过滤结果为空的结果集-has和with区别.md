@@ -10,12 +10,12 @@ categories:
 
 首先看代码：
 
-```bash
-        $userCoupons = UserCoupons::with(['coupon' => function($query) use($groupId){
-            return $query->select('id', 'group_id', 'cover', 'group_number', 'group_cover')->where([
-                'group_id' => $groupId,
-            ]);
-        }])
+```php
+$userCoupons = UserCoupons::with(['coupon' => function($query) use($groupId){
+    return $query->select('id', 'group_id', 'cover', 'group_number', 'group_cover')->where([
+         'group_id' => $groupId,
+    ]);
+}])
 // 更多查询省略...
 ```
 数据结构是三张表用户优惠券表（user_coupons）、优惠券表(coupons)，商家表(corps)，组优惠券表(group_coupons) （为了方便查看，后两项已去除）
@@ -23,7 +23,7 @@ categories:
 这里我本意想用模型关联查出用户优惠券中属于给定组gourpId的所有数据（如果为空该条数据就不返回）。
 
 但有些结果不是我想要的：
-```
+```php
   array(20) {
     ["id"]=>
     int(6)
@@ -71,7 +71,8 @@ categories:
 记录中有的coupon有记录，有的为空。想想也是，with只是用sql的in()实现的所谓预加载。无论怎样主user_coupons的数据都是会列出的。
 
 它会有两条sql查询，第一条查主数据，第二条查关联，这里第二条sql如下：
-```
+
+```SQL
 select `id`, `group_id`, `cover`, `group_number`, `group_cover` from `youquan_coupons` where `youquan_coupons`.`id` in (1, 2, 3, 4, 5, 7, 8, 9, 10, 11, 13, 14) and (`group_id` = 1) and `youquan_coupons`.`deleted_at` is null
 ```
 如果第二条为空，主记录的关联字段就是NULL。
@@ -81,7 +82,7 @@ select `id`, `group_id`, `cover`, `group_number`, `group_cover` from `youquan_co
 这里我们思想是把判断有没有优惠券数据也放在第一次查询逻辑中，所以才能实现筛选空记录。
 
 加上whereHas()后的代码如下
-```
+```php
     $userCoupons = UserCoupons::whereHas('coupon', function($query) use($groupId){
             return $query->select('id', 'group_id', 'cover', 'group_number', 'group_cover')->where([
                 'group_id' => $groupId,
@@ -93,7 +94,7 @@ select `id`, `group_id`, `cover`, `group_number`, `group_cover` from `youquan_co
 
 看下最终的SQL:
 
-```
+```SQL
 select * from `youquan_user_coupons` where exists (select `id`, `group_id`, `cover`, `group_number`, `group_cover` from `youquan_coupons` where `youquan_user_coupons`.`coupon_id` = `youquan_coupons`.`id` and (`group_ids` = 1) and `youquan_coupons`.`deleted_at` is null) and (`status` = 1 and `user_id` = 1)
 ```
 这里实际上是用exists()筛选存在的记录。然后走下一步的with()查询，因为此时都筛选一遍了，所以with可以去掉条件。
