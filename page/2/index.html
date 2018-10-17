@@ -151,7 +151,7 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                21
+                22
                 <span>posts</span>
             </div>
             <div class="article-info-block">
@@ -192,6 +192,163 @@
 
             
             <section id="main">
+    <article id="post-使用Docker-compose编排Laravel项目" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/07/05/使用Docker-compose编排Laravel项目/">使用Docker compose编排Laravel项目</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/07/05/使用Docker-compose编排Laravel项目/">
+            <time datetime="2018-07-05T06:40:01.000Z" itemprop="datePublished">2018-07-05</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/虚拟机-容器/">虚拟机/容器</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Docker/">Docker</a>, <a class="tag-link" href="/tags/Laravel/">Laravel</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>使用Docker compose编排Laravel应用</p>
+<h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>Laravel官方开发环境推荐的是Homestead(其实就是一个封装好的Vagrant box)，我感觉这个比较重，于是自己用Docker compose编排了一套开发环境，在这里分享下。</p>
+<h3 id="环境要求"><a href="#环境要求" class="headerlink" title="环境要求"></a>环境要求</h3><p>先要安装好Docker 和 Docker compose，而且Docker 仓库镜像最好换成国内的。一般地，我开发电脑上会运行一个Vagrant，然后再在里面运行Docker等应用。</p>
+<h3 id="主要思路"><a href="#主要思路" class="headerlink" title="主要思路"></a>主要思路</h3><p>Docker官方推荐的是一个容器运行一个服务，所以会有Compose编排，各个服务间通过容器互联技术通信，比如Php服务连接Mysql只用把Host名写成容器名，内部会直接转换成具体ip。代码目录使用数据卷从容器内映射到宿主机，配置文件（Nginx等）也是通过数据卷映射到容器内。</p>
+<h3 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h3><p>这套服务我已经封装好了，平时用的话只用clone下来直接使用，我这里主要讲下实现思路。</p>
+<p>项目地址：<a href="https://github.com/rootrl/php-environment-with-docker" target="_blank" rel="external">https://github.com/rootrl/php-environment-with-docker</a></p>
+<p>我的项目目录结构：</p>
+<p>php-environment-with-docker/<br>├── bin<br>│   ├── composer<br>│   ├── getContainerIp<br>│   └── php<br>├── conf<br>│   ├── nginx<br>│   │   └── conf.d<br>│   │       └── nginx.conf<br>│   └── redis<br>│       └── redis.conf<br>├── docker-compose.yaml<br>├── Dockerfile.php<br>├── LICENSE<br>├── README.MD<br>└── start</p>
+<ul>
+<li>bin 这里面都是封装的命令行工具，其实也是Docker容器服务，只不过他们都是用完即走的服务。</li>
+<li>conf 该目录都是应用的配置目录，会使用Volumn映射到容器内</li>
+<li>docker-composer.yaml compose 的编排文件，下面会具体讲到</li>
+<li>Dockerfile.php php的镜像构建（里面会有一些定制，比如改dns，装特殊扩展）</li>
+<li>start 运行./start就可以启动所有服务，重启也可以运行此命令</li>
+</ul>
+<h4 id="docekr-compose-yaml"><a href="#docekr-compose-yaml" class="headerlink" title="docekr-compose.yaml"></a>docekr-compose.yaml</h4><p>此文件是compose的编排文件</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">version:</span> <span class="string">'2'</span></span><br><span class="line"></span><br><span class="line"><span class="attr">services:</span></span><br><span class="line"><span class="attr">nginx:</span></span><br><span class="line"><span class="attr">  depends_on:</span></span><br><span class="line"><span class="bullet">   -</span> <span class="string">"php"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  image:</span> <span class="string">"nginx"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">  volumes:</span></span><br><span class="line"><span class="bullet">   -</span> <span class="string">"$PWD/conf/nginx/conf.d:/etc/nginx/conf.d"</span></span><br><span class="line"><span class="bullet">   -</span> <span class="string">"$PWD/www:/usr/share/nginx/html"</span></span><br><span class="line"><span class="attr">  ports:</span></span><br><span class="line"><span class="bullet">   -</span> <span class="string">"8888:80"</span></span><br><span class="line"><span class="attr">  networks:</span></span><br><span class="line"><span class="bullet">   -</span> <span class="string">oa-network</span></span><br><span class="line"><span class="attr">  container_name:</span> <span class="string">"oa-nginx"</span></span><br><span class="line"><span class="attr">  command:</span> <span class="string">/bin/bash</span> <span class="bullet">-c</span> <span class="string">"mkdir -p /var/www &amp;&amp; ln -s /usr/share/nginx/html /var/www &amp;&amp; nginx -g 'daemon off;'"</span></span><br><span class="line"><span class="attr">php:</span></span><br><span class="line"><span class="attr">  image:</span> <span class="string">"oa-php-fpm"</span></span><br><span class="line"><span class="attr">  build:</span>  </span><br><span class="line"><span class="attr">   context:</span> <span class="string">.</span></span><br><span class="line"><span class="attr">   dockerfile:</span> <span class="string">"Dockerfile.php"</span></span><br><span class="line"><span class="attr">  networks:</span></span><br><span class="line"><span class="bullet">   -</span> <span class="string">oa-network</span></span><br><span class="line"><span class="attr">  container_name:</span> <span class="string">"oa-php-fpm"</span></span><br><span class="line"><span class="attr">  volumes:</span></span><br><span class="line"><span class="bullet">   -</span> <span class="string">"$PWD/www:/var/www/html"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">mysql:</span></span><br><span class="line"><span class="attr">  image:</span> <span class="attr">mysql:5.7</span></span><br><span class="line"><span class="attr">  volumes:</span></span><br><span class="line"><span class="bullet">   -</span> <span class="string">"$PWD/db_data:/var/lib/mysql"</span></span><br><span class="line"><span class="attr">  environment:</span></span><br><span class="line"><span class="attr">   MYSQL_ROOT_PASSWORD:</span> <span class="string">root123</span></span><br><span class="line"><span class="attr">   MYSQL_DATABASE:</span> <span class="string">oa</span></span><br><span class="line"><span class="attr">   MYSQL_USER:</span> <span class="string">oa</span></span><br><span class="line"><span class="attr">   MYSQL_PASSWORD:</span> <span class="string">oa123</span></span><br><span class="line"><span class="attr">  ports:</span></span><br><span class="line"><span class="bullet">   -</span> <span class="string">"3306:3306"</span></span><br><span class="line"><span class="attr">  networks:</span></span><br><span class="line"><span class="bullet">   -</span> <span class="string">oa-network</span></span><br><span class="line"><span class="attr">  container_name:</span> <span class="string">"oa-mysql"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">redis:</span></span><br><span class="line"><span class="attr">  image:</span> <span class="string">"redis"</span></span><br><span class="line"><span class="attr">  ports:</span></span><br><span class="line"><span class="bullet">   -</span> <span class="string">"6379:6379"</span></span><br><span class="line"><span class="attr">  networks:</span></span><br><span class="line"><span class="bullet">   -</span> <span class="string">oa-network</span></span><br><span class="line"><span class="attr">  volumes:</span></span><br><span class="line"><span class="bullet">   -</span> <span class="string">"$PWD/conf/redis/redis.conf:/usr/local/etc/redis/redis.conf"</span></span><br><span class="line"><span class="attr">  container_name:</span> <span class="string">"oa-redis"</span></span><br><span class="line"></span><br><span class="line"><span class="attr">networks:</span></span><br><span class="line"><span class="attr">oa-network:</span></span><br><span class="line"><span class="attr">  driver:</span> <span class="string">bridge</span></span><br></pre></td></tr></table></figure>
+<p>这里定义了php-fpm、nignx、mysql、redis四个服务（如果需要其他服务，自行添加）。然后定义了一个公共的networks，这样容器内都可以很方便地进行通信。</p>
+<p>比如nginx.conf中</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">    listen       80;</span><br><span class="line">    server_name  localhost;</span><br><span class="line">    root /usr/share/nginx/html/public;</span><br><span class="line">    index index.php index.html;</span><br><span class="line">    location / &#123;</span><br><span class="line">    try_files <span class="variable">$uri</span> <span class="variable">$uri</span>/ /index.php?<span class="variable">$query_string</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    error_page   500 502 503 504  /50x.html;</span><br><span class="line">    location = /50x.html &#123;</span><br><span class="line">        root   /usr/share/nginx/html;</span><br><span class="line">    &#125;</span><br><span class="line">    location ~ \.php$ &#123;</span><br><span class="line">        fastcgi_pass   php:9000;</span><br><span class="line">        fastcgi_index  index.php;</span><br><span class="line">        fastcgi_param  SCRIPT_FILENAME  /var/www/html/public/<span class="variable">$fastcgi_script_name</span>;</span><br><span class="line">        include        fastcgi_params;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里与php-fpm的连接方式：php:9000</p>
+<h4 id="Dockerfile-php"><a href="#Dockerfile-php" class="headerlink" title="Dockerfile.php"></a>Dockerfile.php</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">FROM php:7.2-fpm</span><br><span class="line">    Run <span class="built_in">echo</span> <span class="string">"nameserver 223.5.5.5"</span> &gt;&gt; /etc/resolv.conf \</span><br><span class="line">    &amp;&amp; <span class="built_in">echo</span> <span class="string">"nameserver 223.6.6.6"</span> &gt;&gt; /etc/resolve.conf \</span><br><span class="line">    &amp;&amp; apt-get update \</span><br><span class="line">    &amp;&amp; apt-get install -y \</span><br><span class="line">        libfreetype6-dev \</span><br><span class="line">        libjpeg62-turbo-dev \</span><br><span class="line">        libpng-dev \</span><br><span class="line">    &amp;&amp; docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \</span><br><span class="line">    &amp;&amp; docker-php-ext-install -j$(nproc) gd \</span><br><span class="line">    &amp;&amp; docker-php-ext-install mysqli pdo_mysql \</span><br><span class="line">    &amp;&amp; pecl install swoole \</span><br><span class="line">    &amp;&amp; pecl install redis \</span><br><span class="line">    &amp;&amp; docker-php-ext-enable swoole redis</span><br></pre></td></tr></table></figure>
+<p>这是Php镜像构建，这里改了dns服务器，并安装了若干php扩展。</p>
+<h3 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h3><h4 id="启动"><a href="#启动" class="headerlink" title="启动"></a>启动</h4><p>./start 启动所有服务</p>
+<h4 id="命令行"><a href="#命令行" class="headerlink" title="命令行"></a>命令行</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">./bin/php -v</span><br><span class="line"></span><br><span class="line"><span class="comment"># Laravel artisan</span></span><br><span class="line">./bin/php artisan</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>具体可访问：<a href="https://github.com/rootrl/php-environment-with-docker" target="_blank" rel="external">https://github.com/rootrl/php-environment-with-docker</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://rootrl.github.com/2018/07/05/使用Docker-compose编排Laravel项目/" data-id="cjnd91jpw0012prvh11cs72h9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://rootrl.github.com/2018/07/05/使用Docker-compose编排Laravel项目/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/07/05/使用Docker-compose编排Laravel项目/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Laravel中的核心概念" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -321,7 +478,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2018/06/13/Laravel中的核心概念/" data-id="cjmt9x5bv000hxuvhderwj8ic" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://rootrl.github.com/2018/06/13/Laravel中的核心概念/" data-id="cjnd91jpn000iprvhb45ugrlz" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -464,7 +621,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2018/06/07/用Golang撸了个小工具/" data-id="cjmt9x5cd001gxuvh7wpzxyl0" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://rootrl.github.com/2018/06/07/用Golang撸了个小工具/" data-id="cjnd91jq4001mprvhh4aacckn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -542,206 +699,8 @@
 
 
 
-    <article id="post-Javascript原型链、作用域、闭包学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/04/25/Javascript原型链、作用域、闭包学习笔记/">Javascript原型链、作用域、闭包学习笔记</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/04/25/Javascript原型链、作用域、闭包学习笔记/">
-            <time datetime="2018-04-25T14:21:25.000Z" itemprop="datePublished">2018-04-25</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/前端/">前端</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/前端/Javascript/">Javascript</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Javascript/">Javascript</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h3 id="数据类型"><a href="#数据类型" class="headerlink" title="数据类型"></a>数据类型</h3><ul>
-<li>值类型 boolean undefined string number</li>
-<li>引用类型 Object null function array</li>
-</ul>
-<h4 id="类型判断"><a href="#类型判断" class="headerlink" title="类型判断"></a>类型判断</h4><p>值类型 typeof<br>引用类型 instanceof</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">var fn = function()&#123;&#125;</span><br><span class="line">console.log(fn instanceof Object) // function</span><br><span class="line"></span><br><span class="line">var foo = &quot;hello&quot;</span><br><span class="line">console.log(typeof foo) // string</span><br><span class="line"></span><br><span class="line">console.log(typeof null) // object</span><br><span class="line"></span><br><span class="line">但是：</span><br><span class="line">null instanceof Object === false</span><br><span class="line"></span><br><span class="line">// null 为object是javascript遗留的一个bug</span><br></pre></td></tr></table></figure>
-<h3 id="对象"><a href="#对象" class="headerlink" title="对象"></a>对象</h3><p><strong>Tip：一切引用类型都是对象，对象是属性的集合</strong></p>
-<p>对象是通过函数创建的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var object = &#123;a: 1, b:1&#125; // 语法糖</span><br></pre></td></tr></table></figure></p>
-<p>真实情况：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">var object = new Object();</span><br><span class="line">object.a = 1;</span><br><span class="line">object.b = 1;</span><br><span class="line"></span><br><span class="line">console.log(typof Object) // function</span><br></pre></td></tr></table></figure></p>
-<h3 id="原型-prototype"><a href="#原型-prototype" class="headerlink" title="原型 prototype"></a>原型 prototype</h3><p>函数是一种对象，每个函数都有一个默认的属性：prototype<br>这个prototype的值是一个对象（属性的集合）， 默认只有一个constructor的属性，指向这个函数本身</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">var Fn = function()&#123;&#125;</span><br><span class="line">Fn.prototype.name = &quot;hello&quot;</span><br><span class="line">Fn.prototype.foo = function()&#123;&#125;</span><br><span class="line">var fn = new Fn()</span><br></pre></td></tr></table></figure>
-<p>Fn是一个函数，fn是通过Fn new出来的，这样fn对象就可以访问Fn.prototype中的属性<br>（问：不new就访问不了？是，但是为什么要new？是不是相当于类和类的实例）</p>
-<p>__proto__是隐式属性，这个属性引用了创建这个对象的函数的prototype, 即：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fn.__proto__ === Fn.prototype</span><br></pre></td></tr></table></figure></p>
-<p>每个函数都有一个prototype原型，每个对象都有一个__proto__隐式原型<br>(javascript 不希望开发者用到这个<strong>proto</strong>)</p>
-<p>每个对象都有一个__proto__属性，指向创建该对象的函数的prototype</p>
-<p><strong>Object.prototype 的__proto__指向null</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">var o = new Foo();</span><br></pre></td></tr></table></figure>
-<p>JavaScript 实际上执行的是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">var o = new Object();</span><br><span class="line">o.__proto__ = Foo.prototype;</span><br><span class="line">Foo.call(o);</span><br><span class="line"></span><br><span class="line">function Foo()&#123;&#125;</span><br><span class="line">var fn = new Foo</span><br><span class="line">console.log(fn instanceof Foo) // true</span><br></pre></td></tr></table></figure>
-<h3 id="instanceof"><a href="#instanceof" class="headerlink" title="instanceof"></a>instanceof</h3><p>Instanceof 查找规则<br>Instanceof运算符的第一个变量是一个对象，暂时称为A；第二个变量一般是一个函数，暂时称为B。</p>
-<p><strong>Instanceof的判断规则是：沿着A的__proto__这条线来找，同时沿着B的prototype这条线来找，如果两条线能找到同一个引用，即同一个对象，那么就返回true。如果找到终点还未重合，则返回false</strong></p>
-<p>Instanceof 表达的是一种继承关系，或者原型链的结构<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">function Fn()&#123;&#125;</span><br><span class="line"></span><br><span class="line">var fn = new Fn()</span><br><span class="line"></span><br><span class="line">fn.a = 10</span><br><span class="line"></span><br><span class="line">Fn.prototype.a = 100</span><br><span class="line">Fn.prototype.b = 200</span><br><span class="line"></span><br><span class="line">console.log(fn.a)</span><br><span class="line">console.log(fn.b)</span><br></pre></td></tr></table></figure></p>
-<p>fn是通过Fn new过来的，a是fn的基本属性，b从Fn.prototype得来，因为fn.__proto__指向是Foo.prototype</p>
-<h3 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h3><p><strong>访问一个对象属性时，先从基本属性上查找，如果没有再沿着__proto__这条链往上找，这就是原型链</strong></p>
-<p>判断一个属性是基本属性还是从原型链上查找的，用hasOwnProperty</p>
-<p>对象的方法都可以通过prototype扩展</p>
-<h3 id="上下文环境"><a href="#上下文环境" class="headerlink" title="上下文环境"></a>上下文环境</h3><p>Javascript准备工作：</p>
-<p>变量、函数表达式  =&gt; 变量的声明，默认赋值为undefined （后期在执行过程中赋值）</p>
-<p>this  =&gt; 赋值 this无论哪个情况都有值，至于值是什么，跟上下文环境有关</p>
-<p>函数声明 =&gt; 赋值</p>
-<p>函数体的执行上下文需要附加<br>参数 =》 赋值<br>arguments =&gt; 赋值<br>自由变量的取值作用域 =&gt; 赋值</p>
-<p>Javascript 在执行一段代码前都会进行一些准备工作来生成执行上下文，这个代码段分三种情况：全局环境，函数体，eval</p>
-<p>代码段就是一段文本形式的代码<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">// 全局：</span><br><span class="line">&lt;script&gt;</span><br><span class="line">alert(&apos;123&apos;)</span><br><span class="line">&lt;/script&gt;</span><br><span class="line"></span><br><span class="line">// eval:</span><br><span class="line">eval(&quot;alert(&apos;123&apos;)&quot;)</span><br><span class="line"></span><br><span class="line">// function :</span><br><span class="line">var fn =new Function(&quot;x&quot;, &quot;console.log(x)&quot;)</span><br></pre></td></tr></table></figure></p>
-<p><strong>函数每被调用一次，都会产生一个新的执行上下文环境</strong><br><strong>函数在定义的时候（不是调用的时候），就已经确定了函数内部自由变量的作用域</strong></p>
-<p><strong>自由变量：</strong><br>在A作用域中使用的变量x，却没有在A作用域中声明（其他作用域中声明的），对于A作用域来说，x就是一个自由变量。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var a = 10</span><br><span class="line"></span><br><span class="line">function fn() &#123;</span><br><span class="line">console.log(a) // 是自由变量 函数创建时就确定了a要取值的作用域</span><br><span class="line">                        // 下级作用域可以获取上级作用域的变量，反之不行</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function bar(f) &#123;</span><br><span class="line">var a = 20</span><br><span class="line">f() // 10 而不是20</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar(fn)</span><br></pre></td></tr></table></figure>
-<p>执行上下文环境通俗定义：在执行代码之前，把将要用到的所有的变量都事先拿出来，有的直接赋值，有的先用undefined占个空</p>
-<p><strong>js在代码执行过程中，会有数不清的函数调用，每个函数调用会产生多个上下文环境，这么多的上下文环境需要管理，销毁而释放内存（上下文环境执行栈）</strong></p>
-<h3 id="this"><a href="#this" class="headerlink" title="this"></a>this</h3><p>this在函数中到底取何值，是在函数真正被调用的时候确定的，函数定义的时候确定不了，因为this的取值是执行上下文环境的一部分，每次调用函数，都会产生一个新的执行上下文环境。</p>
-<p>this取值一共分四种情况：</p>
-<p><strong>构造函数</strong><br>构造函数是用来new对象的函数，第一个字母大写<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">function Foo() &#123;</span><br><span class="line">this.name = &quot;test&quot;</span><br><span class="line">console.log(this)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var fn = new Foo()</span><br><span class="line">fn.name // test</span><br></pre></td></tr></table></figure></p>
-<p>以上this为即将new出来的对象的</p>
-<p>但是如果直接把Foo作为函数调用,this就是window</p>
-<p><strong>函数作为对象的一个属性</strong><br>如果函数作为对象的一个属性时，并且作为对象的一个属性被调用时，函数的this指向该对象。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">    x: 10,</span><br><span class="line">    fn: function() &#123;</span><br><span class="line">        console.log(this, this.x)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">ojb.fn() // this指向obj对象</span><br></pre></td></tr></table></figure></p>
-<p>如果不是作为obj被调用<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">var fn1 = obj.fn</span><br><span class="line"></span><br><span class="line">fn1()</span><br></pre></td></tr></table></figure></p>
-<p>那么this就是指向window，this.x为undefined</p>
-<p><strong>函数使用call apply调用</strong></p>
-<p>当用call apply调用时，this指向被传入的对象<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var obj = &#123;</span><br><span class="line">x: 10</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var fn = function() &#123;</span><br><span class="line">console.log(this)</span><br><span class="line">console.log(this.x)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">fn.call(obj)</span><br></pre></td></tr></table></figure></p>
-<p><strong>全局&amp;调用普通函数</strong><br>console.log(this === window) true</p>
-<p>普通函数在调用时，其中的this也都是window</p>
-<h3 id="执行上下文栈"><a href="#执行上下文栈" class="headerlink" title="执行上下文栈"></a>执行上下文栈</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">执行上下文栈</span><br><span class="line">                        压栈                        出栈（销毁）</span><br><span class="line">全局上下文环境 =》 函数上下文环境 =》 全局上下文环境</span><br><span class="line">                                全局上下文环境</span><br></pre></td></tr></table></figure>
-<p>代码段：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">var a = 10,</span><br><span class="line">        fn,</span><br><span class="line">        bar = function(x) &#123;</span><br><span class="line">            var b = 5</span><br><span class="line">            fn(x + b) // 进入fn全局上下文环境</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">fn = function(y) &#123;</span><br><span class="line">    var c = 5</span><br><span class="line">    console.log(y+c)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">bar(10)// 进入bar上下文环境</span><br></pre></td></tr></table></figure></p>
-<p>在执行代码之前将创建全局上下文环境</p>
-<h3 id="作用域"><a href="#作用域" class="headerlink" title="作用域"></a>作用域</h3><p>Js没有块级作用域，就是{}中间的语句 例如if for这些<br>所以要一开始声明变量 避免歧义</p>
-<p><strong>JS除了全局作用域外，只有函数可以创建的作用域</strong></p>
-<p><strong>作用域在函数定义的时候就已经确定，而不是调用的时候。（同一个作用域有不同的上下文执行环境）（this取值是函数调用的时候确定的）</strong></p>
-<p><strong>如果要查找一个作用域下某个变量的值，就需要找到这个作用域下对应的执行上下文环境，再在其中寻找变量的值</strong></p>
-<p>自由变量的取值要到创建这个变量的环境去取，而不是调用（静态作用域）。</p>
-<p><strong>如果在全局没找到，则未定义。如果是函数作用域，则去创建该函数的作用域去找</strong></p>
-<h3 id="闭包"><a href="#闭包" class="headerlink" title="闭包"></a>闭包</h3><p>两种应用情况：</p>
-<p><strong>1，函数作为返回值</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">function fn()&#123;</span><br><span class="line">// 这里当执行完fn的时候，按道理讲应该销毁fn上下文执行环境，但是fn的返回值是一个函数（函数可以创建一个独立的作用域），而这个函数中也引用了max变量，所以max不能被销毁，销毁之后bar函数就找不到max的值了</span><br><span class="line">    var max = 10</span><br><span class="line">    </span><br><span class="line">    return function(x) &#123;</span><br><span class="line">        if (x &gt; max) &#123;</span><br><span class="line">        console.log(x)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">var f1 = fn()，</span><br><span class="line">max = 100</span><br><span class="line"></span><br><span class="line">f1(15)  // 15 这里取值15证明fn的上下文环境没有被销毁，否则按照作用域链来说，max可以取到全局作用域中的值100</span><br></pre></td></tr></table></figure>
-<p><strong>2， 函数作为参数</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">var max = 10;</span><br><span class="line"></span><br><span class="line">var fn = function (x)&#123;</span><br><span class="line">    if (x &gt; max) &#123;</span><br><span class="line">        console.log(x)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">(function(f)&#123;</span><br><span class="line">    var max = 100</span><br><span class="line">    f(15)</span><br><span class="line">&#125;)(fn)</span><br><span class="line">// max取值为10 （去创建这个函数的作用域取值）</span><br></pre></td></tr></table></figure></p>
-<p><strong>普通函数别调用完之后，其执行上下文环境将被销毁，其中的变量也会被同时销毁。但是在闭包中，其上下文执行环境不会被销毁</strong></p>
-<p>作用域和上下文执行环境：<br>作用域在函数定义的时候就已经确定，一个函数只有一个作用域，但是随着被调用的不同，会有多种上下文环境</p>
-<h3 id="参考学习"><a href="#参考学习" class="headerlink" title="参考学习"></a>参考学习</h3><p>学习自：<a href="http://www.cnblogs.com/wangfupeng1988/p/3977924.html" target="_blank" rel="external">http://www.cnblogs.com/wangfupeng1988/p/3977924.html</a></p>
-<p><strong>注：这个非常不错，墙裂推荐学习</strong></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/" data-id="cjmt9x5bs000cxuvh80wob8lg" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
+        <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
 </section>
             
@@ -753,6 +712,25 @@
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/10/17/Laravel关联模型中过滤结果为空的结果集-has和with区别/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/PHP/">PHP</a></p>
+                            <p class="item-title"><a href="/2018/10/17/Laravel关联模型中过滤结果为空的结果集-has和with区别/" class="title">Laravel关联模型中过滤结果为空的结果集(has和with区别)</a></p>
+                            <p class="item-date"><time datetime="2018-10-17T14:23:59.000Z" itemprop="datePublished">2018-10-17</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -830,25 +808,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/06/07/用Golang撸了个小工具/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/Golang/">Golang</a></p>
-                            <p class="item-title"><a href="/2018/06/07/用Golang撸了个小工具/" class="title">用Golang撸了个小工具</a></p>
-                            <p class="item-date"><time datetime="2018-06-07T12:38:02.000Z" itemprop="datePublished">2018-06-07</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -858,7 +817,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unix-Linux/">Unix/Linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">3</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">2</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unix-Linux/">Unix/Linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -867,7 +826,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
         </div>
     </div>
 
@@ -876,7 +835,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Laravel/">Laravel</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemctl/">systemctl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/鉴权/">鉴权</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Laravel/">Laravel</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemctl/">systemctl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/鉴权/">鉴权</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
