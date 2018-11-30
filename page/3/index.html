@@ -151,11 +151,11 @@
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                22
+                23
                 <span>posts</span>
             </div>
             <div class="article-info-block">
-                28
+                30
                 <span>tags</span>
             </div>
         </div>
@@ -192,6 +192,149 @@
 
             
             <section id="main">
+    <article id="post-用Golang撸了个小工具" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/06/07/用Golang撸了个小工具/">用Golang撸了个小工具</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/06/07/用Golang撸了个小工具/">
+            <time datetime="2018-06-07T12:38:02.000Z" itemprop="datePublished">2018-06-07</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/Golang/">Golang</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Golang/">Golang</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>我们公司开发环境很特殊，一台本地服务器，然后分配多个ssh账户给开发者。平时上传代码只能ftp/sftp连接上传（以前用过samba共享，但被关了。。）。所以我们平时是在Phpstorm上用sftp远程打开服务器上的项目，然后设置自动上传。这样一般工作没问题。但是有个坑：Phpstorm无法捕获类似git checkout这些更改文件的变化。。所以也就无法让本地代码跟服务器保持一致了。所以也就诞生了想写个这个同步机制的念头，这种场景Golang很适合。于是就开始撸起来。。</p>
+<p>项目地址：<a href="https://github.com/rootrl/Mancy" target="_blank" rel="external">https://github.com/rootrl/Mancy</a></p>
+<h2 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h2><p>大致思路是监测一个文件夹的变化（本地代码库），如果有变化就通过sftp上传到服务器上。</p>
+<p>监测文件变化用的是golang的fsnotify package，它提供的监测变化类型如下：</p>
+<figure class="highlight golang"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> (</span><br><span class="line">    FSN_CREATE = <span class="number">1</span></span><br><span class="line">    FSN_MODIFY = <span class="number">2</span></span><br><span class="line">    FSN_DELETE = <span class="number">4</span></span><br><span class="line">    FSN_RENAME = <span class="number">8</span></span><br><span class="line"></span><br><span class="line">    FSN_ALL = FSN_MODIFY | FSN_DELETE | FSN_RENAME | FSN_CREATE</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<p>但是fsnotify有个坑就是只能监测一层文件夹的变化，多层文件夹需要自己遍历挂载事件。后续新建文件夹，重命名这种也要手动加事件。</p>
+<p>其中每个事件都对应一个处理通道，我的想法是让文件处理者和事件解耦，因为后面不一定是sftp来处理上传，也可能是rsync，也可能其他处理方式。所以后续处理者只用监听对应事件通道，处理者这里我用了golang的select实现了一个超时机制，有事件就处理，无事件有个几秒的等待时间。</p>
+<p>fsnotify这块代码见： <a href="https://github.com/rootrl/Mancy/blob/master/file_watcher.go" target="_blank" rel="external">https://github.com/rootrl/Mancy/blob/master/file_watcher.go</a><br>sftp hanlder见： <a href="https://github.com/rootrl/Mancy/blob/master/file_sftp_handler.go" target="_blank" rel="external">https://github.com/rootrl/Mancy/blob/master/file_sftp_handler.go</a></p>
+<p>sftp用的是github.com/pkg/sftp这个库，用起来还是挺顺手，但都是写底层的api，所以我单独封装了个sftp_util: <a href="https://github.com/rootrl/Mancy/blob/master/sftp_util.go" target="_blank" rel="external">https://github.com/rootrl/Mancy/blob/master/sftp_util.go</a> 有一些常见的上传文件/文件夹，删除文件/文件夹等操作</p>
+<p>以上基本能实现主要功能了，然后我还定义了个配置文件结构，通过对应Json字符可以把字段自动映射到这个结构上，供后续使用。这也是golang json包的方便之处。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>写这个项目主要是用来练手golang的，刚开始阶段，代码可能写得有点垃圾。。比如sftpClent客户端这些目前是用全局变量实现的，能用，但是不够优雅。。后续慢慢改进。。（可能永远不会。。）</p>
+<p>总之，Golang还是挺不错的！</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://rootrl.github.com/2018/06/07/用Golang撸了个小工具/" data-id="cjp4573lh001nf1vh3nxjwbre" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://rootrl.github.com/2018/06/07/用Golang撸了个小工具/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/06/07/用Golang撸了个小工具/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Javascript原型链、作用域、闭包学习笔记" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -312,7 +455,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/" data-id="cjnd91jpl000hprvhciemv0zv" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://rootrl.github.com/2018/04/25/Javascript原型链、作用域、闭包学习笔记/" data-id="cjp4573ku000hf1vh6yhpmm27" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -460,7 +603,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2018/04/20/Ansible-in-action/" data-id="cjnd91jp30000prvhfoml8xsn" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+    <a data-url="https://rootrl.github.com/2018/04/20/Ansible-in-action/" data-id="cjp4573kf0000f1vhtyq1x6qr" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -538,156 +681,6 @@
 
 
 
-    <article id="post-Docker实践-超简单配置ftp服务" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2017/11/18/Docker实践-超简单配置ftp服务/" itemprop="url">
-            <img src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/docker-logo.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/11/18/Docker实践-超简单配置ftp服务/">Docker实践 - 超简单配置ftp服务</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/11/18/Docker实践-超简单配置ftp服务/">
-            <time datetime="2017-11-18T01:08:58.000Z" itemprop="datePublished">2017-11-18</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/虚拟机-容器/">虚拟机/容器</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/docker/">docker</a>, <a class="tag-link" href="/tags/ftp/">ftp</a>, <a class="tag-link" href="/tags/nginx/">nginx</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="缘起"><a href="#缘起" class="headerlink" title="缘起"></a>缘起</h2><p>前几天双十一的时候在京东上买了一台云虚拟机，很便宜，2g内存的才121元一年。买的时候产品那边同事就打招呼叫我帮他配个ftp服务平时上传浏览原型图用。</p>
-<p>今天闲来无事就捣鼓这些环境，Nginx这边我一开始就是用Docker跑的，但是刚开始没想到也可以把ftp服务扔到容器里。</p>
-<p>刚开始我只是在Centos下正规的配置vsftpd服务，但是后来有个问题一直难以解决，就是ftp登陆上传的时候，新建的文件所在用户组和other都没有权限，配置了umask也无济于事，selinux也关闭了，想到我ftp用户目录和docker里跑的nginx都是一个目录，这种复杂的环境，想想就头疼，啥方法都用尽了，就是解决不了。</p>
-<h2 id="实践"><a href="#实践" class="headerlink" title="实践"></a>实践</h2><p>后来突然想到，我ftp不也可以直接扔docker吗？只用映射个21端口，然后在宿主机配个volume卷。然后去docker hub搜ftp镜像，没想到真的有一大堆，选来选去选了bogem/ftp，只因为这个配置简单，该有的也有。</p>
-<p>地址：<a href="https://hub.docker.com/r/bogem/ftp/" target="_blank" rel="external">https://hub.docker.com/r/bogem/ftp/</a></p>
-<p>就像说明说的，启动服务特简单：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">docker run -d -v &lt;host folder&gt;:/home/vsftpd \</span><br><span class="line">                -p 20:20 -p 21:21 -p 47400-47470:47400-47470 \</span><br><span class="line">                -e FTP_USER=&lt;username&gt; \</span><br><span class="line">                -e FTP_PASS=&lt;password&gt; \</span><br><span class="line">                -e PASV_ADDRESS=&lt;ip address of your server&gt; \</span><br><span class="line">                --name ftp \</span><br><span class="line">                --restart=always bogem/ftp</span><br></pre></td></tr></table></figure></p>
-<p>用的时候相应参数改下就可以了。</p>
-<p>我nginx这边服务也特简单，因为只用跑静态服务（当然要配个php-fpm服务也超级简单）<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker run -d --name ftp-server -v &#123;跟ftp一个目录&#125;:/usr/share/nginx/html:ro -p 81:80 nginx</span><br></pre></td></tr></table></figure></p>
-<p>这样整个服务就都启动啦，ftp可以正常上传，然后通过81端口可以访问静态页面。是不是超级简单。。以后啥服务都基本可以扔在docker跑了。</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://rootrl.github.com/2017/11/18/Docker实践-超简单配置ftp服务/" data-id="cjnd91jpe0007prvhrfj0wrds" class="article-share-link"><i class="fa fa-share"></i>Share</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://rootrl.github.com/2017/11/18/Docker实践-超简单配置ftp服务/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/11/18/Docker实践-超简单配置ftp服务/">Comments</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
     <nav id="page-nav">
         <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/8/">8</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
@@ -701,6 +694,25 @@
         <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/11/30/Linux磁盘挂载、分区、扩容操作/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Unix-Linux/">Unix/Linux</a></p>
+                            <p class="item-title"><a href="/2018/11/30/Linux磁盘挂载、分区、扩容操作/" class="title">Linux磁盘挂载、分区、扩容操作</a></p>
+                            <p class="item-date"><time datetime="2018-11-30T14:45:38.000Z" itemprop="datePublished">2018-11-30</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -778,25 +790,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/06/13/Laravel中的核心概念/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/PHP/">PHP</a></p>
-                            <p class="item-title"><a href="/2018/06/13/Laravel中的核心概念/" class="title">Laravel中的核心概念</a></p>
-                            <p class="item-date"><time datetime="2018-06-13T10:33:53.000Z" itemprop="datePublished">2018-06-13</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -806,7 +799,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unix-Linux/">Unix/Linux</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unix-Linux/">Unix/Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">4</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
@@ -815,7 +808,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
         </div>
     </div>
 
@@ -824,7 +817,7 @@
     <div class="widget-wrap">
         <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Laravel/">Laravel</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemctl/">systemctl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/鉴权/">鉴权</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Laravel/">Laravel</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mount/">mount</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemctl/">systemctl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/鉴权/">鉴权</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
