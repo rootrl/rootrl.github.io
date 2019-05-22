@@ -74,7 +74,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Rechercher" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -93,9 +93,9 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Articles',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Catégories',
+            CATEGORIES: 'Categories',
             TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
@@ -127,7 +127,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Rechercher" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -147,16 +147,16 @@
             <h2 id="name">Rootrl</h2>
             <h3 id="title">Web Developer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Hefei, China</span>
-            <a id="follow" target="_blank" href="https://github.com/rootrl/">SUIVRE</a>
+            <a id="follow" target="_blank" href="https://github.com/rootrl/">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                25
-                <span>Articles</span>
+                26
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                33
-                <span>Tags</span>
+                35
+                <span>tags</span>
             </div>
         </div>
         
@@ -192,6 +192,165 @@
 
             
             <section id="main">
+    <article id="post-Linux磁盘挂载、分区、扩容操作" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/11/30/Linux磁盘挂载、分区、扩容操作/">Linux磁盘挂载、分区、扩容操作</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/11/30/Linux磁盘挂载、分区、扩容操作/">
+            <time datetime="2018-11-30T14:45:38.000Z" itemprop="datePublished">2018-11-30</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Unix-Linux/">Unix/Linux</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Linux/">Linux</a>, <a class="tag-link" href="/tags/mount/">mount</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>注：以下操作系统环境为CentOS7</p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>在操作前，首先要了解一些基本概念</p>
+<h4 id="磁盘"><a href="#磁盘" class="headerlink" title="磁盘"></a>磁盘</h4><p>在Linux系统中所有的设备都会以文件的形式存储。设备一般保存在/dev目录下面，以sda、sda1、sda2 …,sdb、sdb1…,hda,hdb。现在的设备一般都是sd命名，以前的很老的硬盘是以ha命名。<br>sda：第一块硬盘，如果对磁盘进行了分区会有sda1(第一个分区)，sda2等。<br>sdb：第二个硬盘，同样对硬盘分区后有sdb1,sdb2等。</p>
+<h4 id="分区"><a href="#分区" class="headerlink" title="分区"></a>分区</h4><p>分区的目的就是便于管理，比如在Windows系统我们一般会分C盘，D盘，E盘等。</p>
+<p>Linux只能创建4个主分区，如果需要创建更多的分区那么久必须创建逻辑分区，其中逻辑分区需要占用一个主分区。</p>
+<h4 id="文件系统"><a href="#文件系统" class="headerlink" title="文件系统"></a>文件系统</h4><p>Linux中的文件系统也就是分区类型，在Windows中有NTEF,FAT32等，linux中常见的有Ext2、Ext3、Ext4、Linux swap、proc、sysfs、tmpfs等，可以通过mount命名查看当前已挂载的文件系统。</p>
+<h4 id="格式化"><a href="#格式化" class="headerlink" title="格式化"></a>格式化</h4><p>在前面创建完分区后有一步是要对分区进行格式化，其实在Windows系统中也是一样，在创建好一个分区后也需要将分区格式化，只有格式化成具体的文件类型才能使用。</p>
+<h4 id="挂载"><a href="#挂载" class="headerlink" title="挂载"></a>挂载</h4><p>在Windows中分区格式化后就可以使用，但是在Linux系统中必须将分区挂载到具体的路径下才可以。</p>
+<h3 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">lsblk  查看当前磁盘情况</span><br><span class="line">df -lh  查看文件系统情况 -l 查看挂载点</span><br><span class="line">parted -l 会列出文件系统类型</span><br><span class="line">fdisk -l 查看当前未挂载硬盘</span><br></pre></td></tr></table></figure>
+<h3 id="挂载新硬盘"><a href="#挂载新硬盘" class="headerlink" title="挂载新硬盘"></a>挂载新硬盘</h3><p>挂载一个新硬盘基本思路是：创建分区、创建文件系统、挂载。</p>
+<h4 id="一、查看新硬盘"><a href="#一、查看新硬盘" class="headerlink" title="一、查看新硬盘"></a>一、查看新硬盘</h4><p>首先，查看硬盘状况：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fdisk -l</span><br></pre></td></tr></table></figure>
+<p>其中：<br>如果磁盘下面有类似：Disk /dev/sdc doesn’t contain a valid partition table；或者说磁盘下面没有类似于：sdb1 sdb2 说明该磁盘未挂载</p>
+<p>这里假设看到硬盘名为 /dev/sdb</p>
+<h4 id="二、创建分区"><a href="#二、创建分区" class="headerlink" title="二、创建分区"></a>二、创建分区</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dfisk /dev/sdb</span><br></pre></td></tr></table></figure>
+<p>根据提示，依次输入”n”，”p” “1”，两次回车，”wq”<br>意思就是新建一个主分区（1），大小是整个sdb磁盘，然后写入。</p>
+<p>注：上述操作为了简便，只是创建一个主分区。其实一个磁盘最多有四个主分区（包括一个扩展分区），1-4都是主分区，我们也可以把一个分区作为扩展分区（通过df -lh 查看到的system为Extended）</p>
+<p>此时磁盘已经分区，但是还没有文件系统，磁盘依然不能用</p>
+<h4 id="三、写入系统"><a href="#三、写入系统" class="headerlink" title="三、写入系统"></a>三、写入系统</h4><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkfs.ext4 /dev/sdb</span><br></pre></td></tr></table></figure>
+<p>该命令会格式化磁盘并写入文件系统</p>
+<h4 id="四、挂载"><a href="#四、挂载" class="headerlink" title="四、挂载"></a>四、挂载</h4><p>比如挂载到/data下面<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">mkdir /data # 如果存在此步省略</span><br><span class="line">mount /dev/sdb /data</span><br></pre></td></tr></table></figure></p>
+<h4 id="五、设置开机自动挂载"><a href="#五、设置开机自动挂载" class="headerlink" title="五、设置开机自动挂载"></a>五、设置开机自动挂载</h4><p>以上只是临时挂载，还需设置为开机自动挂载</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">vim /etc/fstab</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 然后在内容结尾处增加一行（注意文件类型要对应）：</span><br><span class="line"></span><br><span class="line">/dev/sdb    /data    ext4    defaults    0 0</span><br></pre></td></tr></table></figure>
+<h3 id="扩容"><a href="#扩容" class="headerlink" title="扩容"></a>扩容</h3><h4 id="关于挂载到已有目录"><a href="#关于挂载到已有目录" class="headerlink" title="关于挂载到已有目录"></a>关于挂载到已有目录</h4><p>如果你要用来挂载的目录里面并不是空的，那么挂载了文件系统之后，原目录下的东西就会暂时的消失。并不是被覆盖掉，而是暂时的隐藏了起来，等到新分割槽被卸除之后，则原目录原本的内容就会再次出来。</p>
+<p>如果要永久挂载已有目录，可以在新硬盘创建文件系统后，先挂载到一个临时目录，然后把要扩展的目录复制到这临时目录，然后删除要扩展的目录，再卸载临时挂载点，重新挂载到要扩展的目录上。举例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"># 比如要扩充 /var</span><br><span class="line"></span><br><span class="line"># 在创建好文件系统后 新建临时挂载点 storage</span><br><span class="line">mkdir /storage</span><br><span class="line"></span><br><span class="line"># 将/dev/sdb1挂载到/storage下</span><br><span class="line">mount /dev/sdb1  /storage</span><br><span class="line"></span><br><span class="line"># 拷贝/var下的所有内容到新的硬盘</span><br><span class="line">cp -pdr /var /storage</span><br><span class="line"># 或在/var 目录下执行：find . -depth -print | cpio - pldvm /temp</span><br><span class="line"># 删除当前/var目录下的内容</span><br><span class="line">rm -rf /var/*</span><br><span class="line"># 重新挂载硬盘到/var目录</span><br><span class="line">umount /dev/sdb1</span><br><span class="line">mount /dev/sdb1 /var</span><br><span class="line"></span><br><span class="line"># 过程中若提示磁盘忙，使用fuser找出将正在使用磁盘的程序并结束掉；</span><br><span class="line"></span><br><span class="line">fuser -m -v /var</span><br><span class="line">fuser -m -v -i -k /var</span><br></pre></td></tr></table></figure>
+<h3 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h3><p>如果扩容比较频繁，那推荐使用LVM管理（最后一个参考链接）</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="http://www.cnblogs.com/chenmh/p/5096592.html" target="_blank" rel="external">http://www.cnblogs.com/chenmh/p/5096592.html</a><br><a href="https://segmentfault.com/a/1190000004585900" target="_blank" rel="external">https://segmentfault.com/a/1190000004585900</a><br><a href="https://blog.csdn.net/wzb56_earl/article/details/7580601" target="_blank" rel="external">https://blog.csdn.net/wzb56_earl/article/details/7580601</a><br><a href="https://www.cnblogs.com/sourceforge/p/mount-folder-to-new-disk-in-centos.html" target="_blank" rel="external">https://www.cnblogs.com/sourceforge/p/mount-folder-to-new-disk-in-centos.html</a><br><a href="http://www.cnblogs.com/gaojun/archive/2012/08/22/2650229.html" target="_blank" rel="external">http://www.cnblogs.com/gaojun/archive/2012/08/22/2650229.html</a></p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://rootrl.github.com/2018/11/30/Linux磁盘挂载、分区、扩容操作/" data-id="cjvz9fi7j000vhopnmh88kmyu" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://rootrl.github.com/2018/11/30/Linux磁盘挂载、分区、扩容操作/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/11/30/Linux磁盘挂载、分区、扩容操作/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-Laravel关联模型中过滤结果为空的结果集-has和with区别" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -261,7 +420,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2018/10/17/Laravel关联模型中过滤结果为空的结果集-has和with区别/" data-id="cjvxsqryd000nc6pnkvptdyh6" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
+    <a data-url="https://rootrl.github.com/2018/10/17/Laravel关联模型中过滤结果为空的结果集-has和with区别/" data-id="cjvz9fi7e000mhopnj944ibxf" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -329,7 +488,7 @@
 
             
     
-        <a href="https://rootrl.github.com/2018/10/17/Laravel关联模型中过滤结果为空的结果集-has和with区别/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/10/17/Laravel关联模型中过滤结果为空的结果集-has和with区别/">Commentaires</a>
+        <a href="https://rootrl.github.com/2018/10/17/Laravel关联模型中过滤结果为空的结果集-has和with区别/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/10/17/Laravel关联模型中过滤结果为空的结果集-has和with区别/">Comments</a>
     
 
         </footer>
@@ -408,7 +567,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2018/10/03/关于JWT-Json-Web-Token-的思考及使用心得/" data-id="cjvxsqryo001ec6pnkoqm041r" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
+    <a data-url="https://rootrl.github.com/2018/10/03/关于JWT-Json-Web-Token-的思考及使用心得/" data-id="cjvz9fi7t001ghopnr4h14eb7" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -476,148 +635,7 @@
 
             
     
-        <a href="https://rootrl.github.com/2018/10/03/关于JWT-Json-Web-Token-的思考及使用心得/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/10/03/关于JWT-Json-Web-Token-的思考及使用心得/">Commentaires</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-如何调试Systemctl" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/09/03/如何调试Systemctl/">如何调试Systemctl</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/09/03/如何调试Systemctl/">
-            <time datetime="2018-09-02T18:53:27.000Z" itemprop="datePublished">2018-09-03</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/Unix-Linux/">Unix/Linux</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/linux/">linux</a>, <a class="tag-link" href="/tags/systemctl/">systemctl</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>有时候我们使用systemctl命令，比如systemctl start kube-apiserver时会提示错误：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr kubenetes]<span class="comment"># systemctl start kube-apiserver         </span></span><br><span class="line">Job <span class="keyword">for</span> kube-apiserver.service failed because the control process exited with error code. See <span class="string">"systemctl status kube-apiserver.service"</span> and <span class="string">"journalctl -xe"</span> <span class="keyword">for</span> details.</span><br></pre></td></tr></table></figure></p>
-<p>根据提示，再运行systemctl status kube-apiserver.service 会提示类似：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">● kube-apiserver.service - Kubernetes API Service</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/kube-apiserver.service; disabled; vendor preset: disabled)</span><br><span class="line">   Active: failed (Result: start-limit) since Fri 2018-07-20 06:37:05 UTC; 1min 17s ago</span><br><span class="line">     Docs: https://github.com/GoogleCloudPlatform/kubernetes</span><br><span class="line">  Process: 8208 ExecStart=/usr/bin/kube-apiserver <span class="variable">$KUBE_LOGTOSTDERR</span> <span class="variable">$KUBE_LOG_LEVEL</span> <span class="variable">$KUBE_ETCD_SERVERS</span> <span class="variable">$KUBE_API_ADDRESS</span> <span class="variable">$KUBE_API_PORT</span> <span class="variable">$KUBELET_PORT</span> <span class="variable">$KUBE_ALLOW_PRIV</span> <span class="variable">$KUBE_SERVICE_ADDRESSES</span> <span class="variable">$KUBE_ADMISSION_CONTROL</span> <span class="variable">$KUBE_API_ARGS</span> (code=exited, status=203/EXEC)</span><br><span class="line"></span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: kube-apiserver.service: main process exited, code=exited, status=203/EXEC</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: Failed to start Kubernetes API Service.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: Unit kube-apiserver.service entered failed state.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: kube-apiserver.service failed.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: kube-apiserver.service holdoff time over, scheduling restart.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: start request repeated too quickly <span class="keyword">for</span> kube-apiserver.service</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: Failed to start Kubernetes API Service.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: Unit kube-apiserver.service entered failed state.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: kube-apiserver.service failed.</span><br></pre></td></tr></table></figure>
-<p>注意看ExecStart</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExecStart=/usr/bin/kube-apiserver <span class="variable">$KUBE_LOGTOSTDERR</span> <span class="variable">$KUBE_LOG_LEVEL</span> <span class="variable">$KUBE_ETCD_SERVERS</span> <span class="variable">$KUBE_API_ADDRESS</span> <span class="variable">$KUBE_API_PORT</span> <span class="variable">$KUBELET_PORT</span> <span class="variable">$KUBE_ALLOW_PRIV</span> <span class="variable">$KUBE_SERVICE_ADDRESSES</span> <span class="variable">$KUBE_ADMISSION_CONTROL</span> <span class="variable">$KUBE_API_ARGS</span></span><br></pre></td></tr></table></figure>
-<p>其实我们调试思想是，我们知道是这个kube-apiserver命令加上后续参数执行时出错了，所以只要我们手动运行一下这个命令就知道错在哪了，但是这里环境变量还是类似$KUBE_LOG_LEVEL这种变量，不是编译后的，不好调试运行。</p>
-<p>这里有个技巧就是，编辑你system服务的service配置文件，在Service选中添加一项，类似：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExecStartPre=/bin/bash -l -c <span class="string">'echo "/usr/bin/kube-apiserver $YOUR_ARGS"&gt;/tmp/systemctl.debug'</span></span><br></pre></td></tr></table></figure>
-<p>实际运行时这里$YOUR_ASRGS替换为你自己在systemctl status后看到的参数。</p>
-<p>然后systemctl daemon-reload，再start服务后，就可以运行 cat /tmp/systemctl.debug查看具体的运行命令，然后拷贝下来在命令行运行下就可以知道具体的错误了。</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://rootrl.github.com/2018/09/03/如何调试Systemctl/" data-id="cjvxsqryq001ic6pnit4gxcl4" class="article-share-link"><i class="fa fa-share"></i>Partager</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://rootrl.github.com/2018/09/03/如何调试Systemctl/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/09/03/如何调试Systemctl/">Commentaires</a>
+        <a href="https://rootrl.github.com/2018/10/03/关于JWT-Json-Web-Token-的思考及使用心得/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/10/03/关于JWT-Json-Web-Token-的思考及使用心得/">Comments</a>
     
 
         </footer>
@@ -628,7 +646,7 @@
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/">&laquo; Préc</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Suiv &raquo;</a>
+        <a class="extend prev" rel="prev" href="/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/3/">Next &raquo;</a>
     </nav>
 </section>
             
@@ -637,9 +655,28 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Récents</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/05/22/FastDFS-Docker化部署-以及-Java-SpringMVC实践/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/Java/">Java</a></p>
+                            <p class="item-title"><a href="/2019/05/22/FastDFS-Docker化部署-以及-Java-SpringMVC实践/" class="title">FastDFS Docker化部署 以及 Java SpringMVC实践</a></p>
+                            <p class="item-date"><time datetime="2019-05-22T13:23:39.000Z" itemprop="datePublished">2019-05-22</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -717,25 +754,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/10/03/关于JWT-Json-Web-Token-的思考及使用心得/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/安全/">安全</a></p>
-                            <p class="item-title"><a href="/2018/10/03/关于JWT-Json-Web-Token-的思考及使用心得/" class="title">关于JWT(Json Web Token)的思考及使用心得</a></p>
-                            <p class="item-date"><time datetime="2018-10-03T14:52:27.000Z" itemprop="datePublished">2018-10-03</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -743,34 +761,34 @@
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Catégories</h3>
+        <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unix-Linux/">Unix/Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发经验/">开发经验</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">5</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Java/">Java</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unix-Linux/">Unix/Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发经验/">开发经验</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Archives</h3>
+        <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Tags</h3>
+        <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Laravel/">Laravel</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mount/">mount</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemctl/">systemctl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/七牛云/">七牛云</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/鉴权/">鉴权</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FastDFS/">FastDFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Laravel/">Laravel</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mount/">mount</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemctl/">systemctl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/七牛云/">七牛云</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/鉴权/">鉴权</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Liens</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
