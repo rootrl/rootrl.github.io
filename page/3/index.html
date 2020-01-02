@@ -74,7 +74,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -93,10 +93,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -127,7 +127,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -147,16 +147,16 @@
             <h2 id="name">Rootrl</h2>
             <h3 id="title">Web Developer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Hefei, China</span>
-            <a id="follow" target="_blank" href="https://github.com/rootrl/">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/rootrl/">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                26
-                <span>Entradas</span>
+                27
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                35
-                <span>Etiquetas</span>
+                36
+                <span>tags</span>
             </div>
         </div>
         
@@ -192,7 +192,7 @@
 
             
             <section id="main">
-    <article id="post-如何调试Systemctl" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-关于JWT-Json-Web-Token-的思考及使用心得" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
         
@@ -200,7 +200,7 @@
                 
     
         <h1 itemprop="name">
-            <a class="article-title" href="/2018/09/03/如何调试Systemctl/">如何调试Systemctl</a>
+            <a class="article-title" href="/2018/10/03/关于JWT-Json-Web-Token-的思考及使用心得/">关于JWT(Json Web Token)的思考及使用心得</a>
         </h1>
     
 
@@ -209,8 +209,8 @@
                         
     <div class="article-date">
         <i class="fa fa-calendar"></i>
-        <a href="/2018/09/03/如何调试Systemctl/">
-            <time datetime="2018-09-02T18:53:27.000Z" itemprop="datePublished">2018-09-03</time>
+        <a href="/2018/10/03/关于JWT-Json-Web-Token-的思考及使用心得/">
+            <time datetime="2018-10-03T14:52:27.000Z" itemprop="datePublished">2018-10-03</time>
         </a>
     </div>
 
@@ -218,13 +218,13 @@
                         
     <div class="article-category">
     	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/Unix-Linux/">Unix/Linux</a>
+        <a class="article-category-link" href="/categories/安全/">安全</a>
     </div>
 
                         
     <div class="article-tag">
         <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/linux/">linux</a>, <a class="tag-link" href="/tags/systemctl/">systemctl</a>
+        <a class="tag-link" href="/tags/jwt/">jwt</a>, <a class="tag-link" href="/tags/鉴权/">鉴权</a>
     </div>
 
                     </div>
@@ -235,16 +235,22 @@
         <div class="article-entry" itemprop="articleBody">
         
             
-            <p>有时候我们使用systemctl命令，比如systemctl start kube-apiserver时会提示错误：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr kubenetes]<span class="comment"># systemctl start kube-apiserver         </span></span><br><span class="line">Job <span class="keyword">for</span> kube-apiserver.service failed because the control process exited with error code. See <span class="string">"systemctl status kube-apiserver.service"</span> and <span class="string">"journalctl -xe"</span> <span class="keyword">for</span> details.</span><br></pre></td></tr></table></figure></p>
-<p>根据提示，再运行systemctl status kube-apiserver.service 会提示类似：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">● kube-apiserver.service - Kubernetes API Service</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/kube-apiserver.service; disabled; vendor preset: disabled)</span><br><span class="line">   Active: failed (Result: start-limit) since Fri 2018-07-20 06:37:05 UTC; 1min 17s ago</span><br><span class="line">     Docs: https://github.com/GoogleCloudPlatform/kubernetes</span><br><span class="line">  Process: 8208 ExecStart=/usr/bin/kube-apiserver <span class="variable">$KUBE_LOGTOSTDERR</span> <span class="variable">$KUBE_LOG_LEVEL</span> <span class="variable">$KUBE_ETCD_SERVERS</span> <span class="variable">$KUBE_API_ADDRESS</span> <span class="variable">$KUBE_API_PORT</span> <span class="variable">$KUBELET_PORT</span> <span class="variable">$KUBE_ALLOW_PRIV</span> <span class="variable">$KUBE_SERVICE_ADDRESSES</span> <span class="variable">$KUBE_ADMISSION_CONTROL</span> <span class="variable">$KUBE_API_ARGS</span> (code=exited, status=203/EXEC)</span><br><span class="line"></span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: kube-apiserver.service: main process exited, code=exited, status=203/EXEC</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: Failed to start Kubernetes API Service.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: Unit kube-apiserver.service entered failed state.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: kube-apiserver.service failed.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: kube-apiserver.service holdoff time over, scheduling restart.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: start request repeated too quickly <span class="keyword">for</span> kube-apiserver.service</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: Failed to start Kubernetes API Service.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: Unit kube-apiserver.service entered failed state.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: kube-apiserver.service failed.</span><br></pre></td></tr></table></figure>
-<p>注意看ExecStart</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExecStart=/usr/bin/kube-apiserver <span class="variable">$KUBE_LOGTOSTDERR</span> <span class="variable">$KUBE_LOG_LEVEL</span> <span class="variable">$KUBE_ETCD_SERVERS</span> <span class="variable">$KUBE_API_ADDRESS</span> <span class="variable">$KUBE_API_PORT</span> <span class="variable">$KUBELET_PORT</span> <span class="variable">$KUBE_ALLOW_PRIV</span> <span class="variable">$KUBE_SERVICE_ADDRESSES</span> <span class="variable">$KUBE_ADMISSION_CONTROL</span> <span class="variable">$KUBE_API_ARGS</span></span><br></pre></td></tr></table></figure>
-<p>其实我们调试思想是，我们知道是这个kube-apiserver命令加上后续参数执行时出错了，所以只要我们手动运行一下这个命令就知道错在哪了，但是这里环境变量还是类似$KUBE_LOG_LEVEL这种变量，不是编译后的，不好调试运行。</p>
-<p>这里有个技巧就是，编辑你system服务的service配置文件，在Service选中添加一项，类似：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExecStartPre=/bin/bash -l -c <span class="string">'echo "/usr/bin/kube-apiserver $YOUR_ARGS"&gt;/tmp/systemctl.debug'</span></span><br></pre></td></tr></table></figure>
-<p>实际运行时这里$YOUR_ASRGS替换为你自己在systemctl status后看到的参数。</p>
-<p>然后systemctl daemon-reload，再start服务后，就可以运行 cat /tmp/systemctl.debug查看具体的运行命令，然后拷贝下来在命令行运行下就可以知道具体的错误了。</p>
+            <h2 id="什么是JWT？"><a href="#什么是JWT？" class="headerlink" title="什么是JWT？"></a>什么是JWT？</h2><p>JWT(Json Web Token) 是一个开放的数据交换验证标准rfc7519 ( <a href="https://tools.ietf.org/html/rfc7519" target="_blank" rel="external">https://tools.ietf.org/html/rfc7519</a> ) ，一般用来做轻量级的API鉴权。由于许多API接口设计是遵循无状态的(比如Restful)，所以JWT是Cookie Session这一套机制的替代方案。</p>
+<h3 id="组成"><a href="#组成" class="headerlink" title="组成"></a>组成</h3><p>JWT由三部分组成头部(header)、载荷(payload)、签名(signature)。头部定义类型和加密方式；载荷部分放不是很重要的数据；签名使用定义的加密方式加密base64后的header和payload和一段你自己的加密key。最后的token由base64(header).base64(payload).base64(signatrue)组成。</p>
+<h3 id="使用方式"><a href="#使用方式" class="headerlink" title="使用方式"></a>使用方式</h3><p>平时需要鉴权的接口需要传这个token，可以post字段提交，但是一般建议放在header头中 ，因为JWT一般配合https使用，这样就万无一失。</p>
+<h3 id="为什么安全？"><a href="#为什么安全？" class="headerlink" title="为什么安全？"></a>为什么安全？</h3><p>首先token是服务端签发，然后验证时是用同样加密方式把header、payload和key再加密遍 然后看是不是和签名一致 如果不一致就说明token是非法的 这里主要靠的是加密（比如HS256）难以被攻破 至少目前吧 另外不得不说这里的加密对服务器来说是一个开销 这也是JWT的缺点</p>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>我很早就听说过JWT 但那时候还没用上 感觉近几年前后端分离思想加速了JWT的使用 MVC前置到前端（VUE、REACT）后端只用提供API API强调无状态 自然而然使用了JWT这套方案</p>
+<p>之前做小程序时 没有绝对使用JWT这套方案 我把它简化了下</p>
+<p>最近开发的一套项目用的是Laravel做后端提供API服务，所以自然而然使用了JWT，使用的扩展是tymon/jwt-auth 关于这套扩展机制的具体使用可以参考这篇文章 写的很不错：<a href="https://laravel-china.org/articles/10885/full-use-of-jwt" target="_blank" rel="external">https://laravel-china.org/articles/10885/full-use-of-jwt</a></p>
+<h2 id="项目使用时的具体细节"><a href="#项目使用时的具体细节" class="headerlink" title="项目使用时的具体细节"></a>项目使用时的具体细节</h2><h3 id="JWT三个时间概念"><a href="#JWT三个时间概念" class="headerlink" title="JWT三个时间概念"></a>JWT三个时间概念</h3><p>JWT有三个时间概念： 过期时间 宽限时间 刷新时间</p>
+<p>上面那文章说token过了过期时间是不可刷新的，但其实是可以刷新的，我这边使用时可以（开启了黑名单机制和1min宽限时间） 但是过了刷新时间不能刷新这是肯定的</p>
+<h3 id="token刷新"><a href="#token刷新" class="headerlink" title="token刷新"></a>token刷新</h3><p>可以借用laravel的中间件实现自动刷新 服务端判断过期了但是在刷新时间内主动刷新一次 并把新的token在Header头中返回给客户端</p>
+<h3 id="记住我功能"><a href="#记住我功能" class="headerlink" title="记住我功能"></a>记住我功能</h3><p>我感觉定义刷新时间（比如一个月） + token自动刷新机制这一套就是记住我功能</p>
+<h3 id="不能主动销毁Token"><a href="#不能主动销毁Token" class="headerlink" title="不能主动销毁Token"></a>不能主动销毁Token</h3><p>默认JWT这套方案好像不可以主动剔除用户的，因为服务端不会存token，只是验证。这和session不一样。 但是我感觉可以借用黑名单机制 来判断 中间件中判断该token在剔除黑名单中就销毁token并返回鉴权失败</p>
+<h3 id="单点登录"><a href="#单点登录" class="headerlink" title="单点登录"></a>单点登录</h3><p>结合缓存比如redis存客户端标识是可以的</p>
+<h3 id="多套用户权限机制"><a href="#多套用户权限机制" class="headerlink" title="多套用户权限机制"></a>多套用户权限机制</h3><p>比如客户端有用户端和商家端两套用户机制（不同表），可以在auth.php定义两个guard 分别指定对应的model Login逻辑单独写 比如auth(‘userApi’) auth(‘corpApi’) 可以拿到不同的guard 刷新中间件是可以共用的 不过router中的middleware方法可以指定具体的middleware</p>
+<h3 id="为什么不同权限体系的刷新中间件可以公用"><a href="#为什么不同权限体系的刷新中间件可以公用" class="headerlink" title="为什么不同权限体系的刷新中间件可以公用"></a>为什么不同权限体系的刷新中间件可以公用</h3><p>感觉是jwt-auth实现了这机制 验证token时会根据sub字段判断 我base64decode两个token的payload后发现sub一个是1 一个是2</p>
+<p>如果有问题欢迎指正！</p>
 
         
         </div>
@@ -255,7 +261,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2018/09/03/如何调试Systemctl/" data-id="ck4wtj7f8001i7opnpqqhlxkb" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="https://rootrl.github.com/2018/10/03/关于JWT-Json-Web-Token-的思考及使用心得/" data-id="ck4wtj7f3001d7opn0n4r5kb8" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -323,7 +329,148 @@
 
             
     
-        <a href="https://rootrl.github.com/2018/09/03/如何调试Systemctl/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/09/03/如何调试Systemctl/">Comentarios</a>
+        <a href="https://rootrl.github.com/2018/10/03/关于JWT-Json-Web-Token-的思考及使用心得/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/10/03/关于JWT-Json-Web-Token-的思考及使用心得/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
+    <article id="post-如何调试Systemctl" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2018/09/03/如何调试Systemctl/">如何调试Systemctl</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2018/09/03/如何调试Systemctl/">
+            <time datetime="2018-09-02T18:53:27.000Z" itemprop="datePublished">2018-09-03</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/Unix-Linux/">Unix/Linux</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/linux/">linux</a>, <a class="tag-link" href="/tags/systemctl/">systemctl</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>有时候我们使用systemctl命令，比如systemctl start kube-apiserver时会提示错误：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[root@vultr kubenetes]<span class="comment"># systemctl start kube-apiserver         </span></span><br><span class="line">Job <span class="keyword">for</span> kube-apiserver.service failed because the control process exited with error code. See <span class="string">"systemctl status kube-apiserver.service"</span> and <span class="string">"journalctl -xe"</span> <span class="keyword">for</span> details.</span><br></pre></td></tr></table></figure></p>
+<p>根据提示，再运行systemctl status kube-apiserver.service 会提示类似：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">● kube-apiserver.service - Kubernetes API Service</span><br><span class="line">   Loaded: loaded (/usr/lib/systemd/system/kube-apiserver.service; disabled; vendor preset: disabled)</span><br><span class="line">   Active: failed (Result: start-limit) since Fri 2018-07-20 06:37:05 UTC; 1min 17s ago</span><br><span class="line">     Docs: https://github.com/GoogleCloudPlatform/kubernetes</span><br><span class="line">  Process: 8208 ExecStart=/usr/bin/kube-apiserver <span class="variable">$KUBE_LOGTOSTDERR</span> <span class="variable">$KUBE_LOG_LEVEL</span> <span class="variable">$KUBE_ETCD_SERVERS</span> <span class="variable">$KUBE_API_ADDRESS</span> <span class="variable">$KUBE_API_PORT</span> <span class="variable">$KUBELET_PORT</span> <span class="variable">$KUBE_ALLOW_PRIV</span> <span class="variable">$KUBE_SERVICE_ADDRESSES</span> <span class="variable">$KUBE_ADMISSION_CONTROL</span> <span class="variable">$KUBE_API_ARGS</span> (code=exited, status=203/EXEC)</span><br><span class="line"></span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: kube-apiserver.service: main process exited, code=exited, status=203/EXEC</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: Failed to start Kubernetes API Service.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: Unit kube-apiserver.service entered failed state.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: kube-apiserver.service failed.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: kube-apiserver.service holdoff time over, scheduling restart.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: start request repeated too quickly <span class="keyword">for</span> kube-apiserver.service</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: Failed to start Kubernetes API Service.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: Unit kube-apiserver.service entered failed state.</span><br><span class="line">Jul 20 06:37:05 vultr.guest systemd[1]: kube-apiserver.service failed.</span><br></pre></td></tr></table></figure>
+<p>注意看ExecStart</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExecStart=/usr/bin/kube-apiserver <span class="variable">$KUBE_LOGTOSTDERR</span> <span class="variable">$KUBE_LOG_LEVEL</span> <span class="variable">$KUBE_ETCD_SERVERS</span> <span class="variable">$KUBE_API_ADDRESS</span> <span class="variable">$KUBE_API_PORT</span> <span class="variable">$KUBELET_PORT</span> <span class="variable">$KUBE_ALLOW_PRIV</span> <span class="variable">$KUBE_SERVICE_ADDRESSES</span> <span class="variable">$KUBE_ADMISSION_CONTROL</span> <span class="variable">$KUBE_API_ARGS</span></span><br></pre></td></tr></table></figure>
+<p>其实我们调试思想是，我们知道是这个kube-apiserver命令加上后续参数执行时出错了，所以只要我们手动运行一下这个命令就知道错在哪了，但是这里环境变量还是类似$KUBE_LOG_LEVEL这种变量，不是编译后的，不好调试运行。</p>
+<p>这里有个技巧就是，编辑你system服务的service配置文件，在Service选中添加一项，类似：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ExecStartPre=/bin/bash -l -c <span class="string">'echo "/usr/bin/kube-apiserver $YOUR_ARGS"&gt;/tmp/systemctl.debug'</span></span><br></pre></td></tr></table></figure>
+<p>实际运行时这里$YOUR_ASRGS替换为你自己在systemctl status后看到的参数。</p>
+<p>然后systemctl daemon-reload，再start服务后，就可以运行 cat /tmp/systemctl.debug查看具体的运行命令，然后拷贝下来在命令行运行下就可以知道具体的错误了。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://rootrl.github.com/2018/09/03/如何调试Systemctl/" data-id="ck4wtj7f8001i7opnpqqhlxkb" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://rootrl.github.com/2018/09/03/如何调试Systemctl/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/09/03/如何调试Systemctl/">Comments</a>
     
 
         </footer>
@@ -412,7 +559,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2018/07/05/使用Docker-compose编排Laravel项目/" data-id="ck4wtj7fa001m7opn66t0t6ma" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="https://rootrl.github.com/2018/07/05/使用Docker-compose编排Laravel项目/" data-id="ck4wtj7fa001m7opn66t0t6ma" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -480,214 +627,7 @@
 
             
     
-        <a href="https://rootrl.github.com/2018/07/05/使用Docker-compose编排Laravel项目/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/07/05/使用Docker-compose编排Laravel项目/">Comentarios</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-Laravel中的核心概念" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2018/06/13/Laravel中的核心概念/">Laravel中的核心概念</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2018/06/13/Laravel中的核心概念/">
-            <time datetime="2018-06-13T10:33:53.000Z" itemprop="datePublished">2018-06-13</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/PHP/">PHP</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Laravel/">Laravel</a>, <a class="tag-link" href="/tags/PHP/">PHP</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="导言"><a href="#导言" class="headerlink" title="导言"></a>导言</h2><p>Laravel是一款先进的现代化框架，里面有一些概念非常重要。在上手Laravel之前，我认为先弄懂这些概念是很有必要的。你甚至需要重温下PHP OOP知识。我相信很多人对比如getter setter以及<strong>invoke、</strong>call、_<em>callStatic这些魔术方法甚至this、<br>self、static这些关键字作用都还是很模糊的（我上一个老大喜欢问这种基础问题，然后答不上来-</em>-‘）。</p>
-<h2 id="DI-amp-IoC"><a href="#DI-amp-IoC" class="headerlink" title="DI &amp; IoC"></a>DI &amp; IoC</h2><p>首先名词解释，DI全称是Dependency injection，依赖注入的意思。而IoC是Inversion of control 控制反转。</p>
-<p>要了解依赖注入和控制反转，首先我们不得不提到面向对象设计中的五大设计原则：S.O.L.I.D。</p>
-<h4 id="S-O-L-I-D-面向对象五大设计原则"><a href="#S-O-L-I-D-面向对象五大设计原则" class="headerlink" title="S.O.L.I.D - 面向对象五大设计原则"></a>S.O.L.I.D - 面向对象五大设计原则</h4><p>SRP   The Single Responsibility Principle 单一责任原则<br>OCP   The Open Closed Principle 开放封闭原则<br>LSP   The Liskov Substitution Principle    里氏替换原则<br>ISP   The Interface Segregation Principle    接口分离原则<br>DIP   The Dependency Inversion Principle    依赖倒置原则</p>
-<p>这五种思想原则对我们平常的软件开发设计非常重要，大家可以具体去了解下。</p>
-<h4 id="依赖倒置原则"><a href="#依赖倒置原则" class="headerlink" title="依赖倒置原则"></a>依赖倒置原则</h4><p>这里我们重点讲下依赖倒置原则：实体必须依靠抽象而不是具体实现。它表示高层次的模块不应该依赖于低层次的模块，它们都应该依赖于抽象。</p>
-<p>在传统软件设计中，我们一般都是上层代码依赖下层代码，当下层代码变动时，我们上层代码要跟着变动，维护成本比较高。这时我们可以上层定义接口，下层来实现这个接口，从而使得下层依赖于上层，降低耦合度。（PC主板和鼠标键盘接口就是一个很好的例子，各数据厂商根据主板上的接口来生产自己的鼠标键盘产品，这样鼠标坏了后我们可以随便换个符合接口要求的鼠标，而不用修改主板上的什么东西）</p>
-<h4 id="控制反转"><a href="#控制反转" class="headerlink" title="控制反转"></a>控制反转</h4><p>上面讲的依赖倒置是一种原则，而控制反转就是实现依赖倒置的一种具体方法。控制反转核心是把上层（类）所依赖单元的实例化过程交由第三方实现，而类中不允许存在对所依赖单元的实例化语句。举个例子：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Comment</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">afterInsert</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		$notification = <span class="keyword">new</span> EmailNotification(...);</span><br><span class="line">		$notification-&gt;send(...);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>如上，假如我们在用户提交评论后通知被评论者，这里通知方式是邮件，而且是直接在类中实例化邮件通知类，这样代码耦合度高，如果换个短信通知方式就不得不改这里面代码，具体好的实现我们下面会讲到。</p>
-<h4 id="依赖注入"><a href="#依赖注入" class="headerlink" title="依赖注入"></a>依赖注入</h4><p>依赖注入是一种设计模式，是一种IoC的具体实现，实现了IoC自然就符合依赖倒置原则。依赖注入的核心思想是把类中所依赖单元的实例化过程放到类外面中去实现，然后把依赖注入进来。常用的依赖注入方式有属性注入和构造函数注入。比如用构造函数注入解耦上面代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="comment">// 通知接口</span></span><br><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Notifaction</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">send</span><span class="params">(...)</span></span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">// 短信通知实现通知接口</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">SmsNotification</span> <span class="keyword">implements</span> <span class="title">Notification</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">send</span><span class="params">(...)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 评论类</span></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Comment</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	...</span><br><span class="line"></span><br><span class="line">	<span class="keyword">protected</span> $notification;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">__construct</span><span class="params">(Notification $smsNotification)</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">$this</span>-&gt;notification = $smsNotification;</span><br><span class="line">	&#125;</span><br><span class="line"></span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">afterInsert</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		<span class="keyword">$this</span>-&gt;notification-&gt;send(...);</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 实例化短信通知类</span></span><br><span class="line">$smsNotification = <span class="keyword">new</span> SmsNotification(...);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 通过构造函数方法注入</span></span><br><span class="line">$comment = <span class="keyword">new</span> Comment($smsNotification);</span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">$comment-&gt;save();</span><br></pre></td></tr></table></figure>
-<p>这样，我们先定义Notification接口，里面有个send方法，让后面的通知者不管是邮件类还是短信类都实现这个接口，然后在外面通过构造函数方式注入进来，这样就解决了Comment类对具体通知方法的依赖，只要是实现了Notification接口的，都可以通过构造函数传进来，Comment类完全不用做任何修改。这样无论对于代码维护还是单元测试（可以模拟实现一个Notification类），都非常方便。</p>
-<p>依赖注入是IoC的一种具体实现，是一种解耦手段。当然IoC不止这一种实现，比如Yii中的Service Locator（服务定位器）</p>
-<h2 id="IoC-container-DI-container"><a href="#IoC-container-DI-container" class="headerlink" title="IoC container/DI container"></a>IoC container/DI container</h2><p>当项目比较大时，就会有许多类似上面评论类和通知类这种依赖关系，整个项目会非常复杂。这时候就需要一个集中的地方来管理这些依赖，我们把它叫IoC container 控制反转容器，它提供了动态地创建、注入依赖单元、映射依赖关系等功能。这样可以集中管理依赖关系，也减少很多代码量。</p>
-<h2 id="Service-container-服务容器"><a href="#Service-container-服务容器" class="headerlink" title="Service container 服务容器"></a>Service container 服务容器</h2><p>Laravel官方文档这样定义服务容器：Laravel服务容器是用于管理类的依赖和执行依赖注入的工具。</p>
-<p>首先，服务容器通过DI依赖注入方式实现了IoC，然后它还支持另一种实现：绑定与解析。</p>
-<h4 id="绑定"><a href="#绑定" class="headerlink" title="绑定"></a>绑定</h4><p>几乎所有服务容器绑定操作都是Service provider(服务提供器)中注册绑定的，服务提供器中可以通过$this-&gt;app方式获取服务容器，然后通过服务容器提供的方法比如$this-&gt;app-&gt;bind(…)等进行具体服务绑定。类似支持的绑定方式还有：</p>
-<ul>
-<li>简单绑定</li>
-<li>绑定单例</li>
-<li>绑定实例</li>
-<li>绑定初始数据</li>
-<li>绑定接口到实现</li>
-<li>上下文绑定</li>
-<li>标记</li>
-<li>扩展绑定</li>
-</ul>
-<p>具体可以查看官方文档：<a href="https://laravel.com/docs/5.6/container" target="_blank" rel="external">https://laravel.com/docs/5.6/container</a></p>
-<h4 id="解析"><a href="#解析" class="headerlink" title="解析"></a>解析</h4><p>绑定后可以从服务容器中解析出对象才能够使用。解析方法包括：</p>
-<ul>
-<li>通过 make 方法，接收一个你想要解析的类或者接口</li>
-<li>通过数组方式从容器中解析对象</li>
-<li>自动注入</li>
-</ul>
-<h5 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h5><p>我们先定义一个自己的类</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span></span></span><br><span class="line"><span class="class"></span>&#123;</span><br><span class="line">	<span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">bar</span><span class="params">()</span></span></span><br><span class="line"><span class="function">	</span>&#123;</span><br><span class="line">		...</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>我们把Foo类简单绑定到服务容器：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">App::bind(<span class="string">"foo"</span>, <span class="function"><span class="keyword">function</span><span class="params">($app)</span></span>&#123;</span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">new</span> Foo();</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
-<p>平时在上下文获取这个实例：    </p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$foo = App::make(<span class="string">"foo"</span>);    <span class="comment">// $foo就是Foo类的实例</span></span><br></pre></td></tr></table></figure>
-<p>当然，这种绑定和解析平时我们在代码中随便可以写到哪里，但是多了的话就乱起来了。所以我开头说几乎所有这种依赖服务绑定操作都是在Service provider中进行的。</p>
-<p>下面就给大家介绍Service provider。</p>
-<h2 id="Service-provider-服务提供器"><a href="#Service-provider-服务提供器" class="headerlink" title="Service provider 服务提供器"></a>Service provider 服务提供器</h2><p>为了让依赖注入的代码不至于混乱，Laravel提供了一个服务提供器（Service Provider），它将这些依赖聚集在了一块，统一申明和管理，让依赖变得更加容易维护。</p>
-<p>下面都是一些抄来的官话、套话（-_-‘），大家可以直接跳到代码示例，后续再查看官方文档加深理解。</p>
-<p>所有服务提供者都需要继承Illuminate\Support\ServiceProvider类。大多数服务提供者都包含 register 和 boot 方法。register方法中，只能将事务绑定到服务容器。不应该在register方法中尝试注册任何事件监听器，路由或者任何其他功能。可以为服务提供者的boot方法设置类型提示。服务容器会自动注入需要的任何依赖。boot方法将在所有其他服务提供者均已注册之后调用。</p>
-<p>所有服务提供者都在 config/app.php 配置文件中注册。可以选择推迟服务提供者的注册，直到真正需要注册绑定时，这样可以提供应用程序的性能。</p>
-<h5 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h5><p>上一个示例我们是自己在上下文中随意定义、获取。下面我们以服务提供者的方式进行：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Support</span>\<span class="title">ServiceProvider</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">FooServiceProvider</span> <span class="keyword">extends</span> <span class="title">ServiceProvider</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">register</span><span class="params">()</span></span></span><br><span class="line"><span class="function">    </span>&#123;</span><br><span class="line">        <span class="keyword">$this</span>-&gt;app-&gt;bind(<span class="string">'foo'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span></span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">new</span> Foo();</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>上面实现了一个Foo的服务提供，我们可以手动注入到上下文中：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">App::register(<span class="string">'FooServiceProvider'</span>);</span><br></pre></td></tr></table></figure>
-<p>当然我们更多的是通过配置文件来完成的，在app/config/app.php中的providers数组里面增加一行：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="string">'providers'</span> =&gt; [</span><br><span class="line">    …</span><br><span class="line">       ‘FooServiceProvider’,</span><br><span class="line">],</span><br></pre></td></tr></table></figure>
-<p>这样我们可以在上下文中直接获取实例：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">App::make(‘foo’)</span><br></pre></td></tr></table></figure>
-<p>当然，我们还可以通过门面方式，更方便的操作Foo类。</p>
-<h2 id="Facades-门面"><a href="#Facades-门面" class="headerlink" title="Facades 门面"></a>Facades 门面</h2><p>门面实际上是应用了设计模式中的外观模式：</p>
-<p>外观模式（Facade），他隐藏了系统的复杂性，并向客户端提供了一个可以访问系统的接口。这种类型的设计模式属于结构性模式。为子系统中的一组接口提供了一个统一的访问接口，这个接口使得子系统更容易被访问或者使用。 </p>
-<p>Laravel中随处可见这些静态方法的调用：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$value = Cache::get(<span class="string">'key'</span>);</span><br></pre></td></tr></table></figure>
-<p>这些静态调用实际上调用的并不是静态方法，而是通过PHP的魔术方法 __callStatic() 将请求转到了相应的方法上。</p>
-<p>比如如果我们看一下 Illuminate\Support\Facades\Cache 这个类，你会发现类中根本没有 get 这个静态方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class Cache extends Facade</span><br><span class="line">&#123;</span><br><span class="line">    /**</span><br><span class="line">     * 获取组件的注册名称。</span><br><span class="line">     *</span><br><span class="line">     * @return string</span><br><span class="line">     */</span><br><span class="line">    protected static function getFacadeAccessor() &#123; return &apos;cache&apos;; &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这其中的奥秘在基类Facade中：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">__callStatic</span><span class="params">($method, $args)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="comment">// 获取实例</span></span><br><span class="line">    $instance = <span class="keyword">static</span>::getFacadeRoot();</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (!$instance) &#123;</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> RuntimeException(<span class="string">'A facade root has not been set.'</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 真正调取对应的方法</span></span><br><span class="line">    <span class="keyword">return</span> $instance-&gt;$method(...$args);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里面有一个获取实例的过程，然后去调用具体方法。</p>
-<h4 id="示例-2"><a href="#示例-2" class="headerlink" title="示例"></a>示例</h4><p>接上一个示例，我们平常是通过App::make(‘foo’)来获取实例，然后再调用具体方法。现在我们通过门面的方式简化这个流程：</p>
-<p>先定义一个门面：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">use</span> <span class="title">Illuminate</span>\<span class="title">Support</span>\<span class="title">Facades</span>\<span class="title">Facade</span>;</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Foo</span> <span class="keyword">extends</span> <span class="title">Facade</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">protected</span> <span class="keyword">static</span> <span class="function"><span class="keyword">function</span> <span class="title">getFacadeAccessor</span><span class="params">()</span> </span>&#123; <span class="keyword">return</span> ‘foo’; &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>然后我们可以很方便的使用Foo类某个方法：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">Foo::bar();</span><br></pre></td></tr></table></figure>
-<h2 id="Contracts-契约"><a href="#Contracts-契约" class="headerlink" title="Contracts 契约"></a>Contracts 契约</h2><p>Laravel的契约是一组定义框架提供的核心服务的接口。后续针对这个接口可以有多种实现，解耦了具体实现的依赖，在不改变代码逻辑的情况下获得更加多态的结果。</p>
-<p>比如你只需在配置文件中指明你需要的缓存驱动（redis，memcached，file等），Laravel会自动帮你切换到这种驱动，而不需要你针对某种驱动更改逻辑和代码。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这些都是些基础的抽象概念，但是是非常重要的，Laravel中随处可见这些思想，是一切实现的基石。</p>
-<p>学习的过程中基础是非常重要的，知其然必知其所以然。就像道与术，道是在术之前的，老子说过：”有道无术，术尚可求也，有术无道，止于术“。不过实际中应该是相辅相成的关系，“以道统术，以术得道”。</p>
-<h2 id="引用"><a href="#引用" class="headerlink" title="引用"></a>引用</h2><p><a href="https://laravel.com/docs/5.6/container" target="_blank" rel="external">https://laravel.com/docs/5.6/container</a><br><a href="https://laravel-china.org/docs/laravel/5.6" target="_blank" rel="external">https://laravel-china.org/docs/laravel/5.6</a><br><a href="http://www.digpage.com/di.html" target="_blank" rel="external">http://www.digpage.com/di.html</a><br><a href="http://yansu.org/2014/12/06/ioc-and-facade-in-laravel.html" target="_blank" rel="external">http://yansu.org/2014/12/06/ioc-and-facade-in-laravel.html</a></p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://rootrl.github.com/2018/06/13/Laravel中的核心概念/" data-id="ck4wtj7ep000o7opnb2z5796i" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://rootrl.github.com/2018/06/13/Laravel中的核心概念/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/06/13/Laravel中的核心概念/">Comentarios</a>
+        <a href="https://rootrl.github.com/2018/07/05/使用Docker-compose编排Laravel项目/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2018/07/05/使用Docker-compose编排Laravel项目/">Comments</a>
     
 
         </footer>
@@ -698,7 +638,7 @@
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/2/">&laquo; Anterior</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/">Siguiente  &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/2/">&laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/4/">Next &raquo;</a>
     </nav>
 </section>
             
@@ -707,9 +647,28 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/" class="title">Android Bug记 &#39;Canvas: trying to use a recycled bitmap android.graphics.Bitmap&#39;</a></p>
+                            <p class="item-date"><time datetime="2020-01-02T14:18:56.000Z" itemprop="datePublished">2020-01-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -787,25 +746,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/10/17/Laravel关联模型中过滤结果为空的结果集-has和with区别/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/PHP/">PHP</a></p>
-                            <p class="item-title"><a href="/2018/10/17/Laravel关联模型中过滤结果为空的结果集-has和with区别/" class="title">Laravel关联模型中过滤结果为空的结果集(has和with区别)</a></p>
-                            <p class="item-date"><time datetime="2018-10-17T14:23:59.000Z" itemprop="datePublished">2018-10-17</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -813,34 +753,34 @@
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Categorias</h3>
+        <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unix-Linux/">Unix/Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发经验/">开发经验</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unix-Linux/">Unix/Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发经验/">开发经验</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Archivos</h3>
+        <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Etiquetas</h3>
+        <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FastDFS/">FastDFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Laravel/">Laravel</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mount/">mount</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemctl/">systemctl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/七牛云/">七牛云</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/鉴权/">鉴权</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FastDFS/">FastDFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Laravel/">Laravel</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mount/">mount</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemctl/">systemctl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/七牛云/">七牛云</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/鉴权/">鉴权</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 

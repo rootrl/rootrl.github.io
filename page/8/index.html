@@ -74,7 +74,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -93,10 +93,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -127,7 +127,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -147,16 +147,16 @@
             <h2 id="name">Rootrl</h2>
             <h3 id="title">Web Developer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Hefei, China</span>
-            <a id="follow" target="_blank" href="https://github.com/rootrl/">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/rootrl/">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                26
-                <span>Entradas</span>
+                27
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                35
-                <span>Etiquetas</span>
+                36
+                <span>tags</span>
             </div>
         </div>
         
@@ -192,6 +192,193 @@
 
             
             <section id="main">
+    <article id="post-Vue学习笔记-基础篇" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+            
+	
+		<a href="/2017/09/26/Vue学习笔记-基础篇/" itemprop="url">
+            <img src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/master/images/vue-logo.png" class="article-banner" />
+        </a>
+	
+
+
+
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2017/09/26/Vue学习笔记-基础篇/">Vue学习笔记 - 基础篇</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2017/09/26/Vue学习笔记-基础篇/">
+            <time datetime="2017-09-26T01:22:52.000Z" itemprop="datePublished">2017-09-26</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/前端/">前端</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/前端/框架/">框架</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/前端/框架/Vue/">Vue</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Javascript/">Javascript</a>, <a class="tag-link" href="/tags/Vue/">Vue</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <p>先是把官方手册一字不落过一遍，有例子要动手写，写的时候不要复制代码，而是把例子看几遍，记住思想，然后自己写代码实现。有的语法糖记不住的可以看看。然后例子不是说跑通就好了，多多变通下。然后进行多个维度思考。</p>
+<h2 id="Hello"><a href="#Hello" class="headerlink" title="Hello"></a>Hello</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;demo&quot;&gt;&#123;&#123;message&#125;&#125;&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">     var app = new Vue(&#123;</span><br><span class="line">          el: &quot;#demo&quot;,</span><br><span class="line">          data: &#123;</span><br><span class="line">               message:  &quot;Hello Vue&quot;</span><br><span class="line">          &#125;</span><br><span class="line">     &#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>思考：这里可以看到Html部分的”“的书写方式，这肯定是模板语法了，可以猜测到message是个变量，注意双花括号的书写方式，然后思考下假如在元素的属性上写一个变量改怎么写，比如 class = “active”， 这里active是一个变量，而如果用常规字符串符号包裹，这种书写肯定是错误的，改怎么写呢？这里得看接下来的Vue指令部分了。<br>然后Js部分可以看到实例化了一个Vue然后赋给app（可以试着打印app，看有哪些属性），注意Vue实例中的属性“el”“data”这些，猜测下作用。然后想想肯定还有其他更多属性的。<br>这里data里面的message肯定就是对应模板中的那个message了，Vue手册说这里是做响应式的数据绑定的，改变了这里的message，模板中也会相应改变，而且data中的每一个属性都会注册到上层的app变量中，也就是app.message == app.data.message，然后我们试着在console面板中改变message的值，看看变化。但是如果我们在后面在声明一个data，比如app.v = 2，这里的v就不是响应式的了，我们可以用Vue.set(app.a, 属性名，值)，方式赋值，这时v就是响应式的了。</p>
+<h2 id="包括指令和For循环的例子"><a href="#包括指令和For循环的例子" class="headerlink" title="包括指令和For循环的例子"></a>包括指令和For循环的例子</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;demo&quot;&gt;</span><br><span class="line">    &lt;ul&gt;</span><br><span class="line">        &lt;li v-for=&quot;item in items&quot; v-bind:item=&quot;item&quot;&gt;</span><br><span class="line">            name:&#123;&#123;item.name&#125;&#125;, age &#123;&#123;item.age&#125;&#125;</span><br><span class="line">        &lt;/li&gt;</span><br><span class="line">    &lt;/ul&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var app = new Vue(&#123;</span><br><span class="line">        el: &quot;.demo&quot;,</span><br><span class="line">        data: &#123;</span><br><span class="line">            items: [</span><br><span class="line">                &#123;name: &quot;Rootrl&quot;, age: 26&#125;,</span><br><span class="line">                &#123;name: &quot;Mancy&quot;, age: 1&#125;,</span><br><span class="line">                &#123;name: &quot;Katol&quot;, age: 26&#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>思考：这里首先可以看到解开了我们上个实例的疑惑了，在dom属性下的变量绑定方式是用v-bind:属性名 = “变量”这种形式，这就是所谓的Vue指令了，然后看看for的书写方式，很平常，但要记住。在手册上可以了解到遍历对象时获取值、key、索引的方式是v-for=”(value, key, index) in items”，这个以后肯定会用到。</p>
+<h2 id="组件"><a href="#组件" class="headerlink" title="组件"></a>组件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">&lt;ul class=&quot;demo&quot;&gt;</span><br><span class="line">    &lt;family v-for=&quot;(item, key, index) in items&quot; :item=&quot;item&quot; :key=&quot;index&quot;&gt;&lt;/family&gt;</span><br><span class="line">&lt;/ul&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    // 注意：组件是Vue全局变量提供的，且需提前定义（在app实例前）</span><br><span class="line">    Vue.component(&quot;family&quot;, &#123;</span><br><span class="line">        props: [&apos;item&apos;],    // 传值</span><br><span class="line">        template: &quot;&lt;li&gt;name: &#123;&#123;item.name&#125;&#125;, age: &#123;&#123;item.age&#125;&#125;&lt;/li&gt;&quot;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    var app = new Vue(&#123;</span><br><span class="line">        el: &quot;.demo&quot;,</span><br><span class="line">        data: &#123;</span><br><span class="line">            items: [</span><br><span class="line">                &#123;name: &quot;Rootrl&quot;, age: 26&#125;,</span><br><span class="line">                &#123;name: &quot;Mancy&quot;, age: 1&#125;,</span><br><span class="line">                &#123;name: &quot;Katol&quot;, age: 26&#125;</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>思考：首先看dom部分，组件相当于自定义的一个html5元素（所以注意兼容性，其实是废话==’），然后用到了我们上个实例提到的获取索引等书写方法，还有这里的key属性是必须写的，为啥？（首先我忘了写过，console会有报错）。<br>再看看Js部分，注意看是怎么声明一个组件的，这里用到了暴露在外面的Vue全局变量提供的component方法，注意看书写方式，这里的props作用很大，用来传值以及父子组件通信。接下来还是那个带data的常规实例化，注意组件定义得在app实例化前面（因为我开始放后面还是有报错==）</p>
+<h2 id="事件"><a href="#事件" class="headerlink" title="事件"></a>事件</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;demo&quot; v-on:click=&quot;++counter&quot;&gt;点击我, 次数&#123;&#123;counter&#125;&#125;&lt;/div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var app = new Vue(&#123;</span><br><span class="line">        el: &quot;.demo&quot;,</span><br><span class="line">        data: &#123;</span><br><span class="line">            counter: 1</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>思考：也是用到了v指令，只用记住一个书写方式就行了，其他形式到时候手册查，还有这里后面的值可对变量用一些简单单表达式，复杂的就不行了，那么一个事件所要做的事通常有很多，该咋办呢？很简单，我们在第一个例子中说到除了el, data这些属性外，Vue中可能还有其他的，这里便用到了，叫method。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;demo&quot; v-on:click=&quot;handler(&apos;hi&apos;, $event)&quot;&gt;点我 &#123;&#123;message&#125;&#125;&lt;/div&gt;</span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var app = new Vue(&#123;</span><br><span class="line">        el: &quot;.demo&quot;,</span><br><span class="line">        data: &#123;</span><br><span class="line">            message: &quot;hello&quot;</span><br><span class="line">        &#125;,</span><br><span class="line">        methods: &#123;</span><br><span class="line">            handler: function(data, event) &#123;</span><br><span class="line">                this.message = data;</span><br><span class="line">                alert(this.message);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>思考：这里vue指令绑定了click事件，点击会触发handler方法，handler方法里，首先这个event是javascript的原生dom事件（方法默认接受的就是event，我这里故意放到第二个，然后注意把原生event传过来的书写方式），这里改变message是直接操作this.message，this在这里是指Vue实例。说到这里的this，官方手册在开头有说到不要在回调或属性中用箭头函数，箭头函数中父子上下文是绑定在一起的，到时候就不一定是预期的this了。</p>
+<h2 id="v-model-双向数据绑定"><a href="#v-model-双向数据绑定" class="headerlink" title="v-model 双向数据绑定"></a>v-model 双向数据绑定</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">&lt;div class=&quot;demo&quot;&gt;</span><br><span class="line">    &#123;&#123;message&#125;&#125; &lt;br&gt;</span><br><span class="line">    &lt;input type=&quot;text&quot; v-model=&quot;message&quot;&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var app = new Vue(&#123;</span><br><span class="line">        el: &quot;.demo&quot;,</span><br><span class="line">        data: &#123;</span><br><span class="line">            message: &quot;hello&quot;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>这个例子就是Two-way-data-binding 双向数据绑定，双向数据绑定就是属性在model层变化了UI层也要变化，反过来UI层面元素的变动也要反馈到Model层。Vue底层是通过Object.defineProperty()来劫持各个属性的setter，getter来达到这个效果的（defineProperty要IE9以上才支持）。回到dom层面，这里只是input，再注意下check，select等的写法。</p>
+<h2 id="深入组件"><a href="#深入组件" class="headerlink" title="深入组件"></a>深入组件</h2><p>组件可以提高代码复用性，Vue官网提到一点“组件也可以是原生HTML元素的形式，以is特性扩展”（什么意思？这个先记着）。</p>
+<h3 id="使用组件"><a href="#使用组件" class="headerlink" title="使用组件"></a>使用组件</h3><p>在实例前使用Vue.component(tagName,  options)注册组件。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"> Vue.component(&apos;my-component&apos;,  &#123;</span><br><span class="line">     // 选项</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<p>在实例的模块中可以使用<my-component></my-component>形式调用。</p>
+<h3 id="DOM模板解析注意事项"><a href="#DOM模板解析注意事项" class="headerlink" title="DOM模板解析注意事项"></a>DOM模板解析注意事项</h3><p>当使用DOM作为模板时，将会受到Html的限制，因为浏览器只有在解析标准化HTML后才能获取模板内容，比如ul, ol, table，select限制了能被他包括的元素。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;table&gt;</span><br><span class="line">  &lt;my-row&gt;...&lt;/my-row&gt;</span><br><span class="line">&lt;/table&gt;</span><br></pre></td></tr></table></figure></p>
+<p>比如这里的my-row被认为是无效的，在渲染的时候会导致错误。这里就要使用开头提到的那个is了：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;table&gt;</span><br><span class="line">  &lt;tr is=&quot;my-row&quot;&gt;&lt;/tr&gt;</span><br><span class="line">&lt;/table&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="data-必须是函数"><a href="#data-必须是函数" class="headerlink" title="data 必须是函数"></a>data 必须是函数</h3><p>组件中的data必须是函数，这个要注意下。</p>
+<h3 id="组合组件"><a href="#组合组件" class="headerlink" title="组合组件"></a>组合组件</h3><p>在Vue中，父子组件的关系可以总结为props dwon, events up，父组件通过props向下传递数据给子组件，子组件通过events给父组件发送消息。</p>
+<p>组件实例中的作用域是孤立的，这意味着不能在子组件中直接引用父组件的数据，要让子组件使用父组件的数据，我们需要通过子组件的props选项：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">Vue.component(&apos;child&apos;, &#123;</span><br><span class="line">     props: [&apos;message&apos;],</span><br><span class="line">     template: &apos;&lt;span&gt;&#123;&#123;message&#125;&#125;&lt;/span&gt;&apos;</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line">// 使用时直接传递值</span><br><span class="line">&lt;child message=&quot;hello&quot;&gt;&lt;/child&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="自定义事件"><a href="#自定义事件" class="headerlink" title="自定义事件"></a>自定义事件</h3><p>父组件可以通过props传递数据给子组件，但是子组件怎么跟父组件通信呢？这时候Vue的自定义事件系统就可以派得上用场了。</p>
+<p>Vue实例事件接口：</p>
+<ul>
+<li>使用$on(eventName) 监听事件</li>
+<li>使用$emit（eventName）出发事件</li>
+</ul>
+<p>注意vue的事件系统和浏览器的eventTarge api不同。$on和$emit不是addEventListener 和 dispatchEvent的别名。</p>
+<p>父组件可以在使用子组件的地方使用v-on来监听子组件触发的事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;counter-event-example&quot;&gt;</span><br><span class="line">  &lt;p&gt;&#123;&#123; total &#125;&#125;&lt;/p&gt;</span><br><span class="line">  &lt;button-counter v-on:increment=&quot;incrementTotal&quot;&gt;&lt;/button-counter&gt;</span><br><span class="line">  &lt;button-counter v-on:increment=&quot;incrementTotal&quot;&gt;&lt;/button-counter&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    Vue.component(&apos;button-counter&apos;, &#123;</span><br><span class="line">      template: &apos;&lt;button v-on:click=&quot;incrementCounter&quot;&gt;&#123;&#123; counter &#125;&#125;&lt;/button&gt;&apos;,</span><br><span class="line">      data: function () &#123;</span><br><span class="line">        return &#123;</span><br><span class="line">          counter: 0</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">      methods: &#123;</span><br><span class="line">        incrementCounter: function () &#123;</span><br><span class="line">          this.counter += 1</span><br><span class="line">          this.$emit(&apos;increment&apos;)</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;,</span><br><span class="line">    &#125;)</span><br><span class="line">    new Vue(&#123;</span><br><span class="line">      el: &apos;#counter-event-example&apos;,</span><br><span class="line">      data: &#123;</span><br><span class="line">        total: 0</span><br><span class="line">      &#125;,</span><br><span class="line">      methods: &#123;</span><br><span class="line">        incrementTotal: function () &#123;</span><br><span class="line">          this.total += 1</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;)</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>在本例中，子组件已经和他外部完全解耦了。他所做的只是报告自己的内部事件，至于父组件是否关系则与他无关。</p>
+<p>分析：这里确是解耦了，子组件只负责做自己的事，并提供一个increment 事件给父组件。父组件监听子组件触发的increment事件，然后触发实例提供的incrementTotal方法。这里只是子组件$emit触发，父组件$on监听，其他的各做自己的事。</p>
+<h3 id="修饰符和原生事件"><a href="#修饰符和原生事件" class="headerlink" title="修饰符和原生事件"></a>修饰符和原生事件</h3><p>类似v-on:click.native=”doSomething”后面的这个.native就是Vue的修饰符，比如这里通过.native在某个组件上监听一个原生事件。</p>
+<h3 id="非父子组件通信"><a href="#非父子组件通信" class="headerlink" title="非父子组件通信"></a>非父子组件通信</h3><p>两个非父子组件通信可以使用一个空的Vue实例作为中央事件总线:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">var bus = new Vue();</span><br><span class="line"></span><br><span class="line">// 触发组件A中的事件</span><br><span class="line">bus.$emit(&apos;id-selected&apos;, 1);</span><br><span class="line"></span><br><span class="line">// 在组件B创建的钩子中监听事件</span><br><span class="line">bus.$on(&apos;id-selected&apos;, function(id)&#123;</span><br><span class="line">     // ...</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure></p>
+<h3 id="杂项"><a href="#杂项" class="headerlink" title="杂项"></a>杂项</h3><p>Vue组件的API来自三部分，Props，Events和slots</p>
+<ul>
+<li>Props允许外部环境传递数据给组件</li>
+<li>Events允许从外部环境在组件内触发副作用</li>
+<li>Slots允许外部环境将额外的内容组合在组件中</li>
+</ul>
+<p>Slots插槽这部分没深入，具体结合业务场景使用。</p>
+<h4 id="子组件索引"><a href="#子组件索引" class="headerlink" title="子组件索引"></a>子组件索引</h4><p>有时候需要在Javacript中直接访问子组件时，需要使用ref为子组件指定一个索引Id:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&lt;div id=&quot;parent&quot;&gt;</span><br><span class="line">  &lt;user-profile ref=&quot;profile&quot;&gt;&lt;/user-profile&gt;</span><br><span class="line">&lt;/div&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">    var parent = new Vue(&#123; el: &apos;#parent&apos; &#125;)</span><br><span class="line">    // 访问子组件</span><br><span class="line">    var child = parent.$refs.profile</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="异步组件"><a href="#异步组件" class="headerlink" title="异步组件"></a>异步组件</h4><p>需与webpack结合，后面再深入</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这样Vue文档基础部分就走马观花过了一遍了，其中某些特性这里跳过了，具体的得结合具体使用场景再理解。<br>其中组件、组件间通信这个是重点，得好好理解，其次是Vue指令这些语法糖等。<br>总的来讲就是通过实例化Vue来声明绑定一些属性，这些属性都有各自作用，比如el绑定模板中的Vue实例作用元素，data提供数据，method提供方法等。然后暴露在全局的Vue也提供了许多方法以供使用，比如component。</p>
+<p>接下来会深入Vue部分，比如使用构建工具webpack、路由、状态管理等等。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://rootrl.github.com/2017/09/26/Vue学习笔记-基础篇/" data-id="ck4wtj7ey00167opn6qnpbjab" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://rootrl.github.com/2017/09/26/Vue学习笔记-基础篇/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/09/26/Vue学习笔记-基础篇/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-PHP-OPcodes实战：PHP类名和方法同名引起的问题" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -287,7 +474,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/" data-id="ck4wtj7es000u7opn89oovvz1" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="https://rootrl.github.com/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/" data-id="ck4wtj7es000u7opn89oovvz1" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -355,7 +542,7 @@
 
             
     
-        <a href="https://rootrl.github.com/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/">Comentarios</a>
+        <a href="https://rootrl.github.com/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/09/25/PHP-OPcodes实战：PHP类名和方法同名引起的问题/">Comments</a>
     
 
         </footer>
@@ -518,7 +705,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2017/09/22/Docker实践-入门篇/" data-id="ck4wtj7ec00067opn5d7ndsm9" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="https://rootrl.github.com/2017/09/22/Docker实践-入门篇/" data-id="ck4wtj7ec00067opn5d7ndsm9" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -586,160 +773,7 @@
 
             
     
-        <a href="https://rootrl.github.com/2017/09/22/Docker实践-入门篇/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/09/22/Docker实践-入门篇/">Comentarios</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-Vagrant集群配置，模拟多机分布式环境" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-            
-	
-		<a href="/2017/08/25/Vagrant集群配置，模拟多机分布式环境/" itemprop="url">
-            <img src="http://ov4crdzpr.bkt.clouddn.com/17-8-25/34757661.jpg" class="article-banner" />
-        </a>
-	
-
-
-
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2017/08/25/Vagrant集群配置，模拟多机分布式环境/">Vagrant集群配置，模拟多机分布式环境</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2017/08/25/Vagrant集群配置，模拟多机分布式环境/">
-            <time datetime="2017-08-24T19:43:31.000Z" itemprop="datePublished">2017-08-25</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/虚拟机-容器/">虚拟机/容器</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Vagrant集群/">Vagrant集群</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <p>Vagrant是一个很好的虚拟机管理软件，常用来作为团队统一开发环境的工具。基本操作这里就不讲了，大家可以自己搜索。这里推荐篇我们以前老大写的一篇文章：<a href="http://tech.haoju.co/article/consistent-development-environment-using-vagrant" target="_blank" rel="external">浅谈好居如何做到统一化的开发环境</a></p>
-<p>Vagrant搭建集群，可以模拟多机环境，平时用来研究分布式系统。比如服务器负载均衡、Web子系统间通信、数据库主从复制读写分离、以及Ansible自动化部署等等。</p>
-<p>其实Vagrant可以很方便的实现集群，只需简单的配置下Vagrantfile。</p>
-<p>可以先自己添加一个专门用来做集群的box，然后修改Vagrantfile文件，内容大致如下：<br><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">Vagrant.configure(<span class="number">2</span>) <span class="keyword">do</span> <span class="params">|config|</span></span><br><span class="line">  <span class="comment"># 如果需要三台就(1..3)的形式</span></span><br><span class="line">  (<span class="number">1</span>..<span class="number">2</span>).each <span class="keyword">do</span> <span class="params">|i|</span></span><br><span class="line">    config.vm.define <span class="string">"cluster<span class="subst">#&#123;i&#125;</span>"</span> <span class="keyword">do</span> <span class="params">|node|</span></span><br><span class="line">      node.vm.box = <span class="string">"centos6"</span></span><br><span class="line">      node.vm.hostname = <span class="string">"cluster<span class="subst">#&#123;i&#125;</span>"</span></span><br><span class="line">      node.vm.network <span class="string">"private_network"</span>, <span class="symbol">type:</span> <span class="string">"dhcp"</span></span><br><span class="line">      <span class="comment"># 映射目录 根据自己实际情况配置</span></span><br><span class="line">      node.vm.synced_folder <span class="string">"../var/www/cluster"</span>, <span class="string">"/var/www/cluster"</span></span><br><span class="line">      node.vm.provider <span class="string">"virtualbox"</span> <span class="keyword">do</span> <span class="params">|v|</span></span><br><span class="line">        v.name = <span class="string">"cluster<span class="subst">#&#123;i&#125;</span>"</span></span><br><span class="line">        v.memory = <span class="number">512</span></span><br><span class="line">        v.cpus = <span class="number">1</span></span><br><span class="line">      <span class="keyword">end</span></span><br><span class="line">    <span class="keyword">end</span></span><br><span class="line">  <span class="keyword">end</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></p>
-<p>我这里ip是dhcp动态获取，你也可以结合自己网段指定ip。</p>
-<p>改好后，vagrant up启动服务器：</p>
-<p><img src="http://ov4crdzpr.bkt.clouddn.com/17-8-25/2171202.jpg" alt=""></p>
-<p>查看各主机ssh信息:</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vagrant ssh-config</span><br></pre></td></tr></table></figure>
-<p><img src="http://ov4crdzpr.bkt.clouddn.com/17-8-25/1265132.jpg" alt=""></p>
-<p>比如这里可以使用vagrant ssh cluster1 进入cluster1主机，进去后ifconifg查下ip，后面可以用ssh客户端工具连接这条主机。</p>
-<p>好了，是不是很简单，接下来去研究搭建你的分布式系统吧！</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://rootrl.github.com/2017/08/25/Vagrant集群配置，模拟多机分布式环境/" data-id="ck4wtj7ex00137opn7dfw3psq" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://rootrl.github.com/2017/08/25/Vagrant集群配置，模拟多机分布式环境/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/08/25/Vagrant集群配置，模拟多机分布式环境/">Comentarios</a>
+        <a href="https://rootrl.github.com/2017/09/22/Docker实践-入门篇/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2017/09/22/Docker实践-入门篇/">Comments</a>
     
 
         </footer>
@@ -750,7 +784,7 @@
 
 
     <nav id="page-nav">
-        <a class="extend prev" rel="prev" href="/page/7/">&laquo; Anterior</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/">Siguiente  &raquo;</a>
+        <a class="extend prev" rel="prev" href="/page/7/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="page-number current">8</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/9/">Next &raquo;</a>
     </nav>
 </section>
             
@@ -759,9 +793,28 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/" class="title">Android Bug记 &#39;Canvas: trying to use a recycled bitmap android.graphics.Bitmap&#39;</a></p>
+                            <p class="item-date"><time datetime="2020-01-02T14:18:56.000Z" itemprop="datePublished">2020-01-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -839,25 +892,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/10/17/Laravel关联模型中过滤结果为空的结果集-has和with区别/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/PHP/">PHP</a></p>
-                            <p class="item-title"><a href="/2018/10/17/Laravel关联模型中过滤结果为空的结果集-has和with区别/" class="title">Laravel关联模型中过滤结果为空的结果集(has和with区别)</a></p>
-                            <p class="item-date"><time datetime="2018-10-17T14:23:59.000Z" itemprop="datePublished">2018-10-17</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -865,34 +899,34 @@
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Categorias</h3>
+        <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unix-Linux/">Unix/Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发经验/">开发经验</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unix-Linux/">Unix/Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发经验/">开发经验</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Archivos</h3>
+        <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Etiquetas</h3>
+        <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FastDFS/">FastDFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Laravel/">Laravel</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mount/">mount</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemctl/">systemctl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/七牛云/">七牛云</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/鉴权/">鉴权</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FastDFS/">FastDFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Laravel/">Laravel</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mount/">mount</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemctl/">systemctl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/七牛云/">七牛云</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/鉴权/">鉴权</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 

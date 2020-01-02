@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    
+    <title>Android Bug记 &#39;Canvas: trying to use a recycled bitmap android.graphics.Bitmap&#39; | Rootrl&#39;s blog</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="Bug日志最近一个项目中遇到一个诡异Bug，详细日志如下： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475E/MainActivity: executeTextVi">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Android Bug记 &#39;Canvas: trying to use a recycled bitmap android.graphics.Bitmap&#39;">
+<meta property="og:url" content="https://rootrl.github.com/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/index.html">
+<meta property="og:site_name" content="Rootrl&#39;s blog">
+<meta property="og:description" content="Bug日志最近一个项目中遇到一个诡异Bug，详细日志如下： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475E/MainActivity: executeTextVi">
+<meta property="og:updated_time" content="2020-01-02T14:28:44.853Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Android Bug记 &#39;Canvas: trying to use a recycled bitmap android.graphics.Bitmap&#39;">
+<meta name="twitter:description" content="Bug日志最近一个项目中遇到一个诡异Bug，详细日志如下： 123456789101112131415161718192021222324252627282930313233343536373839404142434445464748495051525354555657585960616263646566676869707172737475E/MainActivity: executeTextVi">
+    
+
+    
+
+    
+
+    <link rel="stylesheet" href="/libs/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/libs/open-sans/styles.css">
+    <link rel="stylesheet" href="/libs/source-code-pro/styles.css">
+
+    <link rel="stylesheet" href="/css/style.css">
+
+    <script src="/libs/jquery/2.1.3/jquery.min.js"></script>
+    
+    
+        <link rel="stylesheet" href="/libs/lightgallery/css/lightgallery.min.css">
+    
+    
+        <link rel="stylesheet" href="/libs/justified-gallery/justifiedGallery.min.css">
+    
+    
+    
+    
+
+
+</head>
+
+<body>
+    <div id="container">
+        <header id="header">
+    <div id="header-main" class="header-inner">
+        <div class="outer">
+            <a href="/" id="logo">
+                <i class="logo"></i>
+                <span class="site-title">Rootrl&#39;s blog</span>
+            </a>
+            <nav id="main-nav">
+                
+                    <a class="main-nav-link" href="/.">Home</a>
+                
+                    <a class="main-nav-link" href="/archives">Archives</a>
+                
+                    <a class="main-nav-link" href="/categories">Categories</a>
+                
+                    <a class="main-nav-link" href="/tags">Tags</a>
+                
+                    <a class="main-nav-link" href="/about">About</a>
+                
+            </nav>
+            
+                
+                <nav id="sub-nav">
+                    <div class="profile" id="profile-nav">
+                        <a id="profile-anchor" href="javascript:;">
+                            <img class="avatar" src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/hexo/source/images/logo.jpg" />
+                            <i class="fa fa-caret-down"></i>
+                        </a>
+                    </div>
+                </nav>
+            
+            <div id="search-form-wrap">
+
+    <form class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+        <button type="submit" class="search-form-submit"></button>
+    </form>
+    <div class="ins-search">
+    <div class="ins-search-mask"></div>
+    <div class="ins-search-container">
+        <div class="ins-input-wrapper">
+            <input type="text" class="ins-search-input" placeholder="Type something..." />
+            <span class="ins-close ins-selectable"><i class="fa fa-times-circle"></i></span>
+        </div>
+        <div class="ins-section-wrapper">
+            <div class="ins-section-container"></div>
+        </div>
+    </div>
+</div>
+<script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: 'Posts',
+            PAGES: 'Pages',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
+            UNTITLED: '(Untitled)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+
+</div>
+        </div>
+    </div>
+    <div id="main-nav-mobile" class="header-sub header-inner">
+        <table class="menu outer">
+            <tr>
+                
+                    <td><a class="main-nav-link" href="/.">Home</a></td>
+                
+                    <td><a class="main-nav-link" href="/archives">Archives</a></td>
+                
+                    <td><a class="main-nav-link" href="/categories">Categories</a></td>
+                
+                    <td><a class="main-nav-link" href="/tags">Tags</a></td>
+                
+                    <td><a class="main-nav-link" href="/about">About</a></td>
+                
+                <td>
+                    
+    <div class="search-form">
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
+    </div>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+</header>
+
+        <div class="outer">
+            
+                
+
+<aside id="profile">
+    <div class="inner profile-inner">
+        <div class="base-info profile-block">
+            <img id="avatar" src="https://raw.githubusercontent.com/rootrl/rootrl.github.io/hexo/source/images/logo.jpg" />
+            <h2 id="name">Rootrl</h2>
+            <h3 id="title">Web Developer</h3>
+            <span id="location"><i class="fa fa-map-marker"></i>Hefei, China</span>
+            <a id="follow" target="_blank" href="https://github.com/rootrl/">FOLLOW</a>
+        </div>
+        <div class="article-info profile-block">
+            <div class="article-info-block">
+                27
+                <span>posts</span>
+            </div>
+            <div class="article-info-block">
+                36
+                <span>tags</span>
+            </div>
+        </div>
+        
+        <div class="profile-block social-links">
+            <table>
+                <tr>
+                    
+                    
+                    <td>
+                        <a href="http://github.com/rootrl" target="_blank" title="github" class=tooltip>
+                            <i class="fa fa-github"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="twitter" class=tooltip>
+                            <i class="fa fa-twitter"></i>
+                        </a>
+                    </td>
+                    
+                    <td>
+                        <a href="/" target="_blank" title="facebook" class=tooltip>
+                            <i class="fa fa-facebook"></i>
+                        </a>
+                    </td>
+                    
+                </tr>
+            </table>
+        </div>
+        
+    </div>
+</aside>
+
+            
+            <section id="main"><article id="post-Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 class="article-title" itemprop="name">
+            Android Bug记 &#39;Canvas: trying to use a recycled bitmap android.graphics.Bitmap&#39;
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/">
+            <time datetime="2020-01-02T14:18:56.000Z" itemprop="datePublished">2020-01-02</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/Android/">Android</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Android/">Android</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h3 id="Bug日志"><a href="#Bug日志" class="headerlink" title="Bug日志"></a>Bug日志</h3><p>最近一个项目中遇到一个诡异Bug，详细日志如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">E/MainActivity: executeTextView: <span class="built_in">test</span> <span class="keyword">for</span> get drawable:  last <span class="built_in">source</span>: android.graphics.drawable.BitmapDrawable@8c352b2</span><br><span class="line">    executeTextView: <span class="built_in">test</span> <span class="keyword">for</span> get drawable: isVisible <span class="literal">true</span> alpha:  255 last <span class="built_in">source</span>: android.graphics.drawable.BitmapDrawable@8c352b2</span><br><span class="line">W/Bitmap: Called hasAlpha() on a recycle()<span class="string">'d bitmap! This is undefined behavior!</span></span><br><span class="line"><span class="string">    Called hasAlpha() on a recycle()'</span>d bitmap! This is undefined behavior!</span><br><span class="line">    Called hasAlpha() on a recycle()<span class="string">'d bitmap! This is undefined behavior!</span></span><br><span class="line"><span class="string">W/Bitmap: Called hasAlpha() on a recycle()'</span>d bitmap! This is undefined behavior!</span><br><span class="line">E/MainActivity: Glide结束</span><br><span class="line">    executeImageView: ...</span><br><span class="line">E/MainActivity: showQrCode: 举报二维码1:</span><br><span class="line">    showQrCode: 举报二维码2: https://xxx.com/upload/equipmentWxQRCode/15776698271ada7952f9ead4d5.jpg</span><br><span class="line">D/AndroidRuntime: Shutting down VM</span><br><span class="line">E/AndroidRuntime: FATAL EXCEPTION: main</span><br><span class="line">    Process: com.rootrl.adviewer, PID: 29128</span><br><span class="line">    java.lang.RuntimeException: Canvas: trying to use a recycled bitmap android.graphics.Bitmap@ac257b9</span><br><span class="line">        at android.graphics.Canvas.throwIfCannotDraw(Canvas.java:1271)</span><br><span class="line">        at android.view.DisplayListCanvas.throwIfCannotDraw(DisplayListCanvas.java:257)</span><br><span class="line">        at android.graphics.Canvas.drawBitmap(Canvas.java:1415)</span><br><span class="line">        at android.graphics.drawable.BitmapDrawable.draw(BitmapDrawable.java:528)</span><br><span class="line">        at android.widget.ImageView.onDraw(ImageView.java:1298)</span><br><span class="line">        at android.view.View.draw(View.java:17201)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16183)</span><br><span class="line">        at android.view.View.draw(View.java:16967)</span><br><span class="line">        at android.view.ViewGroup.drawChild(ViewGroup.java:3727)</span><br><span class="line">        at android.view.ViewGroup.dispatchDraw(ViewGroup.java:3513)</span><br><span class="line">        at androidx.constraintlayout.widget.ConstraintLayout.dispatchDraw(ConstraintLayout.java:2023)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16178)</span><br><span class="line">        at android.view.View.draw(View.java:16967)</span><br><span class="line">        at android.view.ViewGroup.drawChild(ViewGroup.java:3727)</span><br><span class="line">        at android.view.ViewGroup.dispatchDraw(ViewGroup.java:3513)</span><br><span class="line">        at androidx.constraintlayout.widget.ConstraintLayout.dispatchDraw(ConstraintLayout.java:2023)</span><br><span class="line">        at android.view.View.draw(View.java:17204)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16183)</span><br><span class="line">        at android.view.View.draw(View.java:16967)</span><br><span class="line">        at android.view.ViewGroup.drawChild(ViewGroup.java:3727)</span><br><span class="line">        at android.view.ViewGroup.dispatchDraw(ViewGroup.java:3513)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16178)</span><br><span class="line">        at android.view.View.draw(View.java:16967)</span><br><span class="line">        at android.view.ViewGroup.drawChild(ViewGroup.java:3727)</span><br><span class="line">        at android.view.ViewGroup.dispatchDraw(ViewGroup.java:3513)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16178)</span><br><span class="line">        at android.view.View.draw(View.java:16967)</span><br><span class="line">        at android.view.ViewGroup.drawChild(ViewGroup.java:3727)</span><br><span class="line">        at android.view.ViewGroup.dispatchDraw(ViewGroup.java:3513)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16178)</span><br><span class="line">        at android.view.View.draw(View.java:16967)</span><br><span class="line">        at android.view.ViewGroup.drawChild(ViewGroup.java:3727)</span><br><span class="line">        at android.view.ViewGroup.dispatchDraw(ViewGroup.java:3513)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16178)</span><br><span class="line">        at android.view.View.draw(View.java:16967)</span><br><span class="line">        at android.view.ViewGroup.drawChild(ViewGroup.java:3727)</span><br><span class="line">        at android.view.ViewGroup.dispatchDraw(ViewGroup.java:3513)</span><br><span class="line">        at android.view.View.draw(View.java:17204)</span><br><span class="line">        at com.android.internal.policy.DecorView.draw(DecorView.java:754)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16183)</span><br><span class="line">        at android.view.ThreadedRenderer.updateViewTreeDisplayList(ThreadedRenderer.java:648)</span><br><span class="line">        at android.view.ThreadedRenderer.updateRootDisplayList(ThreadedRenderer.java:654)</span><br><span class="line">        at android.view.ThreadedRenderer.draw(ThreadedRenderer.java:762)</span><br><span class="line">        at android.view.ViewRootImpl.draw(ViewRootImpl.java:2800)</span><br><span class="line">        at android.view.ViewRootImpl.performDraw(ViewRootImpl.java:2608)</span><br><span class="line">        at android.view.ViewRootImpl.performTraversals(ViewRootImpl.java:2215)</span><br><span class="line">        at android.view.ViewRootImpl.doTraversal(ViewRootImpl.java:1254)</span><br><span class="line">        at android.view.ViewRootImpl<span class="variable">$TraversalRunnable</span>.run(ViewRootImpl.java:6338)</span><br><span class="line">        at android.view.Choreographer<span class="variable">$CallbackRecord</span>.run(Choreographer.java:874)</span><br><span class="line">        at android.view.Choreographer.doCallbacks(Choreographer.java:686)</span><br><span class="line">        at android.view.Choreographer.doFrame(Choreographer.java:621)</span><br><span class="line">        at android.view.Choreographer<span class="variable">$FrameDisplayEventReceiver</span>.run(Choreographer.java:860)</span><br><span class="line">        at android.os.Handler.handleCallback(Handler.java:755)</span><br><span class="line">        at android.os.Handler.dispatchMessage(Handler.java:95)</span><br><span class="line">        at android.os.Looper.loop(Looper.java:154)</span><br><span class="line">        at android.app.ActivityThread.main(ActivityThread.java:6121)</span><br><span class="line">        at java.lang.reflect.Method.invoke(Native Method)</span><br><span class="line">        at com.android.internal.os.ZygoteInit<span class="variable">$MethodAndArgsCaller</span>.run(ZygoteInit.java:905)</span><br><span class="line">        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:795)</span><br><span class="line">I/Process: Sending signal. PID: 29128 SIG: 9</span><br><span class="line">Process 29128 terminated.</span><br></pre></td></tr></table></figure>
+<h3 id="Bug初步分析"><a href="#Bug初步分析" class="headerlink" title="Bug初步分析"></a>Bug初步分析</h3><p>其实字面上看上去很简单。但是诡异在发生场景：</p>
+<ul>
+<li><p>只在安卓横屏模式下发生，竖屏模式下正常。</p>
+</li>
+<li><p>有一张特定图片才会出现问题，其他图片均不会。而这个图片无论分辨率大小还是文件大小均不大，其他比它大十几倍的都正常运行。</p>
+</li>
+</ul>
+<p>报错原因从日志上看到很简单：使用了一个已经被回收的bitmap资源（我这里使用的是Glide图片处理库）。但是结合我的使用场景和发生场景（只在横屏下），再加上Glide对于我来说是一个黑箱。 种种原因结合看来是一个难调的bug。</p>
+<p>后来发现发生的地方是imageView的Placeholder设置阶段。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (currentView == AdConstant.VIEW_TYPE_TEXT_VIEW) &#123;</span><br><span class="line">    <span class="keyword">if</span> (adImageView.getDrawable() != <span class="keyword">null</span>) &#123;</span><br><span class="line">        requestOptions.placeholder(adImageView.getDrawable());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置这个Placeholder是为了解决图片切换时的闪黑屏问题，一是去掉Glide的Animate，二是设置这个Placeholder，把当前Image View的Drawable作为默认图片。而由于我的业务逻辑复杂，有图片和视频的轮播，有可能在设置时找不到这个Drawable的Bitmap资源，好吧，说有可能是因为我也不能给个具体的原因-_-‘’，因为结合我上面提到的两个特定发生场景，实在是太诡异了。</p>
+<h3 id="Bug深入分析"><a href="#Bug深入分析" class="headerlink" title="Bug深入分析"></a>Bug深入分析</h3><p>后来我看到github上官方bumptech/glide也有一大堆issues，有人说是glide版本问题，但是我更新到最新的4.10.0依旧无解。</p>
+<p>最后看到官方的Common errors文档，<a href="http://bumptech.github.io/glide/doc/resourcereuse.html#common-errors" target="_blank" rel="external">http://bumptech.github.io/glide/doc/resourcereuse.html#common-errors</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Glide’s BitmapPool has a fixed size. When Bitmaps are evicted from the pool without being re-used, <span class="function">Glide will call <span class="title">recycle</span><span class="params">()</span>. If an application inadvertently continues to hold on to the Bitmap even after indicating to Glide that it is safe to recycle it, the application may then attempt to draw the Bitmap, resulting in a crash in <span class="title">onDraw</span><span class="params">()</span>.</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">This problem could be due to the fact that one target is being used <span class="keyword">for</span> two ImageViews, and one of the ImageViews still tries to access the recycled Bitmap after it has been put into the BitmapPool. This recycling error can be hard to reproduce, due to several factors: 1) when the bitmap is put into the pool, 2) when the bitmap is recycled, and 3) what the size of the BitmapPool and memory cache are that leads to the recycling of the Bitmap. The following snippet can be put into your GlideModule to help making <span class="keyword">this</span> problem easier to reproduce:</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applyOptions</span><span class="params">(Context context, GlideBuilder builder)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> bitmapPoolSizeBytes = <span class="number">1024</span> * <span class="number">1024</span> * <span class="number">0</span>; <span class="comment">// 0mb</span></span><br><span class="line">    <span class="keyword">int</span> memoryCacheSizeBytes = <span class="number">1024</span> * <span class="number">1024</span> * <span class="number">0</span>; <span class="comment">// 0mb</span></span><br><span class="line">    builder.setMemoryCache(<span class="keyword">new</span> LruResourceCache(memoryCacheSizeBytes));</span><br><span class="line">    builder.setBitmapPool(<span class="keyword">new</span> LruBitmapPool(bitmapPoolSizeBytes));</span><br><span class="line">&#125;</span><br><span class="line">The above code makes sure that there is no memory caching and the size of the BitmapPool is zero; so Bitmap, <span class="keyword">if</span> happened to be not used, will be recycled right away. The problem will surface much quicker <span class="keyword">for</span> debugging purposes.</span><br></pre></td></tr></table></figure>
+<p>第一段说明了真正原因，Bitmap在BitmapPool中被剔除而没有被重用时，Glide会调用recycle()，但是如果Application在被告知安全回收了Bitmap之后还是保留这个Bitmap，继而绘制Bitmap时，在onDraw中就会崩溃。</p>
+<p>我这个Placeholder就发生在这种情况下。</p>
+<h3 id="Bug解决"><a href="#Bug解决" class="headerlink" title="Bug解决"></a>Bug解决</h3><p>我这边解决思路是重新设置BitmapPool的大小，这需要重写AppGlideModule，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package com.rootrl.adviewer.glide;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line"></span><br><span class="line">import com.bumptech.glide.GlideBuilder;</span><br><span class="line">import com.bumptech.glide.annotation.GlideModule;</span><br><span class="line">import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool;</span><br><span class="line">import com.bumptech.glide.load.engine.cache.LruResourceCache;</span><br><span class="line">import com.bumptech.glide.module.AppGlideModule;</span><br><span class="line"></span><br><span class="line">@GlideModule</span><br><span class="line">public class AdImageGlideModule extends AppGlideModule &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void applyOptions(Context context, GlideBuilder builder) &#123;</span><br><span class="line">        int bitmapPoolSizeBytes = 1024 * 1024 * 200; // 200mb</span><br><span class="line">        int memoryCacheSizeBytes = 1024 * 1024 * 200; // 200mb</span><br><span class="line">        builder.setMemoryCache(new LruResourceCache(memoryCacheSizeBytes));</span><br><span class="line">        builder.setBitmapPool(new LruBitmapPool(bitmapPoolSizeBytes));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里有几点要注意，不然项目中没有GlideApp对象。</p>
+<ul>
+<li>类中添加@GlideModule注解</li>
+<li>如同package com.rootrl.adviewer.glide，这个Module放在项目路径的glide package目录（需新建）</li>
+<li>改下build.grdle配置</li>
+</ul>
+<p>其中第三条具体如下，注意除了glide依赖，还需annotationProcessor项：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="string">'com.github.bumptech.glide:glide:4.10.0'</span></span><br><span class="line">annotationProcessor <span class="string">'com.github.bumptech.glide:compiler:4.10.0'</span></span><br></pre></td></tr></table></figure></p>
+<p>然后，点AS的Build =&gt; Make Project，之后就可以在项目中使用集成自己GlideModule的GlideAPP了。</p>
+<p>使用方式也是用GlideAPP替换原来的Glide就可以。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 替换前</span><br><span class="line">Glide.with(MainActivity.this).listener(...).load(uri).apply(requestOptions).into(adImageView);</span><br><span class="line"></span><br><span class="line">// 替换后</span><br><span class="line">GlideApp.with(MainActivity.this).listener(...).load(uri).apply(requestOptions).into(adImageView);</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>其实这里还没有具体深入，因为安卓对我来说还是一个实用为主阶段。最后强调是图片处理库非常推荐Glide，它的缓存机制很实用。然后视频的缓存推荐danikula:videocache库。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://rootrl.github.com/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/" data-id="ck4wtrux10000a1pnxtaoiguk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://rootrl.github.com/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+        
+<nav id="article-nav">
+    
+    
+        <a href="/2019/05/22/FastDFS-Docker化部署-以及-Java-SpringMVC实践/" id="article-nav-older" class="article-nav-link-wrap">
+            <strong class="article-nav-caption">Older</strong>
+            <div class="article-nav-title">FastDFS Docker化部署 以及 Java SpringMVC实践</div>
+        </a>
+    
+</nav>
+
+
+    
+</article>
+
+
+    
+    
+        <section id="comments">
+    <div id="disqus_thread">
+        <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+    </div>
+</section>
+    
+
+</section>
+            
+                
+<aside id="sidebar">
+   
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">recent</h3>
+        <div class="widget">
+            <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/" class="title">Android Bug记 &#39;Canvas: trying to use a recycled bitmap android.graphics.Bitmap&#39;</a></p>
+                            <p class="item-date"><time datetime="2020-01-02T14:18:56.000Z" itemprop="datePublished">2020-01-02</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/05/22/FastDFS-Docker化部署-以及-Java-SpringMVC实践/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/Java/">Java</a></p>
+                            <p class="item-title"><a href="/2019/05/22/FastDFS-Docker化部署-以及-Java-SpringMVC实践/" class="title">FastDFS Docker化部署 以及 Java SpringMVC实践</a></p>
+                            <p class="item-date"><time datetime="2019-05-22T13:23:39.000Z" itemprop="datePublished">2019-05-22</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/05/21/Intellij-Idea-中进行-Mybatis逆向工程/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/Java/">Java</a></p>
+                            <p class="item-title"><a href="/2019/05/21/Intellij-Idea-中进行-Mybatis逆向工程/" class="title">Intellij Idea 中进行 Mybatis逆向工程</a></p>
+                            <p class="item-date"><time datetime="2019-05-21T12:45:49.000Z" itemprop="datePublished">2019-05-21</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2019/04/09/关于七牛云正确使用姿势探索/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发经验/">开发经验</a></p>
+                            <p class="item-title"><a href="/2019/04/09/关于七牛云正确使用姿势探索/" class="title">关于七牛云正确使用姿势探索</a></p>
+                            <p class="item-date"><time datetime="2019-04-09T14:51:32.000Z" itemprop="datePublished">2019-04-09</time></p>
+                        </div>
+                    </li>
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2018/11/30/Linux磁盘挂载、分区、扩容操作/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/Unix-Linux/">Unix/Linux</a></p>
+                            <p class="item-title"><a href="/2018/11/30/Linux磁盘挂载、分区、扩容操作/" class="title">Linux磁盘挂载、分区、扩容操作</a></p>
+                            <p class="item-date"><time datetime="2018-11-30T14:45:38.000Z" itemprop="datePublished">2018-11-30</time></p>
+                        </div>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">categories</h3>
+        <div class="widget">
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unix-Linux/">Unix/Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发经验/">开发经验</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">5</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">archives</h3>
+        <div class="widget">
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap">
+        <h3 class="widget-title">tags</h3>
+        <div class="widget">
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FastDFS/">FastDFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Laravel/">Laravel</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mount/">mount</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemctl/">systemctl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/七牛云/">七牛云</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/鉴权/">鉴权</a><span class="tag-list-count">1</span></li></ul>
+        </div>
+    </div>
+
+    
+        
+    <div class="widget-wrap widget-list">
+        <h3 class="widget-title">links</h3>
+        <div class="widget">
+            <ul>
+                
+                    <li>
+                        <a href="http://hexo.io">Hexo</a>
+                    </li>
+                
+            </ul>
+        </div>
+    </div>
+
+
+    
+    <div id="toTop" class="fa fa-angle-up"></div>
+</aside>
+
+            
+        </div>
+        <footer id="footer">
+    <div class="outer">
+        <div id="footer-info" class="inner">
+            &copy; 2020 Rootrl<br>
+            Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>. Theme by <a href="http://github.com/ppoffice">PPOffice</a>
+        </div>
+    </div>
+</footer>
+        
+    
+    <script>
+    var disqus_config = function () {
+        
+            this.page.url = 'https://rootrl.github.com/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/';
+        
+        this.page.identifier = 'Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap';
+    };
+    (function() { 
+        var d = document, s = d.createElement('script');  
+        s.src = '//' + 'rootrl' + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+
+
+
+
+    
+        <script src="/libs/lightgallery/js/lightgallery.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-thumbnail.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-pager.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-autoplay.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-fullscreen.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-zoom.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-hash.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-share.min.js"></script>
+        <script src="/libs/lightgallery/js/lg-video.min.js"></script>
+    
+    
+        <script src="/libs/justified-gallery/jquery.justifiedGallery.min.js"></script>
+    
+    
+
+
+
+<!-- Custom Scripts -->
+<script src="/js/main.js"></script>
+
+    </div>
+</body>
+</html>

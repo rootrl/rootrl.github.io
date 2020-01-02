@@ -74,7 +74,7 @@
             <div id="search-form-wrap">
 
     <form class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
         <button type="submit" class="search-form-submit"></button>
     </form>
     <div class="ins-search">
@@ -93,10 +93,10 @@
 (function (window) {
     var INSIGHT_CONFIG = {
         TRANSLATION: {
-            POSTS: 'Entradas',
+            POSTS: 'Posts',
             PAGES: 'Pages',
-            CATEGORIES: 'Categorias',
-            TAGS: 'Etiquetas',
+            CATEGORIES: 'Categories',
+            TAGS: 'Tags',
             UNTITLED: '(Untitled)',
         },
         ROOT_URL: '/',
@@ -127,7 +127,7 @@
                 <td>
                     
     <div class="search-form">
-        <input type="text" class="ins-search-input search-form-input" placeholder="Buscar" />
+        <input type="text" class="ins-search-input search-form-input" placeholder="Search" />
     </div>
 
                 </td>
@@ -147,16 +147,16 @@
             <h2 id="name">Rootrl</h2>
             <h3 id="title">Web Developer</h3>
             <span id="location"><i class="fa fa-map-marker"></i>Hefei, China</span>
-            <a id="follow" target="_blank" href="https://github.com/rootrl/">SEGUIR</a>
+            <a id="follow" target="_blank" href="https://github.com/rootrl/">FOLLOW</a>
         </div>
         <div class="article-info profile-block">
             <div class="article-info-block">
-                26
-                <span>Entradas</span>
+                27
+                <span>posts</span>
             </div>
             <div class="article-info-block">
-                35
-                <span>Etiquetas</span>
+                36
+                <span>tags</span>
             </div>
         </div>
         
@@ -192,6 +192,168 @@
 
             
             <section id="main">
+    <article id="post-Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap" class="article article-type-post" itemscope itemprop="blogPost">
+    <div class="article-inner">
+        
+        
+            <header class="article-header">
+                
+    
+        <h1 itemprop="name">
+            <a class="article-title" href="/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/">Android Bug记 &#39;Canvas: trying to use a recycled bitmap android.graphics.Bitmap&#39;</a>
+        </h1>
+    
+
+                
+                    <div class="article-meta">
+                        
+    <div class="article-date">
+        <i class="fa fa-calendar"></i>
+        <a href="/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/">
+            <time datetime="2020-01-02T14:18:56.000Z" itemprop="datePublished">2020-01-02</time>
+        </a>
+    </div>
+
+
+                        
+    <div class="article-category">
+    	<i class="fa fa-folder"></i>
+        <a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/Android/">Android</a>
+    </div>
+
+                        
+    <div class="article-tag">
+        <i class="fa fa-tag"></i>
+        <a class="tag-link" href="/tags/Android/">Android</a>
+    </div>
+
+                    </div>
+                
+            </header>
+        
+        
+        <div class="article-entry" itemprop="articleBody">
+        
+            
+            <h3 id="Bug日志"><a href="#Bug日志" class="headerlink" title="Bug日志"></a>Bug日志</h3><p>最近一个项目中遇到一个诡异Bug，详细日志如下：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">E/MainActivity: executeTextView: <span class="built_in">test</span> <span class="keyword">for</span> get drawable:  last <span class="built_in">source</span>: android.graphics.drawable.BitmapDrawable@8c352b2</span><br><span class="line">    executeTextView: <span class="built_in">test</span> <span class="keyword">for</span> get drawable: isVisible <span class="literal">true</span> alpha:  255 last <span class="built_in">source</span>: android.graphics.drawable.BitmapDrawable@8c352b2</span><br><span class="line">W/Bitmap: Called hasAlpha() on a recycle()<span class="string">'d bitmap! This is undefined behavior!</span></span><br><span class="line"><span class="string">    Called hasAlpha() on a recycle()'</span>d bitmap! This is undefined behavior!</span><br><span class="line">    Called hasAlpha() on a recycle()<span class="string">'d bitmap! This is undefined behavior!</span></span><br><span class="line"><span class="string">W/Bitmap: Called hasAlpha() on a recycle()'</span>d bitmap! This is undefined behavior!</span><br><span class="line">E/MainActivity: Glide结束</span><br><span class="line">    executeImageView: ...</span><br><span class="line">E/MainActivity: showQrCode: 举报二维码1:</span><br><span class="line">    showQrCode: 举报二维码2: https://xxx.com/upload/equipmentWxQRCode/15776698271ada7952f9ead4d5.jpg</span><br><span class="line">D/AndroidRuntime: Shutting down VM</span><br><span class="line">E/AndroidRuntime: FATAL EXCEPTION: main</span><br><span class="line">    Process: com.rootrl.adviewer, PID: 29128</span><br><span class="line">    java.lang.RuntimeException: Canvas: trying to use a recycled bitmap android.graphics.Bitmap@ac257b9</span><br><span class="line">        at android.graphics.Canvas.throwIfCannotDraw(Canvas.java:1271)</span><br><span class="line">        at android.view.DisplayListCanvas.throwIfCannotDraw(DisplayListCanvas.java:257)</span><br><span class="line">        at android.graphics.Canvas.drawBitmap(Canvas.java:1415)</span><br><span class="line">        at android.graphics.drawable.BitmapDrawable.draw(BitmapDrawable.java:528)</span><br><span class="line">        at android.widget.ImageView.onDraw(ImageView.java:1298)</span><br><span class="line">        at android.view.View.draw(View.java:17201)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16183)</span><br><span class="line">        at android.view.View.draw(View.java:16967)</span><br><span class="line">        at android.view.ViewGroup.drawChild(ViewGroup.java:3727)</span><br><span class="line">        at android.view.ViewGroup.dispatchDraw(ViewGroup.java:3513)</span><br><span class="line">        at androidx.constraintlayout.widget.ConstraintLayout.dispatchDraw(ConstraintLayout.java:2023)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16178)</span><br><span class="line">        at android.view.View.draw(View.java:16967)</span><br><span class="line">        at android.view.ViewGroup.drawChild(ViewGroup.java:3727)</span><br><span class="line">        at android.view.ViewGroup.dispatchDraw(ViewGroup.java:3513)</span><br><span class="line">        at androidx.constraintlayout.widget.ConstraintLayout.dispatchDraw(ConstraintLayout.java:2023)</span><br><span class="line">        at android.view.View.draw(View.java:17204)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16183)</span><br><span class="line">        at android.view.View.draw(View.java:16967)</span><br><span class="line">        at android.view.ViewGroup.drawChild(ViewGroup.java:3727)</span><br><span class="line">        at android.view.ViewGroup.dispatchDraw(ViewGroup.java:3513)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16178)</span><br><span class="line">        at android.view.View.draw(View.java:16967)</span><br><span class="line">        at android.view.ViewGroup.drawChild(ViewGroup.java:3727)</span><br><span class="line">        at android.view.ViewGroup.dispatchDraw(ViewGroup.java:3513)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16178)</span><br><span class="line">        at android.view.View.draw(View.java:16967)</span><br><span class="line">        at android.view.ViewGroup.drawChild(ViewGroup.java:3727)</span><br><span class="line">        at android.view.ViewGroup.dispatchDraw(ViewGroup.java:3513)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16178)</span><br><span class="line">        at android.view.View.draw(View.java:16967)</span><br><span class="line">        at android.view.ViewGroup.drawChild(ViewGroup.java:3727)</span><br><span class="line">        at android.view.ViewGroup.dispatchDraw(ViewGroup.java:3513)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16178)</span><br><span class="line">        at android.view.View.draw(View.java:16967)</span><br><span class="line">        at android.view.ViewGroup.drawChild(ViewGroup.java:3727)</span><br><span class="line">        at android.view.ViewGroup.dispatchDraw(ViewGroup.java:3513)</span><br><span class="line">        at android.view.View.draw(View.java:17204)</span><br><span class="line">        at com.android.internal.policy.DecorView.draw(DecorView.java:754)</span><br><span class="line">        at android.view.View.updateDisplayListIfDirty(View.java:16183)</span><br><span class="line">        at android.view.ThreadedRenderer.updateViewTreeDisplayList(ThreadedRenderer.java:648)</span><br><span class="line">        at android.view.ThreadedRenderer.updateRootDisplayList(ThreadedRenderer.java:654)</span><br><span class="line">        at android.view.ThreadedRenderer.draw(ThreadedRenderer.java:762)</span><br><span class="line">        at android.view.ViewRootImpl.draw(ViewRootImpl.java:2800)</span><br><span class="line">        at android.view.ViewRootImpl.performDraw(ViewRootImpl.java:2608)</span><br><span class="line">        at android.view.ViewRootImpl.performTraversals(ViewRootImpl.java:2215)</span><br><span class="line">        at android.view.ViewRootImpl.doTraversal(ViewRootImpl.java:1254)</span><br><span class="line">        at android.view.ViewRootImpl<span class="variable">$TraversalRunnable</span>.run(ViewRootImpl.java:6338)</span><br><span class="line">        at android.view.Choreographer<span class="variable">$CallbackRecord</span>.run(Choreographer.java:874)</span><br><span class="line">        at android.view.Choreographer.doCallbacks(Choreographer.java:686)</span><br><span class="line">        at android.view.Choreographer.doFrame(Choreographer.java:621)</span><br><span class="line">        at android.view.Choreographer<span class="variable">$FrameDisplayEventReceiver</span>.run(Choreographer.java:860)</span><br><span class="line">        at android.os.Handler.handleCallback(Handler.java:755)</span><br><span class="line">        at android.os.Handler.dispatchMessage(Handler.java:95)</span><br><span class="line">        at android.os.Looper.loop(Looper.java:154)</span><br><span class="line">        at android.app.ActivityThread.main(ActivityThread.java:6121)</span><br><span class="line">        at java.lang.reflect.Method.invoke(Native Method)</span><br><span class="line">        at com.android.internal.os.ZygoteInit<span class="variable">$MethodAndArgsCaller</span>.run(ZygoteInit.java:905)</span><br><span class="line">        at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:795)</span><br><span class="line">I/Process: Sending signal. PID: 29128 SIG: 9</span><br><span class="line">Process 29128 terminated.</span><br></pre></td></tr></table></figure>
+<h3 id="Bug初步分析"><a href="#Bug初步分析" class="headerlink" title="Bug初步分析"></a>Bug初步分析</h3><p>其实字面上看上去很简单。但是诡异在发生场景：</p>
+<ul>
+<li><p>只在安卓横屏模式下发生，竖屏模式下正常。</p>
+</li>
+<li><p>有一张特定图片才会出现问题，其他图片均不会。而这个图片无论分辨率大小还是文件大小均不大，其他比它大十几倍的都正常运行。</p>
+</li>
+</ul>
+<p>报错原因从日志上看到很简单：使用了一个已经被回收的bitmap资源（我这里使用的是Glide图片处理库）。但是结合我的使用场景和发生场景（只在横屏下），再加上Glide对于我来说是一个黑箱。 种种原因结合看来是一个难调的bug。</p>
+<p>后来发现发生的地方是imageView的Placeholder设置阶段。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (currentView == AdConstant.VIEW_TYPE_TEXT_VIEW) &#123;</span><br><span class="line">    <span class="keyword">if</span> (adImageView.getDrawable() != <span class="keyword">null</span>) &#123;</span><br><span class="line">        requestOptions.placeholder(adImageView.getDrawable());</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>设置这个Placeholder是为了解决图片切换时的闪黑屏问题，一是去掉Glide的Animate，二是设置这个Placeholder，把当前Image View的Drawable作为默认图片。而由于我的业务逻辑复杂，有图片和视频的轮播，有可能在设置时找不到这个Drawable的Bitmap资源，好吧，说有可能是因为我也不能给个具体的原因-_-‘’，因为结合我上面提到的两个特定发生场景，实在是太诡异了。</p>
+<h3 id="Bug深入分析"><a href="#Bug深入分析" class="headerlink" title="Bug深入分析"></a>Bug深入分析</h3><p>后来我看到github上官方bumptech/glide也有一大堆issues，有人说是glide版本问题，但是我更新到最新的4.10.0依旧无解。</p>
+<p>最后看到官方的Common errors文档，<a href="http://bumptech.github.io/glide/doc/resourcereuse.html#common-errors" target="_blank" rel="external">http://bumptech.github.io/glide/doc/resourcereuse.html#common-errors</a></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">Glide’s BitmapPool has a fixed size. When Bitmaps are evicted from the pool without being re-used, <span class="function">Glide will call <span class="title">recycle</span><span class="params">()</span>. If an application inadvertently continues to hold on to the Bitmap even after indicating to Glide that it is safe to recycle it, the application may then attempt to draw the Bitmap, resulting in a crash in <span class="title">onDraw</span><span class="params">()</span>.</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">This problem could be due to the fact that one target is being used <span class="keyword">for</span> two ImageViews, and one of the ImageViews still tries to access the recycled Bitmap after it has been put into the BitmapPool. This recycling error can be hard to reproduce, due to several factors: 1) when the bitmap is put into the pool, 2) when the bitmap is recycled, and 3) what the size of the BitmapPool and memory cache are that leads to the recycling of the Bitmap. The following snippet can be put into your GlideModule to help making <span class="keyword">this</span> problem easier to reproduce:</span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">@Override</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">applyOptions</span><span class="params">(Context context, GlideBuilder builder)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> bitmapPoolSizeBytes = <span class="number">1024</span> * <span class="number">1024</span> * <span class="number">0</span>; <span class="comment">// 0mb</span></span><br><span class="line">    <span class="keyword">int</span> memoryCacheSizeBytes = <span class="number">1024</span> * <span class="number">1024</span> * <span class="number">0</span>; <span class="comment">// 0mb</span></span><br><span class="line">    builder.setMemoryCache(<span class="keyword">new</span> LruResourceCache(memoryCacheSizeBytes));</span><br><span class="line">    builder.setBitmapPool(<span class="keyword">new</span> LruBitmapPool(bitmapPoolSizeBytes));</span><br><span class="line">&#125;</span><br><span class="line">The above code makes sure that there is no memory caching and the size of the BitmapPool is zero; so Bitmap, <span class="keyword">if</span> happened to be not used, will be recycled right away. The problem will surface much quicker <span class="keyword">for</span> debugging purposes.</span><br></pre></td></tr></table></figure>
+<p>第一段说明了真正原因，Bitmap在BitmapPool中被剔除而没有被重用时，Glide会调用recycle()，但是如果Application在被告知安全回收了Bitmap之后还是保留这个Bitmap，继而绘制Bitmap时，在onDraw中就会崩溃。</p>
+<p>我这个Placeholder就发生在这种情况下。</p>
+<h3 id="Bug解决"><a href="#Bug解决" class="headerlink" title="Bug解决"></a>Bug解决</h3><p>我这边解决思路是重新设置BitmapPool的大小，这需要重写AppGlideModule，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">package com.rootrl.adviewer.glide;</span><br><span class="line"></span><br><span class="line">import android.content.Context;</span><br><span class="line"></span><br><span class="line">import com.bumptech.glide.GlideBuilder;</span><br><span class="line">import com.bumptech.glide.annotation.GlideModule;</span><br><span class="line">import com.bumptech.glide.load.engine.bitmap_recycle.LruBitmapPool;</span><br><span class="line">import com.bumptech.glide.load.engine.cache.LruResourceCache;</span><br><span class="line">import com.bumptech.glide.module.AppGlideModule;</span><br><span class="line"></span><br><span class="line">@GlideModule</span><br><span class="line">public class AdImageGlideModule extends AppGlideModule &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void applyOptions(Context context, GlideBuilder builder) &#123;</span><br><span class="line">        int bitmapPoolSizeBytes = 1024 * 1024 * 200; // 200mb</span><br><span class="line">        int memoryCacheSizeBytes = 1024 * 1024 * 200; // 200mb</span><br><span class="line">        builder.setMemoryCache(new LruResourceCache(memoryCacheSizeBytes));</span><br><span class="line">        builder.setBitmapPool(new LruBitmapPool(bitmapPoolSizeBytes));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里有几点要注意，不然项目中没有GlideApp对象。</p>
+<ul>
+<li>类中添加@GlideModule注解</li>
+<li>如同package com.rootrl.adviewer.glide，这个Module放在项目路径的glide package目录（需新建）</li>
+<li>改下build.grdle配置</li>
+</ul>
+<p>其中第三条具体如下，注意除了glide依赖，还需annotationProcessor项：<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">implementation <span class="string">'com.github.bumptech.glide:glide:4.10.0'</span></span><br><span class="line">annotationProcessor <span class="string">'com.github.bumptech.glide:compiler:4.10.0'</span></span><br></pre></td></tr></table></figure></p>
+<p>然后，点AS的Build =&gt; Make Project，之后就可以在项目中使用集成自己GlideModule的GlideAPP了。</p>
+<p>使用方式也是用GlideAPP替换原来的Glide就可以。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">// 替换前</span><br><span class="line">Glide.with(MainActivity.this).listener(...).load(uri).apply(requestOptions).into(adImageView);</span><br><span class="line"></span><br><span class="line">// 替换后</span><br><span class="line">GlideApp.with(MainActivity.this).listener(...).load(uri).apply(requestOptions).into(adImageView);</span><br></pre></td></tr></table></figure>
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><p>其实这里还没有具体深入，因为安卓对我来说还是一个实用为主阶段。最后强调是图片处理库非常推荐Glide，它的缓存机制很实用。然后视频的缓存推荐danikula:videocache库。</p>
+
+        
+        </div>
+        <footer class="article-footer">
+            <div class="share-container">
+
+
+
+</div>
+
+    <a data-url="https://rootrl.github.com/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/" data-id="ck4wtrux10000a1pnxtaoiguk" class="article-share-link"><i class="fa fa-share"></i>Share</a>
+<script>
+    (function ($) {
+        // Prevent duplicate binding
+        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
+            __SHARE_BUTTON_BINDED__ = true;
+        } else {
+            return;
+        }
+        $('body').on('click', function() {
+            $('.article-share-box.on').removeClass('on');
+        }).on('click', '.article-share-link', function(e) {
+            e.stopPropagation();
+
+            var $this = $(this),
+                url = $this.attr('data-url'),
+                encodedUrl = encodeURIComponent(url),
+                id = 'article-share-box-' + $this.attr('data-id'),
+                offset = $this.offset(),
+                box;
+
+            if ($('#' + id).length) {
+                box = $('#' + id);
+
+                if (box.hasClass('on')){
+                    box.removeClass('on');
+                    return;
+                }
+            } else {
+                var html = [
+                    '<div id="' + id + '" class="article-share-box">',
+                        '<input class="article-share-input" value="' + url + '">',
+                        '<div class="article-share-links">',
+                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
+                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
+                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
+                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
+                        '</div>',
+                    '</div>'
+                ].join('');
+
+              box = $(html);
+
+              $('body').append(box);
+            }
+
+            $('.article-share-box.on').hide();
+
+            box.css({
+                top: offset.top + 25,
+                left: offset.left
+            }).addClass('on');
+
+        }).on('click', '.article-share-box', function (e) {
+            e.stopPropagation();
+        }).on('click', '.article-share-box-input', function () {
+            $(this).select();
+        }).on('click', '.article-share-box-link', function (e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
+        });
+    })(jQuery);
+</script>
+
+            
+    
+        <a href="https://rootrl.github.com/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/">Comments</a>
+    
+
+        </footer>
+    </div>
+    
+</article>
+
+
+
     <article id="post-FastDFS-Docker化部署-以及-Java-SpringMVC实践" class="article article-type-post" itemscope itemprop="blogPost">
     <div class="article-inner">
         
@@ -303,7 +465,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2019/05/22/FastDFS-Docker化部署-以及-Java-SpringMVC实践/" data-id="ck4wtj7eg000b7opnp9t6tnb2" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="https://rootrl.github.com/2019/05/22/FastDFS-Docker化部署-以及-Java-SpringMVC实践/" data-id="ck4wtj7eg000b7opnp9t6tnb2" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -371,7 +533,7 @@
 
             
     
-        <a href="https://rootrl.github.com/2019/05/22/FastDFS-Docker化部署-以及-Java-SpringMVC实践/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2019/05/22/FastDFS-Docker化部署-以及-Java-SpringMVC实践/">Comentarios</a>
+        <a href="https://rootrl.github.com/2019/05/22/FastDFS-Docker化部署-以及-Java-SpringMVC实践/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2019/05/22/FastDFS-Docker化部署-以及-Java-SpringMVC实践/">Comments</a>
     
 
         </footer>
@@ -447,7 +609,7 @@
 
 </div>
 
-    <a data-url="https://rootrl.github.com/2019/05/21/Intellij-Idea-中进行-Mybatis逆向工程/" data-id="ck4wtj7ej000h7opn16ldpv3b" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
+    <a data-url="https://rootrl.github.com/2019/05/21/Intellij-Idea-中进行-Mybatis逆向工程/" data-id="ck4wtj7ej000h7opn16ldpv3b" class="article-share-link"><i class="fa fa-share"></i>Share</a>
 <script>
     (function ($) {
         // Prevent duplicate binding
@@ -515,181 +677,7 @@
 
             
     
-        <a href="https://rootrl.github.com/2019/05/21/Intellij-Idea-中进行-Mybatis逆向工程/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2019/05/21/Intellij-Idea-中进行-Mybatis逆向工程/">Comentarios</a>
-    
-
-        </footer>
-    </div>
-    
-</article>
-
-
-
-    <article id="post-关于七牛云正确使用姿势探索" class="article article-type-post" itemscope itemprop="blogPost">
-    <div class="article-inner">
-        
-        
-            <header class="article-header">
-                
-    
-        <h1 itemprop="name">
-            <a class="article-title" href="/2019/04/09/关于七牛云正确使用姿势探索/">关于七牛云正确使用姿势探索</a>
-        </h1>
-    
-
-                
-                    <div class="article-meta">
-                        
-    <div class="article-date">
-        <i class="fa fa-calendar"></i>
-        <a href="/2019/04/09/关于七牛云正确使用姿势探索/">
-            <time datetime="2019-04-09T14:51:32.000Z" itemprop="datePublished">2019-04-09</time>
-        </a>
-    </div>
-
-
-                        
-    <div class="article-category">
-    	<i class="fa fa-folder"></i>
-        <a class="article-category-link" href="/categories/开发经验/">开发经验</a>
-    </div>
-
-                        
-    <div class="article-tag">
-        <i class="fa fa-tag"></i>
-        <a class="tag-link" href="/tags/Laravel/">Laravel</a>, <a class="tag-link" href="/tags/七牛云/">七牛云</a>, <a class="tag-link" href="/tags/文件上传/">文件上传</a>
-    </div>
-
-                    </div>
-                
-            </header>
-        
-        
-        <div class="article-entry" itemprop="articleBody">
-        
-            
-            <h2 id="业务场景"><a href="#业务场景" class="headerlink" title="业务场景"></a>业务场景</h2><h3 id="需求"><a href="#需求" class="headerlink" title="需求"></a>需求</h3><p>我们项目有一个文件上传需求，需要从客户端上传到七牛云的对象存储和自己的应用服务器上。这里使用七牛云主要是实现下载分发。应用服务器需要留一份是因为后续需要做文件分析（并且是上传后需要立马分析出结果展现给客户端）。另外，由于是初期项目，暂时没考虑用独立服务器来分析。</p>
-<h3 id="所用技术栈"><a href="#所用技术栈" class="headerlink" title="所用技术栈"></a>所用技术栈</h3><p>服务器：Centos7<br>开发语言：PHP<br>框架：Laravel<br>前端上传组件：百度的WebUploader</p>
-<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><p>准确的说我经过了三个阶段才真正完美的实现了需求（主要解决上传速度）。</p>
-<h3 id="一期解决方案及细节"><a href="#一期解决方案及细节" class="headerlink" title="一期解决方案及细节"></a>一期解决方案及细节</h3><p>初期面对需求很容易想到的思路是：客户端先上传文件到应用服务器（因为上传完成可以及时做分析），然后再上传到七牛云上。</p>
-<p>所以我的解决方案是：前端用webuploader，后端的七牛云文件处理方面使用了Laravel的一个插件:overtrue/flysystem-qiniu (<a href="https://github.com/overtrue/flysystem-qiniu)，该插件的接口很简洁好用（但是有坑，后面会说到）。" target="_blank" rel="external">https://github.com/overtrue/flysystem-qiniu)，该插件的接口很简洁好用（但是有坑，后面会说到）。</a></p>
-<p>然后为了解决性能问题，我还做了以下工作：<br>1，使用分片上传<br>2，后续上传七牛云使用异步的方式（因为文件上传到其他应用来下载这个文件，中间有许多时间来让上传任务的完成）</p>
-<h4 id="关于分片上传"><a href="#关于分片上传" class="headerlink" title="关于分片上传"></a>关于分片上传</h4><p>这里讲下分片上传的实现思路，客户端主要是把大文件按一定size进行分片，然后上传到服务器，所以会有多个请求，并且每个请求还需带上关键的信息：当前chunk（从0开始）和chunks（总分片数）。由于我用的是webuploader组件，所以客户端不用自己做什么，只需配置下简单信息（是否分片及分片大小）。</p>
-<p>服务端处理逻辑为：<br>客户端一个请求过来，分两种情况：<br>1，文件总size小于要分片的size，这时候直接处理文件。<br>2，处理分片情况。</p>
-<p>具体逻辑是判断chunk和chunks，如果相等说明为第一种情况，直接处理上传，其他走处理分片逻辑。</p>
-<p>处理分片的逻辑为：保存当前分片到临时目录（按分片命名），然后判断当所有分片完成时，就合并文件。具体逻辑是判断 chunk + 1 是否等于chunks。 合并逻辑就是循环读取临时文件，然后写入到一个新的文件（合并后的），这里可以顺便删除临时文件。</p>
-<p>所遇的坑：<br>这里处理碎片文件时，当初图方便使用了Laravel的文件处理接口Storage::append，但是这个接口有个坑就是它自作主张的文件结尾加入换行符。导致合并后的文件还原不成原始文件。解决办法是老老实实使用php的fopen、fwrite、fclose这一套。</p>
-<h4 id="关于PHP异步处理"><a href="#关于PHP异步处理" class="headerlink" title="关于PHP异步处理"></a>关于PHP异步处理</h4><p>关于PHP的异步实现可以参考鸟哥写的文章：<a href="http://www.laruence.com/2008/04/14/318.html" target="_blank" rel="external">http://www.laruence.com/2008/04/14/318.html</a></p>
-<p>主要方法为：客户端AJAX、popen函数、curl、fsocketopen等</p>
-<p>不过这篇文章比较老了，局限性也大，现在有了协程等处理方案（现在Swoole也提供协程方案了，并且client-server task分发这种也可以用swoole的），而且往架构方面考虑可以使用队列等（感觉靠谱的还是队列）。</p>
-<p>PS: 我这里前期用的是简单粗暴的popen，后来使用的是Laravel提供的队列。</p>
-<h4 id="一期方案的问题"><a href="#一期方案的问题" class="headerlink" title="一期方案的问题"></a>一期方案的问题</h4><p>通过上述所说的方案，很容易就实现了一个版本。但是没高兴多久。。，在后续测试时遇到一个诡异bug，当文件过大时，任务脚本上传到七牛云失败。</p>
-<p>这里脚本是写在Laravel的artisan中的，当我把脚本命令直接在终端调试时也是没有任何异常（准确讲是看不了任何异常）</p>
-<p>。前面我说过七牛这块SDK用的是overtrue/flysystem-qiniu ，并且为了考虑性能问题用的是他的writeStream接口。</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$disk = Storage::disk(<span class="string">'qiniu'</span>);</span><br><span class="line">$stream = fopen($localFileName, <span class="string">'r'</span>);</span><br><span class="line">$disk-&gt;writeStream($fileName, $stream);</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (is_resource($stream)) &#123;</span><br><span class="line">   fclose($stream);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>代码表面上看起来很理想，用的是文件流上传（怕吃内存）。但结果证明一切只是表面上的。。</p>
-<p>当我遇到大文件无法上传到七牛云时，断点调试到$disk-&gt;writeStream这里，发现返回的是false。 继而调试到overtrue/flysystem-qiniu这个扩展的源代码。然后发现了一个大坑。。</p>
-<p>主要是两个问题：<br>1，writeStream只是个假的流写入</p>
-<p>具体源码在扩展的QiniuAdapter.php文件中，这里贴段代码：</p>
-<figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="function"><span class="keyword">function</span> <span class="title">writeStream</span><span class="params">($path, $resource, Config $config)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    $contents = <span class="string">''</span>;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">while</span> (!feof($resource)) &#123;</span><br><span class="line">        $contents .= fread($resource, <span class="number">1024</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    $response = <span class="keyword">$this</span>-&gt;write($path, $contents, $config);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (<span class="keyword">false</span> === $response) &#123;</span><br><span class="line">        <span class="keyword">return</span> $response;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> compact(<span class="string">'path'</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>注意这里的$contents变量，最终还是等价于一个大文件内容的大小（服务器为此变量开辟的内存）。并且后续还要在方法间传递。所以这里是假的流！</p>
-<p>2，接口对调试不友好</p>
-<p>还有在write方法中，屏蔽了$error，只返回false，这样不便于我们查问题，最终我是断点打印这个$error才知道报的错误是：“invalid multipart format: multipart: message too large”，这个应该是七牛那边真正返回的，但这么重要的信息被这个扩展屏蔽了。</p>
-<h3 id="二期解决方案"><a href="#二期解决方案" class="headerlink" title="二期解决方案"></a>二期解决方案</h3><p>知道了一期方案的具体问题所在，我就一直在思考（那个扩展就不提了。。我现在怀疑它的存在意义。。），甚至在想也许一开始整个思路就错了（通过SDK上传文件的方案）。后来还真被我找到了，七牛云官方提供一个脚本工具：Qshell（<a href="https://github.com/qiniu/qshell）。这个是命令行运行脚本，具体操作看文档就可以了。放到我的项目也是集成到七牛的任务脚本中。" target="_blank" rel="external">https://github.com/qiniu/qshell）。这个是命令行运行脚本，具体操作看文档就可以了。放到我的项目也是集成到七牛的任务脚本中。</a></p>
-<p>后来测试可以了，整个流程可以跑通。</p>
-<p>但是无意中发现二期的重要问题，这个上传走的是服务器的上行带宽！而我们平常付费买的带宽就是买的上行带宽！（下行是一般是免费的）。这还怎么搞！由于我们上传业务是商户端使用的，平时使用频次也不会太少，这会导致在上传时影响前端网站的访问速度。</p>
-<p>这里具体讲下服务器带宽问题（网上查询后整理的）：</p>
-<p>首先对服务器带宽方向的描述一般是用上行和下行，上传和下载是指动作。</p>
-<p>上行是指从服务器流出的带宽，如果是在其他机器下载服务器上的文件，用的主要是服务器的上行带宽（这里说下我们平时的网页浏览，其实也是不同客户端从服务器下数据, html文件、css等然后渲染，所以网页浏览占用的也是上行带宽）。</p>
-<p>下行是指流入到服务器的带宽，如果是在其他机器上传文件到服务器，比如用FTP上传文件，用的主要是服务器的下行带宽（服务器上下载文件用的也是下行带宽）。</p>
-<p>现在的云提供商比如阿里云不限制的是下行带宽，大部分服务器的使用环境，都是上行带宽用的多，下行带宽用的少。</p>
-<p>通过对带宽的理解，再回到我们项目的上传实现思路，可以看到一开始就错了（不该用应用服务器作为中转）！</p>
-<h3 id="三期（最终）方案"><a href="#三期（最终）方案" class="headerlink" title="三期（最终）方案"></a>三期（最终）方案</h3><p>当初为了节省时间，直接跳过官方文档，而使用第三方扩展。 现在看来，不得不又回到官方文档了。</p>
-<p>通过把七牛的文档过一遍，发现是有方案可以避开那个占用服务器上行带宽的问题的。</p>
-<p>主体思路是要避开应用服务器上行带宽的使用，因为上行带宽很宝贵，尽量使用下行带宽（免费、速度很快！阿里的大概60M多每秒）。</p>
-<p>具体实现是通过七牛的表单上传方案直接把客户端的文件先上传到七牛（这一步根本不关应用服务器什么事，所以避开了，而且直接上传到七牛的速度非常快，基本只取决于用户端的网速，而且对于一般需求，七牛提供了对于到我们应用服务器的回调方法）。然后由于我们应用服务器也需要文件，所以方案是直接在我们应用服务器直接下载七牛的文件（这里可以同步阻塞住，前端做个等待效果解决用户体验问题）。因为前面说到流入到服务器占用的是下行带宽。所以这里速度也会非常快（而且是免费的^_^）。</p>
-<p>这种方案基本是完美的了。</p>
-<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>首先是对个人的反省，前期调研不充足，但是项目初期有点紧，这里也说明投入时间的重要性。</p>
-<p>其次关于项目经验：上传第三方云存储，千万不要使用应用服务器做中转！可以直接上传到第三方云服务器，如果有后续处理逻辑的，可以使用他们的回调接口。</p>
-
-        
-        </div>
-        <footer class="article-footer">
-            <div class="share-container">
-
-
-
-</div>
-
-    <a data-url="https://rootrl.github.com/2019/04/09/关于七牛云正确使用姿势探索/" data-id="ck4wtj7f7001g7opn3z5g3q7q" class="article-share-link"><i class="fa fa-share"></i>Compartir</a>
-<script>
-    (function ($) {
-        // Prevent duplicate binding
-        if (typeof(__SHARE_BUTTON_BINDED__) === 'undefined' || !__SHARE_BUTTON_BINDED__) {
-            __SHARE_BUTTON_BINDED__ = true;
-        } else {
-            return;
-        }
-        $('body').on('click', function() {
-            $('.article-share-box.on').removeClass('on');
-        }).on('click', '.article-share-link', function(e) {
-            e.stopPropagation();
-
-            var $this = $(this),
-                url = $this.attr('data-url'),
-                encodedUrl = encodeURIComponent(url),
-                id = 'article-share-box-' + $this.attr('data-id'),
-                offset = $this.offset(),
-                box;
-
-            if ($('#' + id).length) {
-                box = $('#' + id);
-
-                if (box.hasClass('on')){
-                    box.removeClass('on');
-                    return;
-                }
-            } else {
-                var html = [
-                    '<div id="' + id + '" class="article-share-box">',
-                        '<input class="article-share-input" value="' + url + '">',
-                        '<div class="article-share-links">',
-                            '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="fa fa-twitter article-share-twitter" target="_blank" title="Twitter"></a>',
-                            '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="fa fa-facebook article-share-facebook" target="_blank" title="Facebook"></a>',
-                            '<a href="http://pinterest.com/pin/create/button/?url=' + encodedUrl + '" class="fa fa-pinterest article-share-pinterest" target="_blank" title="Pinterest"></a>',
-                            '<a href="https://plus.google.com/share?url=' + encodedUrl + '" class="fa fa-google article-share-google" target="_blank" title="Google+"></a>',
-                        '</div>',
-                    '</div>'
-                ].join('');
-
-              box = $(html);
-
-              $('body').append(box);
-            }
-
-            $('.article-share-box.on').hide();
-
-            box.css({
-                top: offset.top + 25,
-                left: offset.left
-            }).addClass('on');
-
-        }).on('click', '.article-share-box', function (e) {
-            e.stopPropagation();
-        }).on('click', '.article-share-box-input', function () {
-            $(this).select();
-        }).on('click', '.article-share-box-link', function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-
-            window.open(this.href, 'article-share-box-window-' + Date.now(), 'width=500,height=450');
-        });
-    })(jQuery);
-</script>
-
-            
-    
-        <a href="https://rootrl.github.com/2019/04/09/关于七牛云正确使用姿势探索/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2019/04/09/关于七牛云正确使用姿势探索/">Comentarios</a>
+        <a href="https://rootrl.github.com/2019/05/21/Intellij-Idea-中进行-Mybatis逆向工程/#comments" class="article-comment-link disqus-comment-count" data-disqus-url="https://rootrl.github.com/2019/05/21/Intellij-Idea-中进行-Mybatis逆向工程/">Comments</a>
     
 
         </footer>
@@ -700,7 +688,7 @@
 
 
     <nav id="page-nav">
-        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Siguiente  &raquo;</a>
+        <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="extend next" rel="next" href="/page/2/">Next &raquo;</a>
     </nav>
 </section>
             
@@ -709,9 +697,28 @@
    
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Recientes</h3>
+        <h3 class="widget-title">recent</h3>
         <div class="widget">
             <ul id="recent-post" class="">
+                
+                    <li>
+                        
+                        <div class="item-thumbnail">
+                            <a href="/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/" class="thumbnail">
+    
+    
+        <span class="thumbnail-image thumbnail-none"></span>
+    
+</a>
+
+                        </div>
+                        
+                        <div class="item-inner">
+                            <p class="item-category"><a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/Android/">Android</a></p>
+                            <p class="item-title"><a href="/2020/01/02/Android-Bug记：-Canvas-trying-to-use-a-recycled-bitmap-android-graphics-Bitmap/" class="title">Android Bug记 &#39;Canvas: trying to use a recycled bitmap android.graphics.Bitmap&#39;</a></p>
+                            <p class="item-date"><time datetime="2020-01-02T14:18:56.000Z" itemprop="datePublished">2020-01-02</time></p>
+                        </div>
+                    </li>
                 
                     <li>
                         
@@ -789,25 +796,6 @@
                         </div>
                     </li>
                 
-                    <li>
-                        
-                        <div class="item-thumbnail">
-                            <a href="/2018/10/17/Laravel关联模型中过滤结果为空的结果集-has和with区别/" class="thumbnail">
-    
-    
-        <span class="thumbnail-image thumbnail-none"></span>
-    
-</a>
-
-                        </div>
-                        
-                        <div class="item-inner">
-                            <p class="item-category"><a class="article-category-link" href="/categories/开发语言/">开发语言</a><i class="fa fa-angle-right"></i><a class="article-category-link" href="/categories/开发语言/PHP/">PHP</a></p>
-                            <p class="item-title"><a href="/2018/10/17/Laravel关联模型中过滤结果为空的结果集-has和with区别/" class="title">Laravel关联模型中过滤结果为空的结果集(has和with区别)</a></p>
-                            <p class="item-date"><time datetime="2018-10-17T14:23:59.000Z" itemprop="datePublished">2018-10-17</time></p>
-                        </div>
-                    </li>
-                
             </ul>
         </div>
     </div>
@@ -815,34 +803,34 @@
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Categorias</h3>
+        <h3 class="widget-title">categories</h3>
         <div class="widget">
-            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unix-Linux/">Unix/Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发经验/">开发经验</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">5</span></li></ul>
+            <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/DevOps/">DevOps</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/Unix-Linux/">Unix/Linux</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/其他/">其他</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/">前端</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/CSS/">CSS</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/Javascript/">Javascript</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/工具/">工具</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/">框架</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/前端/框架/Vue/">Vue</a><span class="category-list-count">1</span></li></ul></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/">团队管理</a><span class="category-list-count">1</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/团队管理/知识管理/">知识管理</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/安全/">安全</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发经验/">开发经验</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/">开发语言</a><span class="category-list-count">7</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Android/">Android</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Golang/">Golang</a><span class="category-list-count">1</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/Java/">Java</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发语言/PHP/">PHP</a><span class="category-list-count">3</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂类/">杂类</a><span class="category-list-count">2</span></li><li class="category-list-item"><a class="category-list-link" href="/categories/虚拟机-容器/">虚拟机/容器</a><span class="category-list-count">5</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Archivos</h3>
+        <h3 class="widget-title">archives</h3>
         <div class="widget">
-            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
+            <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2020/01/">January 2020</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/05/">May 2019</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/04/">April 2019</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/11/">November 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/10/">October 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/09/">September 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/07/">July 2018</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/06/">June 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/04/">April 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">November 2017</a><span class="archive-list-count">1</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">October 2017</a><span class="archive-list-count">6</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/09/">September 2017</a><span class="archive-list-count">4</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">August 2017</a><span class="archive-list-count">3</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap">
-        <h3 class="widget-title">Etiquetas</h3>
+        <h3 class="widget-title">tags</h3>
         <div class="widget">
-            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FastDFS/">FastDFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Laravel/">Laravel</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mount/">mount</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemctl/">systemctl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/七牛云/">七牛云</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/鉴权/">鉴权</a><span class="tag-list-count">1</span></li></ul>
+            <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/CSS/">CSS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Css/">Css</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Docker/">Docker</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/FastDFS/">FastDFS</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Flex/">Flex</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Golang/">Golang</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Javascript/">Javascript</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Laravel/">Laravel</a><span class="tag-list-count">4</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Opcodes/">Opcodes</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/PHP/">PHP</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vagrant集群/">Vagrant集群</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Vue/">Vue</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ansible/">ansible</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/docker/">docker</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ftp/">ftp</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/github-pages/">github pages</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/hexo/">hexo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/jwt/">jwt</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/linux/">linux</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mount/">mount</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/mybatis/">mybatis</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/nginx/">nginx</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/ngrok/">ngrok</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/npm/">npm</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/shadowsocks/">shadowsocks</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/systemctl/">systemctl</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/webpack/">webpack</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/七牛云/">七牛云</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/内网穿透/">内网穿透</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/前端/">前端</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/文件上传/">文件上传</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂类/">杂类</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/鉴权/">鉴权</a><span class="tag-list-count">1</span></li></ul>
         </div>
     </div>
 
     
         
     <div class="widget-wrap widget-list">
-        <h3 class="widget-title">Links</h3>
+        <h3 class="widget-title">links</h3>
         <div class="widget">
             <ul>
                 
