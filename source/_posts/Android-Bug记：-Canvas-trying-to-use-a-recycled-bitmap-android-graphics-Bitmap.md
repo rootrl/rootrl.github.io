@@ -1,5 +1,5 @@
 ---
-title: Android Bug记："Canvas: trying to use a recycled bitmap android.graphics.Bitmap"
+title: Android Bug记：'Canvas: trying to use a recycled bitmap android.graphics.Bitmap'
 date: 2020-01-02 22:18:56
 tags:
 - Android
